@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "330648345478",
+    "project_id": "rotaract-584b8",
+    "storage_bucket": "rotaract-584b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330648345478:android:1e44b76945f59f38486a07",
+        "android_client_info": {
+          "package_name": "elastictech.biz.rotaract"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVBeq9U3OjtI9vpNTlyp4g3_VJY4rJxa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
