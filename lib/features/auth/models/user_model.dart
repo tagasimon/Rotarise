@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class UserModel {
   final String id;
@@ -12,6 +13,7 @@ class UserModel {
   final bool? isActive;
   final bool? isVerified;
   final String? photoUrl;
+  final List<String>? clubs;
   UserModel({
     required this.id,
     this.name,
@@ -21,6 +23,7 @@ class UserModel {
     this.isActive,
     this.isVerified,
     this.photoUrl,
+    this.clubs,
   });
 
   UserModel copyWith({
@@ -32,6 +35,7 @@ class UserModel {
     bool? isActive,
     bool? isVerified,
     String? photoUrl,
+    List<String>? clubs,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -42,6 +46,7 @@ class UserModel {
       isActive: isActive ?? this.isActive,
       isVerified: isVerified ?? this.isVerified,
       photoUrl: photoUrl ?? this.photoUrl,
+      clubs: clubs ?? this.clubs,
     );
   }
 
@@ -55,6 +60,7 @@ class UserModel {
       'isActive': isActive,
       'isVerified': isVerified,
       'photoUrl': photoUrl,
+      'clubs': clubs,
     };
   }
 
@@ -70,6 +76,9 @@ class UserModel {
       isActive: map['isActive'] != null ? map['isActive'] as bool : null,
       isVerified: map['isVerified'] != null ? map['isVerified'] as bool : null,
       photoUrl: map['photoUrl'] != null ? map['photoUrl'] as String : null,
+      clubs: map['clubs'] != null
+          ? List<String>.from(map['clubs'] as List<dynamic>)
+          : null,
     );
   }
 
@@ -80,7 +89,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, phoneNumber: $phoneNumber, createdAt: $createdAt, isActive: $isActive, isVerified: $isVerified, photoUrl: $photoUrl)';
+    return 'UserModel(id: $id, name: $name, email: $email, phoneNumber: $phoneNumber, createdAt: $createdAt, isActive: $isActive, isVerified: $isVerified, photoUrl: $photoUrl, clubs: $clubs)';
   }
 
   @override
@@ -94,7 +103,8 @@ class UserModel {
         other.createdAt == createdAt &&
         other.isActive == isActive &&
         other.isVerified == isVerified &&
-        other.photoUrl == photoUrl;
+        other.photoUrl == photoUrl &&
+        listEquals(other.clubs, clubs);
   }
 
   @override
@@ -106,6 +116,7 @@ class UserModel {
         createdAt.hashCode ^
         isActive.hashCode ^
         isVerified.hashCode ^
-        photoUrl.hashCode;
+        photoUrl.hashCode ^
+        clubs.hashCode;
   }
 }

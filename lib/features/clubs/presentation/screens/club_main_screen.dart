@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/constants/constants.dart';
 import 'package:rotaract/core/extensions/extensions.dart';
+import 'package:rotaract/features/clubs/presentation/widgets/club_about_widget.dart';
 import 'package:rotaract/features/clubs/providers/club_providers.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -140,18 +141,10 @@ class _ClubMainScreenState extends ConsumerState<ClubMainScreen>
             body: TabBarView(
               controller: _tabCont,
               children: [
-                Container(
-                  child: const Text("POSTS"),
-                ),
-                Container(
-                  child: const Text("EVENTS"),
-                ),
-                Container(
-                  child: const Text("MEMBERS"),
-                ),
-                Container(
-                  child: const Text("ABOUT"),
-                )
+                const SizedBox(child: Text("POSTS")),
+                const SizedBox(child: Text("EVENTS")),
+                const SizedBox(child: Text("MEMBERS")),
+                ClubAboutWidget(id: widget.id),
               ],
             ),
           ),

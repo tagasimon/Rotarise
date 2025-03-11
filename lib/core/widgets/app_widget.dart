@@ -14,13 +14,14 @@ class AppWidget extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
-            titleTextStyle: TextStyle(
-              letterSpacing: 0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontSize: 20,
-            ),
-            centerTitle: true),
+          titleTextStyle: TextStyle(
+            letterSpacing: 0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            fontSize: 20,
+          ),
+          centerTitle: false,
+        ),
       ),
       home: const AuthWidget(),
     );

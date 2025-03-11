@@ -11,23 +11,34 @@ class ClubItemWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => context.push(ClubMainScreen(id: club.id)),
+      onTap: () {
+        context.push(ClubMainScreen(id: club.id));
+      },
       child: Card(
         child: Container(
           padding: const EdgeInsets.all(8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              CircleAvatar(radius: 50, child: Text(club.name[0])),
-              const SizedBox(width: 8),
-              Column(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(club.name,
-                      style: Theme.of(context).textTheme.labelLarge),
-                  Text(club.phone ?? "No phone number"),
-                  Text(club.email ?? "No email"),
-                  Text(club.meetingTime ?? "No meeting time"),
+                  CircleAvatar(radius: 40, child: Text(club.name[0])),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(club.name,
+                          style: Theme.of(context).textTheme.labelLarge),
+                      Text(club.meetingTime ?? "No meeting time"),
+                      Text(club.meetingLocation ?? "No meeting location"),
+                    ],
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text("View"),
+                  ),
                 ],
               ),
             ],

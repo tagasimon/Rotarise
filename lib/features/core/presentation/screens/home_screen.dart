@@ -6,22 +6,64 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(
+    return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: Text("Home"),
+            title: Row(
+              children: [
+                const Text("Rotaract"),
+                PopupMenuButton(
+                  icon: const Icon(Icons.arrow_drop_down_sharp),
+                  itemBuilder: (context) {
+                    return [
+                      const PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.home),
+                            Text("Home"),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.arrow_outward_sharp),
+                            Text("Popular"),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.newspaper_sharp),
+                            Text("Latest"),
+                          ],
+                        ),
+                      ),
+                    ];
+                  },
+                ),
+              ],
+            ),
             floating: true,
             snap: true,
-            actions: [],
+            actions: null,
           ),
           // center the text
-          SliverFillRemaining(
+          const SliverFillRemaining(
             child: Center(
-              child: Text("Other Toastmasters Clubs"),
+              child: Text("Home.."),
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: "post",
+        key: const Key("1"),
+        onPressed: () {},
+        label: const Text("Clock In"),
+        icon: const Icon(Icons.add),
       ),
     );
   }

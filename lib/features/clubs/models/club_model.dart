@@ -3,8 +3,6 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// rotaract club Model
-
 class ClubModel {
   final String id;
   final String name;
@@ -33,6 +31,8 @@ class ClubModel {
   final Object? foundedDate;
   final Object? createdAt;
   final bool isVerified;
+  // adminlist
+  // editorlist
   ClubModel({
     required this.id,
     required this.name,

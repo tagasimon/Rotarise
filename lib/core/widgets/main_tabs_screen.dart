@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/features/auth/notifiers/current_user_notifier.dart';
 import 'package:rotaract/features/auth/providers/auth_provider.dart';
-import 'package:rotaract/features/clubs/presentation/screens/clubs_screen.dart';
 import 'package:rotaract/features/core/presentation/screens/home_screen.dart';
 import 'package:rotaract/features/events/events_screen.dart';
 
@@ -16,8 +15,10 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
   final _screens = const [
     HomeScreen(),
-    ClubsScreen(),
+    // ClubsScreen(),
+    // AddPostScreen(),
     EventsScreen(),
+    // ProfileScreen(),
   ];
   int _selectedScreenIndex = 0;
   void _selectScreen(int index) {
@@ -37,7 +38,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedScreenIndex,
         onDestinationSelected: _selectScreen,
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         animationDuration: const Duration(milliseconds: 1000),
         destinations: const [
           NavigationDestination(
@@ -45,21 +46,21 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
           ),
-          NavigationDestination(
-            label: "Clubs",
-            icon: Icon(Icons.group_work_outlined),
-            selectedIcon: Icon(Icons.group_work),
-          ),
           // NavigationDestination(
-          //   label: "Tools",
-          //   icon: Icon(Icons.build_outlined),
-          //   selectedIcon: Icon(Icons.build_sharp),
+          //   label: "Clubs",
+          //   icon: Icon(Icons.group_work_outlined),
+          //   selectedIcon: Icon(Icons.group_work),
           // ),
           NavigationDestination(
             label: "Events",
             icon: Icon(Icons.event_outlined),
             selectedIcon: Icon(Icons.event_sharp),
           ),
+          // NavigationDestination(
+          //   label: "Profile",
+          //   icon: Icon(Icons.person_outline),
+          //   selectedIcon: Icon(Icons.person),
+          // ),
         ],
       ),
     );

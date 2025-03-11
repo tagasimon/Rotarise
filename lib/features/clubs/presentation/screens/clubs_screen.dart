@@ -57,18 +57,11 @@ class ClubsScreen extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, s) {
         log("Error: $e, StackTrace: $s");
-        return Scaffold(
-          body: Center(
-            child: Text("Error: $e"),
-          ),
-        );
+        return Scaffold(body: Center(child: Text("Error: $e")));
       },
     );
   }
