@@ -21,6 +21,13 @@ dependencies:
   lottie: ^3.1.2
   firebase_storage: ^12.3.0
   share_plus: ^10.0.2
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^6.0.7
+  # qr_code_scanner: ^1.0.1
+  shared_preferences: ^2.5.2
+  intl: ^0.20.2
+  font_awesome_flutter: ^10.8.0
+  fluttertoast: ^8.2.12
 
 dev_dependencies:
   flutter_test:
