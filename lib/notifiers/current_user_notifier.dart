@@ -1,16 +1,20 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/models/user_model.dart';
+import 'package:rotaract/models/member_model.dart';
 
 // current user notifier provider
 final currentUserNotifierProvider =
-    StateNotifierProvider<CurrentUserNotifier, UserModel?>(
+    StateNotifierProvider<CurrentUserNotifier, MemberModel?>(
         (ref) => CurrentUserNotifier());
 
-class CurrentUserNotifier extends StateNotifier<UserModel?> {
+class CurrentUserNotifier extends StateNotifier<MemberModel?> {
   CurrentUserNotifier() : super(null);
 
   // update current user
-  void updateUser(UserModel? user) => state = user;
+  void updateUser(MemberModel? user) {
+    debugPrint("Current user: $user");
+    state = user;
+  }
 
   // reset current user
   void resetUser() => state = null;

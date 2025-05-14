@@ -11,3 +11,11 @@ final firebaseStorageProvider =
 
 final firebaseAuthProvider =
     Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
+
+// CLUBS Collection
+final clubsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('CLUBS'));
+
+// MEMBERS Collection
+final membersCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('MEMBERS'));

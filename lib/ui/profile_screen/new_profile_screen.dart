@@ -15,6 +15,7 @@ class NewProfileScreen extends ConsumerWidget {
           'ACCOUNT',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Container(

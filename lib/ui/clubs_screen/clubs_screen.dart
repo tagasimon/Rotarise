@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/controllers/club_controllers.dart';
 import 'package:rotaract/models/club_model.dart';
-import 'package:rotaract/providers/club_providers.dart';
+import 'package:rotaract/providers/club_repo_providers.dart';
 import 'package:rotaract/ui/clubs_screen/widgets/club_item_widget.dart';
 import 'package:uuid/uuid.dart';
 

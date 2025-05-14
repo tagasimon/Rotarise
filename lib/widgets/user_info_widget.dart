@@ -10,7 +10,7 @@ class UserInfoWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userInfoProv = ref.watch(watchUserInfoProvider(userId));
     return userInfoProv.when(
-      data: (user) => Text(user.name ?? 'No Name'),
+      data: (user) => Text("${user.firstName} ${user.lastName}"),
       loading: () => const CircularProgressIndicator(),
       error: (e, s) => Text('Error: $e'),
     );

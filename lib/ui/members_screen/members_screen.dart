@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/repos/nutritionist_repo.dart';
-import 'package:rotaract/ui/nutritionists_screen/nutritionist_item_widget.dart';
+import 'package:rotaract/providers/members_repo_provider.dart';
+import 'package:rotaract/ui/members_screen/widgets/member_item_widget.dart';
 
-class NutritionistsScreen extends ConsumerWidget {
-  const NutritionistsScreen({super.key});
+class MembersScreen extends ConsumerWidget {
+  const MembersScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final nutritionistsListProv = ref.watch(nutritionistsListProvider);
+    final membersListProv = ref.watch(membersListProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -20,8 +20,13 @@ class NutritionistsScreen extends ConsumerWidget {
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: nutritionistsListProv.when(
+      body: membersListProv.when(
         data: (data) {
+          if (data.isEmpty) {
+            return const Center(
+              child: Text("No Members.."),
+            );
+          }
           return Column(
             children: [
               Container(
@@ -32,18 +37,12 @@ class NutritionistsScreen extends ConsumerWidget {
                 child: const Column(
                   children: [
                     Text(
-                      'Meet Our Expert Team',
+                      'Board & Offiers RY 2025/2026',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      'The team behind Operations',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
                 ),
@@ -51,11 +50,9 @@ class NutritionistsScreen extends ConsumerWidget {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16),
-                  itemCount: nutritionists.length,
+                  itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return NutritionistItemWidget(
-                      nutritionist: nutritionists[index],
-                    );
+                    return MemberItemWidget(member: data[index]);
                   },
                 ),
               ),
@@ -63,12 +60,15 @@ class NutritionistsScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => const Center(
-          child: Text(
-            'Error loading nutritionists',
-            style: TextStyle(color: Colors.red),
-          ),
-        ),
+        error: (error, stack) {
+          debugPrint("Error loading members: $error, $stack");
+          return const Center(
+            child: Text(
+              'Error loading nutritionists',
+              style: TextStyle(color: Colors.red),
+            ),
+          );
+        },
       ),
     );
   }

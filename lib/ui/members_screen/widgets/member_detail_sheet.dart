@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rotaract/models/nutritionist.dart';
+import 'package:rotaract/models/member_model.dart';
 
-class NutritionistDetailSheet extends ConsumerWidget {
-  final Nutritionist nutritionist;
-  const NutritionistDetailSheet({super.key, required this.nutritionist});
+class MemberDetailSheet extends ConsumerWidget {
+  final MemberModel member;
+  const MemberDetailSheet({super.key, required this.member});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,14 +32,14 @@ class NutritionistDetailSheet extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      nutritionist.name,
+                      "${member.firstName} ${member.lastName}",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
                     ),
                     Text(
-                      nutritionist.title,
+                      member.profession ?? "",
                       style: const TextStyle(
                         color: Color(0xFFFFAA00),
                         fontWeight: FontWeight.w500,
@@ -48,7 +48,7 @@ class NutritionistDetailSheet extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      nutritionist.education,
+                      member.currentClubRole ?? "",
                       style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                     ),
                   ],
@@ -68,7 +68,7 @@ class NutritionistDetailSheet extends ConsumerWidget {
               color: const Color(0xFFFFF5E6),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Text(nutritionist.specialization),
+            child: Text(member.company ?? ""),
           ),
           const SizedBox(height: 24),
           const Text(
@@ -77,7 +77,7 @@ class NutritionistDetailSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            nutritionist.description,
+            member.jobTitle ?? "",
             style: const TextStyle(fontSize: 14, height: 1.5),
           ),
           const SizedBox(height: 24),

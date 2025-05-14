@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/models/nutritionist.dart';
-import 'package:rotaract/ui/nutritionists_screen/nutritionist_detail_sheet.dart';
+import 'package:rotaract/models/member_model.dart';
+import 'package:rotaract/ui/members_screen/widgets/member_detail_sheet.dart';
 
-class NutritionistItemWidget extends ConsumerWidget {
-  final Nutritionist nutritionist;
-  const NutritionistItemWidget({super.key, required this.nutritionist});
+class MemberItemWidget extends ConsumerWidget {
+  final MemberModel member;
+  const MemberItemWidget({super.key, required this.member});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +22,7 @@ class NutritionistItemWidget extends ConsumerWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
-            builder: (_) => NutritionistDetailSheet(nutritionist: nutritionist),
+            builder: (_) => MemberDetailSheet(member: member),
           );
         },
         child: Padding(
@@ -45,7 +45,7 @@ class NutritionistItemWidget extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      nutritionist.name,
+                      member.firstName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -53,7 +53,7 @@ class NutritionistItemWidget extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      nutritionist.title,
+                      member.currentClubRole ?? "",
                       style: const TextStyle(
                         color: Color(0xFFFFAA00),
                         fontWeight: FontWeight.w500,
@@ -61,7 +61,7 @@ class NutritionistItemWidget extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Specialization: ${nutritionist.specialization}',
+                      'Proffession: ${member.profession}',
                       style: TextStyle(fontSize: 12, color: Colors.grey[700]),
                     ),
                     const SizedBox(height: 8),

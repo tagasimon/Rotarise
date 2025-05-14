@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/constants/constants.dart';
 import 'package:rotaract/extensions/extensions.dart';
 import 'package:rotaract/ui/club_main_screen/widgets/club_about_widget.dart';
-import 'package:rotaract/providers/club_providers.dart';
+import 'package:rotaract/providers/club_repo_providers.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ClubMainScreen extends ConsumerStatefulWidget {

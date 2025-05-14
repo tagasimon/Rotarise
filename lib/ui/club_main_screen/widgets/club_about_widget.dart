@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/providers/club_providers.dart';
+import 'package:rotaract/providers/club_repo_providers.dart';
 
 class ClubAboutWidget extends ConsumerWidget {
   final String id;

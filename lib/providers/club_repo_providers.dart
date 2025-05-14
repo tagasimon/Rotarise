@@ -4,31 +4,27 @@ import 'package:rotaract/repos/club_repo.dart';
 
 // club repo provider
 final clubRepoProvider = Provider<ClubRepo>((ref) {
-  return ClubRepo(ref.watch(firestoreInstanceProvider));
+  return ClubRepo(ref.watch(clubsCollectionRefProvider));
 });
 
 // get a club by id
 final getClubByIdProvider = FutureProvider.family((ref, String id) async {
-  final repo = ref.read(clubRepoProvider);
-  return repo.getClubById(id);
+  return ref.read(clubRepoProvider).getClubById(id);
 });
 
 // get all verified clubs
 final getAllVerifiedClubsProvider = FutureProvider((ref) async {
-  final repo = ref.read(clubRepoProvider);
-  return repo.getAllVerifiedClubs();
+  return ref.read(clubRepoProvider).getAllVerifiedClubs();
 });
 
 // get all verified clubs by country
 final getAllVerifiedClubsByCountryProvider =
     FutureProvider.family((ref, String country) async {
-  final repo = ref.read(clubRepoProvider);
-  return repo.getAllVerifiedClubsByCountry(country);
+  return ref.read(clubRepoProvider).getAllVerifiedClubsByCountry(country);
 });
 
 // get all verified clubs by city
 final getAllVerifiedClubsByCityProvider =
     FutureProvider.family((ref, String city) async {
-  final repo = ref.read(clubRepoProvider);
-  return repo.getAllVerifiedClubsByCity(city);
+  return ref.read(clubRepoProvider).getAllVerifiedClubsByCity(city);
 });

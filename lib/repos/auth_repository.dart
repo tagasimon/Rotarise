@@ -2,21 +2,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rotaract/models/app_user.dart';
-import 'package:rotaract/models/user_model.dart';
+import 'package:rotaract/models/member_model.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
-  final FirebaseFirestore _firestore;
+  final CollectionReference _ref;
   AuthRepository(
     this._firebaseAuth,
-    this._firestore,
+    this._ref,
   );
   AppUser _userFromFirebase(User? firebaseUser) {
     return firebaseUser == null ? AppUser(null) : AppUser(firebaseUser.uid);
   }
 
   Stream<AppUser> onAuthStateChanges() {
-    return FirebaseAuth.instance
+    return _firebaseAuth
         .authStateChanges()
         .map((event) => _userFromFirebase(event));
   }
@@ -31,46 +31,28 @@ class AuthRepository {
   }
 
   Future<void> signOut() async {
-    return FirebaseAuth.instance.signOut();
+    return _firebaseAuth.signOut();
   }
 
-  Stream<UserModel> watchCurrentUserInfo() {
+  Stream<MemberModel> watchCurrentUserInfo() {
     final auth = _firebaseAuth.currentUser;
-    final firstTimeUser = UserModel(
+    final firstTimeUser = MemberModel(
       id: auth!.uid,
       email: auth.email!,
-      isActive: true,
-      createdAt: DateTime.now(),
-      isVerified: false,
-      name: "New User",
+      firstName: "First Name",
+      lastName: "Last Name",
     );
 
-    final ref = _firestore.collection("USERS").doc(auth.uid);
+    final ref = _ref.doc(auth.uid);
     return ref.snapshots().map((doc) {
       if (!doc.exists) {
         ref.set(firstTimeUser.toMap());
       }
-      return UserModel.fromMap(doc);
+      return MemberModel.fromMap(doc);
     });
   }
 
-  // Future<void> saveDeviceToken() async {
-  //   final fcm = FirebaseMessaging.instance;
-
-  //   String uid = FirebaseAuth.instance.currentUser!.uid;
-  //   String? fcmToken = await fcm.getToken();
-  //   if (fcmToken != null) {
-  //     FirebaseFirestore.instance.collection("users").doc(uid).update(
-  //       {
-  //         "token": fcmToken,
-  //         "platform": Platform.operatingSystem,
-  //       },
-  //     );
-  //   }
-  // }
-
-  Stream<UserModel> watchUserInfo(String userId) {
-    final ref = _firestore.collection("USERS").doc(userId);
-    return ref.snapshots().map((doc) => UserModel.fromMap(doc));
+  Stream<MemberModel> watchUserInfo(String userId) {
+    return _ref.doc(userId).snapshots().map((doc) => MemberModel.fromMap(doc));
   }
 }
