@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rotaract/_core/ui/profile_screen/widgets/list_tile_widget.dart';
+import 'package:rotaract/_core/ui/profile_screen/ui/profile_screen/widgets/list_tile_widget.dart';
 
 class ProfileMenuWidget extends ConsumerWidget {
   const ProfileMenuWidget({super.key});

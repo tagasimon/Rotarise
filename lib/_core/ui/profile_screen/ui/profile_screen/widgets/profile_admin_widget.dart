@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/_core/ui/profile_screen/ui/edit_profile_screen/edit_profile_screen.dart';
 
 class ProfileAdminWidget extends ConsumerWidget {
   const ProfileAdminWidget({super.key});
@@ -65,7 +67,10 @@ class ProfileAdminWidget extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            const Icon(Icons.arrow_right_outlined),
+            GestureDetector(
+              onTap: () => context.push(EditProfileEditPage(member: cMember!)),
+              child: const Icon(Icons.arrow_right_outlined),
+            ),
           ],
         ),
       ),

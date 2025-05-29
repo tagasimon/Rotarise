@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
-import 'package:rotaract/constants/constants.dart';
+import 'package:rotaract/_constants/constants.dart';
 
 class ClubHeaderWidget extends StatelessWidget {
   final ClubModel club;

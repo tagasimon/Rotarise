@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/tab_index_notifier.dart';
 
 import 'package:rotaract/_core/ui/home_screen/home_screen.dart';
 import 'package:rotaract/discover/ui/discover_screen/discover_clubs_screen.dart';
-import 'package:rotaract/_core/ui/profile_screen/profile_screen.dart';
+import 'package:rotaract/_core/ui/profile_screen/ui/profile_screen/profile_screen.dart';
 
 class MainTabsScreen extends ConsumerStatefulWidget {
   const MainTabsScreen({super.key});
@@ -19,18 +20,16 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
     // MembersScreen(),
     ProfileScreen(),
   ];
-  int _selectedScreenIndex = 0;
-  void _selectScreen(int index) {
-    setState(() => _selectedScreenIndex = index);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final tabIndex = ref.watch(tabIndexProvider);
     return Scaffold(
-      body: _screens[_selectedScreenIndex],
+      body: _screens[tabIndex],
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedScreenIndex,
-        onDestinationSelected: _selectScreen,
+        selectedIndex: tabIndex,
+        onDestinationSelected: (index) {
+          ref.read(tabIndexProvider.notifier).setTabIndex(index);
+        },
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         animationDuration: const Duration(milliseconds: 1000),
         destinations: const [

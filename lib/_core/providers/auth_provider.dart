@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/models/club_member_model.dart';
+import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
 import 'package:rotaract/_core/models/app_user.dart';
 import 'package:rotaract/_core/repos/auth_repository.dart';

@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rotaract/_core/models/app_user.dart';
-import 'package:rotaract/_core/models/club_member_model.dart';
+import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -39,8 +39,8 @@ class AuthRepository {
     final firstTimeUser = ClubMemberModel(
       id: auth!.uid,
       email: auth.email!,
-      firstName: "First Name",
-      lastName: "Last Name",
+      firstName: "First",
+      lastName: "Last",
     );
 
     final ref = _ref.doc(auth.uid);

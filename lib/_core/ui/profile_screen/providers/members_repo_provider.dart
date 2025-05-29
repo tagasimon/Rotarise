@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/models/club_member_model.dart';
+import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
-import 'package:rotaract/_core/repos/members_repo.dart';
+import 'package:rotaract/_core/ui/profile_screen/repos/club_members_repo.dart';
 
 // create all the providers for the members repo
-final membersRepoProvider = Provider<MembersRepo>((ref) {
-  return MembersRepo(ref.watch(membersCollectionRefProvider));
+final membersRepoProvider = Provider<ClubMembersRepo>((ref) {
+  return ClubMembersRepo(ref.watch(membersCollectionRefProvider));
 });
 
 // members list provider

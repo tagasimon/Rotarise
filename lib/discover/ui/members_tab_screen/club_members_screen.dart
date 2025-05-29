@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/providers/members_repo_provider.dart';
+import 'package:rotaract/_core/ui/profile_screen/providers/members_repo_provider.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/member_item_widget.dart';
 
 class ClubMembersScreen extends ConsumerWidget {

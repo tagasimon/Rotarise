@@ -1,7 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/constants/constants.dart';
+import 'package:rotaract/_constants/constants.dart';
 
 class CustomSignInScreen extends ConsumerWidget {
   const CustomSignInScreen({super.key});

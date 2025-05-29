@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rotaract/_core/models/club_member_model.dart';
+import 'package:rotaract/_core/ui/profile_screen/domain/club_member_interface.dart';
+import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 
-class MembersRepo {
+class ClubMembersRepo extends ClubMemberInterface {
   final CollectionReference _ref;
-  MembersRepo(this._ref);
+  ClubMembersRepo(this._ref);
 
   // create a new member
+  @override
   Future<void> createMember(ClubMemberModel member) async {
     await _ref.add(member.toMap());
   }
 
   // update a member
+  @override
   Future<void> updateMember(ClubMemberModel member) async {
     final ref = await _ref.where('id', isEqualTo: member.id).get();
 
@@ -20,6 +23,7 @@ class MembersRepo {
   }
 
   // delete a member
+  @override
   Future<void> deleteMember(ClubMemberModel member) async {
     final ref = await _ref.where('id', isEqualTo: member.id).get();
 
@@ -29,6 +33,7 @@ class MembersRepo {
   }
 
   // get a member by id
+  @override
   Future<ClubMemberModel?> getMemberById(String id) async {
     final ref = await _ref.where('id', isEqualTo: id).get();
 
@@ -39,6 +44,7 @@ class MembersRepo {
   }
 
   // get all members
+  @override
   Future<List<ClubMemberModel>> getAllMembers() async {
     return await _ref.get().then((snapshot) {
       return snapshot.docs.map((e) => ClubMemberModel.fromMap(e)).toList();
@@ -46,6 +52,7 @@ class MembersRepo {
   }
 
   // get all members by club id
+  @override
   Future<List<ClubMemberModel>> getAllMembersByClubId(String clubId) async {
     final ref = await _ref.where('clubId', isEqualTo: clubId).get();
     return ref.docs.map((e) => ClubMemberModel.fromMap(e)).toList();

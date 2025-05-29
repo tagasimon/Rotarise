@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   static const kAppLink = "#";
+  static const kAppVersion = "0.0.1";
   static const double kBottomContainerHeight = 80.0;
   static const String kAppTitle = "Rotaract";
   static const String kAnonymous = "Anonymous";

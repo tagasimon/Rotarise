@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
-import 'package:rotaract/constants/constants.dart';
+import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_header_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/gradient_overlay_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/hero_image_widget.dart';

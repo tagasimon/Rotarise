@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
-import 'package:rotaract/constants/constants.dart';
+import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/discover/ui/club_home_screen/club_home_screen.dart';
 
 class ClubItemWidget extends StatelessWidget {
