@@ -19,8 +19,8 @@ class ProfileMenuWidget extends ConsumerWidget {
           children: [
             const SizedBox(height: 10),
             ListTileWidget(
-              tileTitle: "About the Club",
-              tileIcon: Icons.question_mark_sharp,
+              tileTitle: "POSTS",
+              tileIcon: Icons.list_alt_outlined,
               onPressed: () {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
@@ -28,8 +28,8 @@ class ProfileMenuWidget extends ConsumerWidget {
             // contact us
             const Divider(thickness: 1.0),
             ListTileWidget(
-              tileTitle: "News?",
-              tileIcon: Icons.newspaper,
+              tileTitle: "News & Events",
+              tileIcon: Icons.event_note_outlined,
               onPressed: () {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
@@ -41,22 +41,12 @@ class ProfileMenuWidget extends ConsumerWidget {
             ),
             // our story
             ListTileWidget(
-              tileTitle: "Our Story",
-              tileIcon: Icons.book,
+              tileTitle: "About Club",
+              tileIcon: Icons.info_outline,
               onPressed: () {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
             ),
-            const Divider(thickness: 1.0),
-            // team
-            ListTileWidget(
-              tileTitle: "Members",
-              tileIcon: Icons.people,
-              onPressed: () {
-                Fluttertoast.showToast(msg: "Coming Soon...");
-              },
-            ),
-
             const Divider(thickness: 1.0),
             // admin tools
             ListTileWidget(
@@ -66,6 +56,7 @@ class ProfileMenuWidget extends ConsumerWidget {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

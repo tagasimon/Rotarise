@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:rotaract/_core/ui/home_screen/home_screen.dart';
 import 'package:rotaract/discover/ui/discover_screen/discover_clubs_screen.dart';
-import 'package:rotaract/_core/ui/profile_screen/new_profile_screen.dart';
+import 'package:rotaract/_core/ui/profile_screen/profile_screen.dart';
 
 class MainTabsScreen extends ConsumerStatefulWidget {
   const MainTabsScreen({super.key});
@@ -17,7 +17,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
     HomeScreen(),
     DiscoverClubsScreen(),
     // MembersScreen(),
-    NewProfileScreen(),
+    ProfileScreen(),
   ];
   int _selectedScreenIndex = 0;
   void _selectScreen(int index) {
