@@ -17,8 +17,16 @@ class ProfileMenuWidget extends ConsumerWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // contact us
             const SizedBox(height: 10),
+            ListTileWidget(
+              tileTitle: "About the Club",
+              tileIcon: Icons.question_mark_sharp,
+              onPressed: () {
+                Fluttertoast.showToast(msg: "Coming Soon...");
+              },
+            ),
+            // contact us
+            const Divider(thickness: 1.0),
             ListTileWidget(
               tileTitle: "News?",
               tileIcon: Icons.newspaper,
@@ -26,25 +34,7 @@ class ProfileMenuWidget extends ConsumerWidget {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
             ),
-            const Divider(thickness: 1.0),
-            ListTileWidget(
-              tileTitle: "FAQs",
-              tileIcon: Icons.help_sharp,
-              onPressed: () {
-                Fluttertoast.showToast(msg: "Coming Soon...");
-              },
-            ),
-            const Divider(
-              thickness: 1.0,
-              // color: Constants.kSafeBodaGray,
-            ),
-            ListTileWidget(
-              tileTitle: "About the Club",
-              tileIcon: Icons.question_mark,
-              onPressed: () {
-                Fluttertoast.showToast(msg: "Coming Soon...");
-              },
-            ),
+
             const Divider(
               thickness: 1.0,
               // color: Constants.kSafeBodaGray,
@@ -60,7 +50,7 @@ class ProfileMenuWidget extends ConsumerWidget {
             const Divider(thickness: 1.0),
             // team
             ListTileWidget(
-              tileTitle: "Board Members",
+              tileTitle: "Members",
               tileIcon: Icons.people,
               onPressed: () {
                 Fluttertoast.showToast(msg: "Coming Soon...");

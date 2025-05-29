@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/models/member_model.dart';
+import 'package:rotaract/_core/models/club_member_model.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
 import 'package:rotaract/_core/repos/members_repo.dart';
 
@@ -9,7 +9,7 @@ final membersRepoProvider = Provider<MembersRepo>((ref) {
 });
 
 // members list provider
-final membersListProvider = FutureProvider<List<MemberModel>>(
+final membersListProvider = FutureProvider<List<ClubMemberModel>>(
   (ref) async {
     final membersRepo = ref.watch(membersRepoProvider);
     return membersRepo.getAllMembers();
@@ -18,14 +18,14 @@ final membersListProvider = FutureProvider<List<MemberModel>>(
 
 // get all members by club id
 final membersListByClubIdProvider =
-    FutureProvider.family<List<MemberModel>, String>((ref, clubId) async {
+    FutureProvider.family<List<ClubMemberModel>, String>((ref, clubId) async {
   final membersRepo = ref.watch(membersRepoProvider);
   return membersRepo.getAllMembersByClubId(clubId);
 });
 // get a member by id
 
 final memberByIdProvider =
-    FutureProvider.family<MemberModel?, String>((ref, id) async {
+    FutureProvider.family<ClubMemberModel?, String>((ref, id) async {
   final membersRepo = ref.watch(membersRepoProvider);
   return membersRepo.getMemberById(id);
 });

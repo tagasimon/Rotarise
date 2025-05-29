@@ -6,7 +6,7 @@ class Constants {
   static const String kAppTitle = "Rotaract";
   static const String kAnonymous = "Anonymous";
   static const String kDefaultImageLink =
-      "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI";
+      "https://firebasestorage.googleapis.com/v0/b/rotaract-584b8.firebasestorage.app/o/COVER-IMAGES%2Frotaract.png?alt=media&token=1a672387-e579-4479-8d52-d8fb31262616";
   // static const String kAppUrl = '#';
   static const kLabelTextStyle =
       TextStyle(fontSize: 18.0, color: Color(0xFF8D8E98));

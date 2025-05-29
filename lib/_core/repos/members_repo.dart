@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rotaract/_core/models/member_model.dart';
+import 'package:rotaract/_core/models/club_member_model.dart';
 
 class MembersRepo {
   final CollectionReference _ref;
   MembersRepo(this._ref);
 
   // create a new member
-  Future<void> createMember(MemberModel member) async {
+  Future<void> createMember(ClubMemberModel member) async {
     await _ref.add(member.toMap());
   }
 
   // update a member
-  Future<void> updateMember(MemberModel member) async {
+  Future<void> updateMember(ClubMemberModel member) async {
     final ref = await _ref.where('id', isEqualTo: member.id).get();
 
     if (ref.docs.isNotEmpty) {
@@ -20,7 +20,7 @@ class MembersRepo {
   }
 
   // delete a member
-  Future<void> deleteMember(MemberModel member) async {
+  Future<void> deleteMember(ClubMemberModel member) async {
     final ref = await _ref.where('id', isEqualTo: member.id).get();
 
     if (ref.docs.isNotEmpty) {
@@ -29,25 +29,25 @@ class MembersRepo {
   }
 
   // get a member by id
-  Future<MemberModel?> getMemberById(String id) async {
+  Future<ClubMemberModel?> getMemberById(String id) async {
     final ref = await _ref.where('id', isEqualTo: id).get();
 
     if (ref.docs.isNotEmpty) {
-      return MemberModel.fromMap(ref.docs.first);
+      return ClubMemberModel.fromMap(ref.docs.first);
     }
     return null;
   }
 
   // get all members
-  Future<List<MemberModel>> getAllMembers() async {
+  Future<List<ClubMemberModel>> getAllMembers() async {
     return await _ref.get().then((snapshot) {
-      return snapshot.docs.map((e) => MemberModel.fromMap(e)).toList();
+      return snapshot.docs.map((e) => ClubMemberModel.fromMap(e)).toList();
     });
   }
 
   // get all members by club id
-  Future<List<MemberModel>> getAllMembersByClubId(String clubId) async {
+  Future<List<ClubMemberModel>> getAllMembersByClubId(String clubId) async {
     final ref = await _ref.where('clubId', isEqualTo: clubId).get();
-    return ref.docs.map((e) => MemberModel.fromMap(e)).toList();
+    return ref.docs.map((e) => ClubMemberModel.fromMap(e)).toList();
   }
 }

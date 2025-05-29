@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 /// Model class representing a club member
-class MemberModel {
+class ClubMemberModel {
   final String id;
   final String? clubId;
 
@@ -35,7 +35,7 @@ class MemberModel {
   final String? currentClubRole; // President, Secretary, etc.
   final List<String>? previousRoles; // History of roles with dates
 
-  MemberModel({
+  ClubMemberModel({
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -56,7 +56,7 @@ class MemberModel {
     this.previousRoles,
   });
 
-  MemberModel copyWith({
+  ClubMemberModel copyWith({
     String? id,
     String? clubId,
     String? firstName,
@@ -76,7 +76,7 @@ class MemberModel {
     String? currentClubRole,
     List<String>? previousRoles,
   }) {
-    return MemberModel(
+    return ClubMemberModel(
       id: id ?? this.id,
       clubId: clubId ?? this.clubId,
       firstName: firstName ?? this.firstName,
@@ -121,14 +121,14 @@ class MemberModel {
     };
   }
 
-  factory MemberModel.fromFirestore(DocumentSnapshot doc) {
+  factory ClubMemberModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>?;
 
     if (data == null) {
       throw Exception('Document data is null');
     }
 
-    return MemberModel(
+    return ClubMemberModel(
       id: doc.id,
       clubId: data['clubId'] as String?,
       firstName: data['firstName'] as String? ?? '',
@@ -136,9 +136,7 @@ class MemberModel {
       gender: data['gender'] as String?,
       profession: data['profession'] as String?,
       imageUrl: data['imageUrl'] as String?,
-      dateOfBirth: data['dateOfBirth'] != null
-          ? (data['dateOfBirth'] as Timestamp).toDate()
-          : null,
+      dateOfBirth: data['dateOfBirth']?.toDate(),
       email: data['email'] as String?,
       phoneNumber: data['phoneNumber'] as String?,
       address: data['address'] as String?,
@@ -150,9 +148,7 @@ class MemberModel {
       education: data['education'] != null
           ? List<String>.from(data['education'] as List)
           : null,
-      joinedDate: data['joinedDate'] != null
-          ? (data['joinedDate'] as Timestamp).toDate()
-          : null,
+      joinedDate: data['joinedDate']?.toDate(),
       currentClubRole: data['currentClubRole'] as String?,
       previousRoles: data['previousRoles'] != null
           ? List<String>.from(data['previousRoles'] as List)
@@ -161,9 +157,9 @@ class MemberModel {
   }
 
   /// Create a MemberModel from a Map
-  factory MemberModel.fromMap(DocumentSnapshot snapshot) {
+  factory ClubMemberModel.fromMap(DocumentSnapshot snapshot) {
     final map = snapshot.data() as Map<String, dynamic>;
-    return MemberModel(
+    return ClubMemberModel(
       id: map['id'] as String? ?? '',
       clubId: map['clubId'] as String?,
       firstName: map['firstName'] as String? ?? '',
@@ -197,8 +193,8 @@ class MemberModel {
 
   String toJson() => json.encode(toMap());
 
-  factory MemberModel.fromJson(String source) =>
-      MemberModel.fromMap(json.decode(source) as DocumentSnapshot);
+  factory ClubMemberModel.fromJson(String source) =>
+      ClubMemberModel.fromMap(json.decode(source) as DocumentSnapshot);
 
   @override
   String toString() {
@@ -206,7 +202,7 @@ class MemberModel {
   }
 
   @override
-  bool operator ==(covariant MemberModel other) {
+  bool operator ==(covariant ClubMemberModel other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&

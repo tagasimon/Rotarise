@@ -14,7 +14,6 @@ class HomeScreen extends ConsumerWidget {
     ref.listen<AsyncValue>(watchCurrentUserProvider, (_, next) {
       next.whenData(
         (value) {
-          debugPrint("Current user: $value");
           ref.read(currentUserNotifierProvider.notifier).updateUser(value);
         },
       );

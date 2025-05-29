@@ -25,9 +25,6 @@ class ClubModel {
   final String? postalCode;
   final String? meetingDay;
   final String? meetingTime;
-  final String? meetingLocation;
-  final double? meetingLatitude;
-  final double? meetingLongitude;
   final Object? foundedDate;
   final Object? createdAt;
   final bool isVerified;
@@ -55,9 +52,6 @@ class ClubModel {
     this.postalCode,
     this.meetingDay,
     this.meetingTime,
-    this.meetingLocation,
-    this.meetingLatitude,
-    this.meetingLongitude,
     this.foundedDate,
     this.createdAt,
     required this.isVerified,
@@ -114,9 +108,6 @@ class ClubModel {
       postalCode: postalCode ?? this.postalCode,
       meetingDay: meetingDay ?? this.meetingDay,
       meetingTime: meetingTime ?? this.meetingTime,
-      meetingLocation: meetingLocation ?? this.meetingLocation,
-      meetingLatitude: meetingLatitude ?? this.meetingLatitude,
-      meetingLongitude: meetingLongitude ?? this.meetingLongitude,
       foundedDate: foundedDate ?? this.foundedDate,
       createdAt: createdAt ?? this.createdAt,
       isVerified: isVerified ?? this.isVerified,
@@ -146,9 +137,6 @@ class ClubModel {
       'postalCode': postalCode,
       'meetingDay': meetingDay,
       'meetingTime': meetingTime,
-      'meetingLocation': meetingLocation,
-      'meetingLatitude': meetingLatitude,
-      'meetingLongitude': meetingLongitude,
       'foundedDate': foundedDate,
       'createdAt': createdAt,
       'isVerified': isVerified,
@@ -184,15 +172,6 @@ class ClubModel {
           map['meetingDay'] != null ? map['meetingDay'] as String : null,
       meetingTime:
           map['meetingTime'] != null ? map['meetingTime'] as String : null,
-      meetingLatitude: map['meetingLatitude'] != null
-          ? double.parse(map['meetingLatitude'].toString())
-          : null,
-      meetingLongitude: map['meetingLongitude'] != null
-          ? double.parse(map['meetingLongitude'].toString())
-          : null,
-      meetingLocation: map['meetingLocation'] != null
-          ? map['meetingLocation'] as String
-          : null,
       foundedDate: map['foundedDate']?.toDate(),
       createdAt: map['createdAt']?.toDate(),
       isVerified: map['isVerified'] as bool,
@@ -206,7 +185,7 @@ class ClubModel {
 
   @override
   String toString() {
-    return 'ClubModel(id: $id, name: $name, description: $description, imageUrl: $imageUrl, coverImageUrl: $coverImageUrl, email: $email, phone: $phone, website: $website, facebook: $facebook, instagram: $instagram, twitter: $twitter, linkedin: $linkedin, youtube: $youtube, whatsapp: $whatsapp, location: $location, country: $country, city: $city, address: $address, postalCode: $postalCode, meetingDay: $meetingDay, meetingTime: $meetingTime, meetingLocation: $meetingLocation, meetingLatitude: $meetingLatitude, meetingLongitude: $meetingLongitude, foundedDate: $foundedDate, createdAt: $createdAt, isVerified: $isVerified)';
+    return 'ClubModel(id: $id, name: $name, description: $description, imageUrl: $imageUrl, coverImageUrl: $coverImageUrl, email: $email, phone: $phone, website: $website, facebook: $facebook, instagram: $instagram, twitter: $twitter, linkedin: $linkedin, youtube: $youtube, whatsapp: $whatsapp, location: $location, country: $country, city: $city, address: $address, postalCode: $postalCode, meetingDay: $meetingDay, meetingTime: $meetingTime,  foundedDate: $foundedDate, createdAt: $createdAt, isVerified: $isVerified)';
   }
 
   @override
@@ -234,9 +213,6 @@ class ClubModel {
         other.postalCode == postalCode &&
         other.meetingDay == meetingDay &&
         other.meetingTime == meetingTime &&
-        other.meetingLocation == meetingLocation &&
-        other.meetingLatitude == meetingLatitude &&
-        other.meetingLongitude == meetingLongitude &&
         other.foundedDate == foundedDate &&
         other.createdAt == createdAt &&
         other.isVerified == isVerified;
@@ -265,9 +241,6 @@ class ClubModel {
         postalCode.hashCode ^
         meetingDay.hashCode ^
         meetingTime.hashCode ^
-        meetingLocation.hashCode ^
-        meetingLatitude.hashCode ^
-        meetingLongitude.hashCode ^
         foundedDate.hashCode ^
         createdAt.hashCode ^
         isVerified.hashCode;

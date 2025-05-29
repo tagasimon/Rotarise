@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rotaract/_core/models/app_user.dart';
-import 'package:rotaract/_core/models/member_model.dart';
+import 'package:rotaract/_core/models/club_member_model.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -34,9 +34,9 @@ class AuthRepository {
     return _firebaseAuth.signOut();
   }
 
-  Stream<MemberModel> watchCurrentUserInfo() {
+  Stream<ClubMemberModel> watchCurrentUserInfo() {
     final auth = _firebaseAuth.currentUser;
-    final firstTimeUser = MemberModel(
+    final firstTimeUser = ClubMemberModel(
       id: auth!.uid,
       email: auth.email!,
       firstName: "First Name",
@@ -48,11 +48,14 @@ class AuthRepository {
       if (!doc.exists) {
         ref.set(firstTimeUser.toMap());
       }
-      return MemberModel.fromMap(doc);
+      return ClubMemberModel.fromMap(doc);
     });
   }
 
-  Stream<MemberModel> watchUserInfo(String userId) {
-    return _ref.doc(userId).snapshots().map((doc) => MemberModel.fromMap(doc));
+  Stream<ClubMemberModel> watchUserInfo(String userId) {
+    return _ref
+        .doc(userId)
+        .snapshots()
+        .map((doc) => ClubMemberModel.fromMap(doc));
   }
 }
