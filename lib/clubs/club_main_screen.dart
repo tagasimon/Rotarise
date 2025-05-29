@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/constants/constants.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
-import 'package:rotaract/club_main_screen/widgets/club_about_widget.dart';
+import 'package:rotaract/clubs/widgets/club_about_widget.dart';
 import 'package:rotaract/admin_tools/repos/club_repo_providers.dart';
 import 'package:share_plus/share_plus.dart';
 

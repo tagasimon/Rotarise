@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/controllers/club_controllers.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/admin_tools/repos/club_repo_providers.dart';
-import 'package:rotaract/club_main_screen/widgets/club_item_widget.dart';
+import 'package:rotaract/clubs/widgets/club_item_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class ClubsScreen extends ConsumerWidget {

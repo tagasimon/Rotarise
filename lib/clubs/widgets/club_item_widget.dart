@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
-import 'package:rotaract/club_main_screen/club_main_screen.dart';
+import 'package:rotaract/clubs/club_main_screen.dart';
 
 class ClubItemWidget extends ConsumerWidget {
   final ClubModel club;
