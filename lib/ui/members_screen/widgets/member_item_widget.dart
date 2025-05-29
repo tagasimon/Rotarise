@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/models/member_model.dart';
@@ -30,13 +31,31 @@ class MemberItemWidget extends ConsumerWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  color: Colors.grey[300],
-                  child: Icon(Icons.person, size: 40, color: Colors.grey[600]),
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 30.0,
+                child: ClipOval(
+                  child: member.imageUrl != null
+                      ?
+                      // cached network image
+                      CachedNetworkImage(
+                          imageUrl: member.imageUrl!,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            size: 60.0,
+                            color: Colors.red,
+                          ),
+                          fit: BoxFit.cover,
+                          width: 60.0,
+                          height: 60.0,
+                        )
+                      : const Icon(
+                          Icons.person,
+                          size: 60.0,
+                          color: Colors.grey,
+                        ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -45,20 +64,20 @@ class MemberItemWidget extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      member.firstName,
+                      "${member.firstName} ${member.lastName}",
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      member.currentClubRole ?? "",
-                      style: const TextStyle(
-                        color: Color(0xFFFFAA00),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    // const SizedBox(height: 4),
+                    // Text(
+                    //   member.currentClubRole ?? "",
+                    //   style: const TextStyle(
+                    //     color: Color(0xFFFFAA00),
+                    //     fontWeight: FontWeight.w500,
+                    //   ),
+                    // ),
                     const SizedBox(height: 4),
                     Text(
                       'Proffession: ${member.profession}',

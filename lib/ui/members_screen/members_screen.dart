@@ -14,7 +14,7 @@ class MembersScreen extends ConsumerWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
-          'CLUB OFFICERS',
+          'CLUB MEMBERS',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -23,37 +23,15 @@ class MembersScreen extends ConsumerWidget {
       body: membersListProv.when(
         data: (data) {
           if (data.isEmpty) {
-            return const Center(
-              child: Text("No Members.."),
-            );
+            return const Center(child: Text("No Members.."));
           }
           return Column(
             children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                color:
-                    const Color(0xFFFFAA00), // Orange color matching app theme
-                child: const Column(
-                  children: [
-                    Text(
-                      'Board & Offiers RY 2025/2026',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return MemberItemWidget(member: data[index]);
-                  },
+                  itemBuilder: (_, i) => MemberItemWidget(member: data[i]),
                 ),
               ),
             ],

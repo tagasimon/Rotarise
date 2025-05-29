@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/notifiers/current_user_notifier.dart';
@@ -20,11 +21,33 @@ class ProfileAdminWidget extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // TODO : Add a profile picture
-            // CircleAvatar(
-            //   backgroundColor: Colors.transparent,
-            //   radius: 30.0,
-            //   child: ClipOval(child: Image.asset("assets/images/logo.png")),
-            // ),
+            CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 30.0,
+              child: ClipOval(
+                child: cMember?.imageUrl != null
+                    ?
+                    // cached network image
+                    CachedNetworkImage(
+                        imageUrl: cMember!.imageUrl!,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                          size: 60.0,
+                          color: Colors.red,
+                        ),
+                        fit: BoxFit.cover,
+                        width: 60.0,
+                        height: 60.0,
+                      )
+                    : const Icon(
+                        Icons.person,
+                        size: 60.0,
+                        color: Colors.grey,
+                      ),
+              ),
+            ),
             Container(
               margin: const EdgeInsets.all(10.0),
               child: Column(
@@ -42,7 +65,7 @@ class ProfileAdminWidget extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            // const Icon(Icons.arrow_forward_ios),
+            const Icon(Icons.arrow_right_outlined),
           ],
         ),
       ),

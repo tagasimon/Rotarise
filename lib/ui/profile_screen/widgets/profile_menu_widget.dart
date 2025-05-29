@@ -18,15 +18,7 @@ class ProfileMenuWidget extends ConsumerWidget {
         child: Column(
           children: [
             // contact us
-            ListTileWidget(
-              tileTitle: "Contact Us",
-              tileIcon: Icons.email,
-              onPressed: () {
-                Fluttertoast.showToast(msg: "Coming Soon...");
-              },
-            ),
-            const Divider(thickness: 1.0),
-
+            const SizedBox(height: 10),
             ListTileWidget(
               tileTitle: "News?",
               tileIcon: Icons.newspaper,
@@ -47,8 +39,8 @@ class ProfileMenuWidget extends ConsumerWidget {
               // color: Constants.kSafeBodaGray,
             ),
             ListTileWidget(
-              tileTitle: "About Us",
-              tileIcon: Icons.people,
+              tileTitle: "About the Club",
+              tileIcon: Icons.question_mark,
               onPressed: () {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
@@ -65,19 +57,25 @@ class ProfileMenuWidget extends ConsumerWidget {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
             ),
-            const Divider(
-              thickness: 1.0,
-              // color: Constants.kSafeBodaGray,
-            ),
+            const Divider(thickness: 1.0),
             // team
             ListTileWidget(
-              tileTitle: "Our Team",
-              tileIcon: Icons.group,
+              tileTitle: "Board Members",
+              tileIcon: Icons.people,
               onPressed: () {
                 Fluttertoast.showToast(msg: "Coming Soon...");
               },
             ),
-            const SizedBox(height: 10),
+
+            const Divider(thickness: 1.0),
+            // admin tools
+            ListTileWidget(
+              tileTitle: "Admin Tools",
+              tileIcon: Icons.admin_panel_settings,
+              onPressed: () {
+                Fluttertoast.showToast(msg: "Coming Soon...");
+              },
+            ),
           ],
         ),
       ),
