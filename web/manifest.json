@@ -1,11 +1,11 @@
 {
     "name": "rotaract",
-    "short_name": "rotaract",
+    "short_name": "Rotarise",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Rotaract Mobile App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
