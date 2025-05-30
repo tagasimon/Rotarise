@@ -112,7 +112,7 @@ class _EditProfileEditPageState extends ConsumerState<EditProfileEditPage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final state = ref.watch(clubMemberControllersProvider);
+    // final state = ref.watch(clubMemberControllersProvider);
     ref.listen(clubMemberControllersProvider, (previous, next) {
       if (next.hasError) {
         Fluttertoast.showToast(

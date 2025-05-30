@@ -41,6 +41,8 @@ class AuthRepository {
       email: auth.email!,
       firstName: "First",
       lastName: "Last",
+      // Defaults to Kampala North
+      clubId: "0b65b229-2114-41e5-be04-d4d688ee08b5",
     );
 
     final ref = _ref.doc(auth.uid);

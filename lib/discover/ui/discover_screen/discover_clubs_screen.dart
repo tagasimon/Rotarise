@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/_core/providers/auth_provider.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/clubs_tab_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/discover_stats_widget.dart';
@@ -34,6 +36,13 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue>(watchCurrentUserProvider, (_, next) {
+      next.whenData(
+        (value) {
+          ref.read(currentUserNotifierProvider.notifier).updateUser(value);
+        },
+      );
+    });
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: NestedScrollView(
@@ -56,82 +65,30 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
         ),
       ),
       // floatingActionButton:
-      //     // const AddClubWidget()
+      //     //     // const AddClubWidget()
 
       //     FloatingActionButton(
       //   onPressed: () {
-      //     // final event = ClubEventModel(
-      //     //   id: const Uuid().v4(),
-      //     //   title: "One on One with President Elect",
-      //     //   location: "People's Medical Hospital",
-      //     //   clubId: "f95c1eec-f50a-4d08-9dad-5e6734326d8e",
-      //     //   imageUrl:
-      //     //       "https://firebasestorage.googleapis.com/v0/b/rotaract-584b8.firebasestorage.app/o/EVENTS%2FGrsifEuW0AEPtss.jpeg?alt=media&token=6ff59f80-278d-476a-89bf-8f4e577cc7ca",
-      //     //   startDate: DateTime(2025, 05, 25),
-      //     //   endDate: DateTime(2025, 05, 25),
-      //     // );
+      //     final event = ClubEventModel(
+      //       id: const Uuid().v4(),
+      //       title: "Presidential Installation",
+      //       location: "Chagos Country Resort, Kasangati Kira Rd",
+      //       clubId: "f95c1eec-f50a-4d08-9dad-5e6734326d8e",
+      //       imageUrl:
+      //           "https://firebasestorage.googleapis.com/v0/b/rotaract-584b8.firebasestorage.app/o/EVENTS%2FWhatsApp%20Image%202025-05-30%20at%2011.56.43%20(2).jpeg?alt=media&token=402dd230-0300-4d84-9e4b-70c309d90e29",
+      //       startDate: DateTime(2025, 07, 12),
+      //       endDate: DateTime(2025, 07, 12),
+      //     );
 
-      //     // ref
-      //     //     .read(clubEventsControllerProvider.notifier)
-      //     //     .addEvent(event: event);
+      //     ref
+      //         .read(clubEventsControllerProvider.notifier)
+      //         .addEvent(event: event);
       //   },
       //   backgroundColor: Colors.purple.shade600,
       //   child: const Icon(Icons.add, color: Colors.white),
       // ),
     );
   }
-
-  // Widget _buildModernAppBar(BuildContext context) {
-  //   return SliverAppBar(
-  //     expandedHeight: 120,
-  //     floating: true,
-  //     snap: true,
-  //     elevation: 0,
-  //     backgroundColor: Colors.white,
-  //     surfaceTintColor: Colors.transparent,
-  //     flexibleSpace: FlexibleSpaceBar(
-  //       background: Container(
-  //         decoration: BoxDecoration(
-  //           gradient: LinearGradient(
-  //             begin: Alignment.topLeft,
-  //             end: Alignment.bottomRight,
-  //             colors: [
-  //               Colors.purple.shade400,
-  //               Colors.blue.shade400,
-  //             ],
-  //           ),
-  //         ),
-  //         child: SafeArea(
-  //           child: Padding(
-  //             padding: const EdgeInsets.all(20),
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 const Text(
-  //                   "Discover",
-  //                   style: TextStyle(
-  //                     fontSize: 32,
-  //                     fontWeight: FontWeight.bold,
-  //                     color: Colors.white,
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 8),
-  //                 Text(
-  //                   "Find clubs, events, and opportunities",
-  //                   style: TextStyle(
-  //                     fontSize: 16,
-  //                     color: Colors.white.withOpacity(0.9),
-  //                     fontWeight: FontWeight.w500,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildCategoriesSection() {
     return SliverToBoxAdapter(
