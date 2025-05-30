@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/projects/ui/project_details_screen/project_details_screen.dart';
 
 class ProjectsTabWidget extends StatelessWidget {
   const ProjectsTabWidget({super.key});
@@ -21,8 +22,8 @@ class ProjectsTabWidget extends StatelessWidget {
         'title': 'Kakindu Project',
         'description': 'Building a school in Kakindu',
         'progress': 0.5,
-        'raised': 'UGX100,000,000',
-        'target': 'UGX200,000,000',
+        'raised': '\$100,000',
+        'target': '\$200,000',
         'club': 'Rotaract Club of Kampala North',
         'category': 'Education',
         'color': Colors.blue,
@@ -30,10 +31,10 @@ class ProjectsTabWidget extends StatelessWidget {
       },
       {
         'title': 'Water Project',
-        'description': 'Providing clean water to rural communities',
-        'progress': 0.3,
-        'raised': 'UGX 20,000,000',
-        'target': 'UGX 500,000,000',
+        'description': 'Providing clean   water to rural communities',
+        'progress': 0.04,
+        'raised': '\$10,000',
+        'target': '\$500,000',
         'club': 'Rotaract Club of Gayaza',
         'category': 'Water & Sanitation',
         'color': Colors.cyan,
@@ -116,13 +117,31 @@ class ProjectsTabWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "${project['title']}",
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                                letterSpacing: -0.5,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProjectDetailsScreen(
+                                      project: project,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "${project['title']}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87,
+                                      letterSpacing: -0.5,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_right)
+                                ],
                               ),
                             ),
                             const SizedBox(height: 4),
