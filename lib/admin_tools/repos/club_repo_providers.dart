@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
-import 'package:rotaract/_core/repos/club_repo.dart';
+import 'package:rotaract/admin_tools/repos/club_repo.dart';
 
 // club repo provider
 final clubRepoProvider = Provider<ClubRepo>((ref) {

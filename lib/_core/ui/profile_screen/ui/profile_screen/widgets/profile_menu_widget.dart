@@ -19,7 +19,7 @@ class ProfileMenuWidget extends ConsumerWidget {
           children: [
             const SizedBox(height: 10),
             ListTileWidget(
-              tileTitle: "POSTS",
+              tileTitle: "Posts",
               tileIcon: Icons.list_alt_outlined,
               onPressed: () {
                 Fluttertoast.showToast(msg: "Coming Soon...");

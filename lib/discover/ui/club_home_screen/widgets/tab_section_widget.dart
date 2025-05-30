@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/club_events_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_info_card_widget.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/club_members_screen.dart';
 
@@ -52,7 +53,7 @@ class TabSectionWidget extends StatelessWidget {
                 controller: controller,
                 children: [
                   _buildTabContent("No posts yet", Icons.article_outlined),
-                  _buildTabContent("No events scheduled", Icons.event_outlined),
+                  ClubEventsWidget(clubId: club.id),
                   ClubMembersScreen(clubId: club.id),
                   ClubInfoCardWidget(club: club),
                 ],

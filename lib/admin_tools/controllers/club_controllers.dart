@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/admin_tools/repos/club_repo_providers.dart';
-import 'package:rotaract/_core/repos/club_repo.dart';
+import 'package:rotaract/admin_tools/repos/club_repo.dart';
 
 // club controller provider
 final clubControllerProvider =

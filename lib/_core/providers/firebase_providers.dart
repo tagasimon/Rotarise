@@ -23,3 +23,11 @@ final membersCollectionRefProvider = Provider<CollectionReference>(
 // ROLES Collection
 final rolesCollectionRefProvider = Provider<CollectionReference>(
     (ref) => ref.watch(firestoreInstanceProvider).collection('ROLES'));
+
+// EVENTS Collection
+final eventsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('EVENTS'));
+
+// POSTS Collection
+final postsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('POSTS'));
