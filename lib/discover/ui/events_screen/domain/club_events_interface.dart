@@ -13,4 +13,7 @@ abstract class ClubEventsInterface {
   Future<void> updateEvent({required ClubEventModel event});
   // delete an event
   Future<void> deleteEvent(String eventId);
+  Future<int> getTotalEventsCount();
+  // total events by club id
+  Future<int> getTotalEventsByClubId(String clubId);
 }

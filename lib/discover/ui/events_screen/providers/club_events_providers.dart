@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
 import 'package:rotaract/discover/ui/events_screen/repos/club_events_repo.dart';
 
@@ -20,8 +21,26 @@ final clubEventByIdProvider =
 });
 
 // getEventsByClubId
-final clubEventsByClubIdProvider =
-    FutureProvider.family.autoDispose((ref, String clubId) async {
+final clubEventsByClubIdProvider = FutureProvider.autoDispose((ref) async {
+  final cClub = ref.watch(selectedClubNotifierProvider);
   final repo = ref.watch(clubEventsRepoProvider);
-  return repo.getEventsByClubId(clubId);
+  if (cClub == null) {
+    return []; // or handle the case where no club is selected
+  }
+  return repo.getEventsByClubId(cClub.id);
+});
+
+// get total events count
+final getTotalEventsCountProvider = FutureProvider((ref) async {
+  return ref.read(clubEventsRepoProvider).getTotalEventsCount();
+});
+
+// get total events by club id
+final getTotalEventsByClubIdProvider = FutureProvider.autoDispose((ref) async {
+  final cClub = ref.watch(selectedClubNotifierProvider);
+  final repo = ref.watch(clubEventsRepoProvider);
+  if (cClub == null) {
+    return 0; // or handle the case where no club is selected
+  }
+  return repo.getTotalEventsByClubId(cClub.id);
 });

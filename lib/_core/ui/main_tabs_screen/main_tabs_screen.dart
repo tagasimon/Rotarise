@@ -15,7 +15,7 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
   final _screens = const [
-    HomeScreen(),
+    // HomeScreen(),
     DiscoverClubsScreen(),
     // MembersScreen(),
     ProfileScreen(),
@@ -33,15 +33,15 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         animationDuration: const Duration(milliseconds: 1000),
         destinations: const [
+          // NavigationDestination(
+          //   label: "Home",
+          //   icon: Icon(Icons.home_outlined),
+          //   selectedIcon: Icon(Icons.home),
+          // ),
           NavigationDestination(
             label: "Home",
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
-          ),
-          NavigationDestination(
-            label: "Discover",
-            icon: Icon(Icons.bolt),
-            selectedIcon: Icon(Icons.bolt_outlined),
           ),
           NavigationDestination(
             label: "Profile",

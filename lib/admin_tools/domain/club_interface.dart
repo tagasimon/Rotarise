@@ -8,4 +8,5 @@ abstract class ClubInterface {
   Future<List<ClubModel>> getAllVerifiedClubs();
   Future<List<ClubModel>> getAllVerifiedClubsByCountry(String country);
   Future<List<ClubModel>> getAllVerifiedClubsByCity(String city);
+  Future<int> getTotalClubsCount();
 }

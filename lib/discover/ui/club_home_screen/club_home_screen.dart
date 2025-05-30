@@ -69,7 +69,7 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
               ),
               QuickActionsWidget(club: club),
               const StatsSectionWidget(),
-              TabSectionWidget(controller: _tabController, club: club),
+              TabSectionWidget(controller: _tabController),
             ],
           ),
         );

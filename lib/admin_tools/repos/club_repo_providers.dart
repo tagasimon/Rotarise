@@ -28,3 +28,8 @@ final getAllVerifiedClubsByCityProvider =
     FutureProvider.family((ref, String city) async {
   return ref.read(clubRepoProvider).getAllVerifiedClubsByCity(city);
 });
+
+// get total clubs count
+final getTotalClubsCountProvider = FutureProvider((ref) async {
+  return ref.read(clubRepoProvider).getTotalClubsCount();
+});

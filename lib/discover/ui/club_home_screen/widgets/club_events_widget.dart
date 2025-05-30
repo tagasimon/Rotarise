@@ -4,12 +4,11 @@ import 'package:rotaract/discover/ui/events_screen/providers/club_events_provide
 import 'package:rotaract/discover/ui/events_screen/widgets/event_item_widget.dart';
 
 class ClubEventsWidget extends ConsumerWidget {
-  final String clubId;
-  const ClubEventsWidget({super.key, required this.clubId});
+  const ClubEventsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final eventsProvider = ref.watch(clubEventsByClubIdProvider(clubId));
+    final eventsProvider = ref.watch(clubEventsByClubIdProvider);
     return eventsProvider.when(
       data: (events) {
         return Container(

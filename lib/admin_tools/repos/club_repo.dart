@@ -73,4 +73,11 @@ class ClubRepo implements ClubInterface {
         .get();
     return ref.docs.map((e) => ClubModel.fromMap(e)).toList();
   }
+
+  @override
+  Future<int> getTotalClubsCount() {
+    return _ref.count().get().then((value) => value.count ?? 0);
+  }
 }
+
+// SAAS

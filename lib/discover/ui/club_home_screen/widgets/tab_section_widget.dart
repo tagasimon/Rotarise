@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_events_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_info_card_widget.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/club_members_screen.dart';
 
 class TabSectionWidget extends StatelessWidget {
-  final ClubModel club;
   final TabController controller;
 
-  const TabSectionWidget(
-      {super.key, required this.controller, required this.club});
+  const TabSectionWidget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +50,9 @@ class TabSectionWidget extends StatelessWidget {
                 controller: controller,
                 children: [
                   _buildTabContent("No posts yet", Icons.article_outlined),
-                  ClubEventsWidget(clubId: club.id),
-                  ClubMembersScreen(clubId: club.id),
-                  ClubInfoCardWidget(club: club),
+                  const ClubEventsWidget(),
+                  const ClubMembersScreen(),
+                  const ClubInfoCardWidget(),
                 ],
               ),
             ),

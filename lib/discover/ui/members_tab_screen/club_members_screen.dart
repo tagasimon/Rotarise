@@ -4,12 +4,11 @@ import 'package:rotaract/_core/ui/profile_screen/providers/members_repo_provider
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/member_item_widget.dart';
 
 class ClubMembersScreen extends ConsumerWidget {
-  final String clubId;
-  const ClubMembersScreen({super.key, required this.clubId});
+  const ClubMembersScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final membersListProv = ref.watch(membersListByClubIdProvider(clubId));
+    final membersListProv = ref.watch(membersListByClubIdProvider);
     return membersListProv.when(
       data: (data) {
         if (data.isEmpty) {

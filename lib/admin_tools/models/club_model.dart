@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ClubModel {
   final String id;
   final String name;
+  final String? nickName;
   final String? description;
   final String? imageUrl;
   final String? coverImageUrl;
@@ -33,6 +34,7 @@ class ClubModel {
   ClubModel({
     required this.id,
     required this.name,
+    this.nickName,
     this.description,
     this.imageUrl,
     this.coverImageUrl,
@@ -60,6 +62,7 @@ class ClubModel {
   ClubModel copyWith({
     String? id,
     String? name,
+    String? nickName,
     String? description,
     String? imageUrl,
     String? coverImageUrl,
@@ -79,9 +82,6 @@ class ClubModel {
     String? postalCode,
     String? meetingDay,
     String? meetingTime,
-    String? meetingLocation,
-    double? meetingLatitude,
-    double? meetingLongitude,
     Object? foundedDate,
     Object? createdAt,
     bool? isVerified,
@@ -89,6 +89,7 @@ class ClubModel {
     return ClubModel(
       id: id ?? this.id,
       name: name ?? this.name,
+      nickName: nickName ?? this.nickName,
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
       coverImageUrl: coverImageUrl ?? this.coverImageUrl,
@@ -118,6 +119,7 @@ class ClubModel {
     return <String, dynamic>{
       'id': id,
       'name': name,
+      'nickName': nickName,
       'description': description,
       'imageUrl': imageUrl,
       'coverImageUrl': coverImageUrl,
@@ -148,6 +150,7 @@ class ClubModel {
     return ClubModel(
       id: map['id'] as String,
       name: map['name'] as String,
+      nickName: map['nickName'] != null ? map['nickName'] as String : null,
       description:
           map['description'] != null ? map['description'] as String : null,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
@@ -185,7 +188,7 @@ class ClubModel {
 
   @override
   String toString() {
-    return 'ClubModel(id: $id, name: $name, description: $description, imageUrl: $imageUrl, coverImageUrl: $coverImageUrl, email: $email, phone: $phone, website: $website, facebook: $facebook, instagram: $instagram, twitter: $twitter, linkedin: $linkedin, youtube: $youtube, whatsapp: $whatsapp, location: $location, country: $country, city: $city, address: $address, postalCode: $postalCode, meetingDay: $meetingDay, meetingTime: $meetingTime,  foundedDate: $foundedDate, createdAt: $createdAt, isVerified: $isVerified)';
+    return 'ClubModel(id: $id, name: $name, nickName: $nickName, description: $description, imageUrl: $imageUrl, coverImageUrl: $coverImageUrl, email: $email, phone: $phone, website: $website, facebook: $facebook, instagram: $instagram, twitter: $twitter, linkedin: $linkedin, youtube: $youtube, whatsapp: $whatsapp, location: $location, country: $country, city: $city, address: $address, postalCode: $postalCode, meetingDay: $meetingDay, meetingTime: $meetingTime, foundedDate: $foundedDate, createdAt: $createdAt, isVerified: $isVerified)';
   }
 
   @override
@@ -194,6 +197,7 @@ class ClubModel {
 
     return other.id == id &&
         other.name == name &&
+        other.nickName == nickName &&
         other.description == description &&
         other.imageUrl == imageUrl &&
         other.coverImageUrl == coverImageUrl &&
@@ -222,6 +226,7 @@ class ClubModel {
   int get hashCode {
     return id.hashCode ^
         name.hashCode ^
+        nickName.hashCode ^
         description.hashCode ^
         imageUrl.hashCode ^
         coverImageUrl.hashCode ^

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
-import 'package:rotaract/admin_tools/ui/add_club/add_club_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/clubs_tab_widget.dart';
-import 'package:rotaract/discover/ui/events_screen/controllers/club_events_controller.dart';
+import 'package:rotaract/discover/ui/discover_screen/widgets/discover_stats_widget.dart';
 import 'package:rotaract/discover/ui/events_screen/events_screen.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/news_tab_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/projects_tab_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/search_bar_widget.dart';
-import 'package:rotaract/discover/ui/discover_screen/widgets/stats_widget.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
-import 'package:uuid/uuid.dart';
 
 class DiscoverClubsScreen extends ConsumerStatefulWidget {
   const DiscoverClubsScreen({super.key});
@@ -43,8 +39,9 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           const ModernAppBarWidget(
-              title: "Discover",
-              subtitle: "Find clubs, events, and opportunities"),
+            title: "Discover",
+            subtitle: "Find clubs, events, and opportunities",
+          ),
           const SearchBarWidget(),
           _buildCategoriesSection(),
         ],
@@ -58,29 +55,29 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
           ],
         ),
       ),
-      floatingActionButton:
-          // const AddClubWidget()
+      // floatingActionButton:
+      //     // const AddClubWidget()
 
-          FloatingActionButton(
-        onPressed: () {
-          // final event = ClubEventModel(
-          //   id: const Uuid().v4(),
-          //   title: "One on One with President Elect",
-          //   location: "People's Medical Hospital",
-          //   clubId: "f95c1eec-f50a-4d08-9dad-5e6734326d8e",
-          //   imageUrl:
-          //       "https://firebasestorage.googleapis.com/v0/b/rotaract-584b8.firebasestorage.app/o/EVENTS%2FGrsifEuW0AEPtss.jpeg?alt=media&token=6ff59f80-278d-476a-89bf-8f4e577cc7ca",
-          //   startDate: DateTime(2025, 05, 25),
-          //   endDate: DateTime(2025, 05, 25),
-          // );
+      //     FloatingActionButton(
+      //   onPressed: () {
+      //     // final event = ClubEventModel(
+      //     //   id: const Uuid().v4(),
+      //     //   title: "One on One with President Elect",
+      //     //   location: "People's Medical Hospital",
+      //     //   clubId: "f95c1eec-f50a-4d08-9dad-5e6734326d8e",
+      //     //   imageUrl:
+      //     //       "https://firebasestorage.googleapis.com/v0/b/rotaract-584b8.firebasestorage.app/o/EVENTS%2FGrsifEuW0AEPtss.jpeg?alt=media&token=6ff59f80-278d-476a-89bf-8f4e577cc7ca",
+      //     //   startDate: DateTime(2025, 05, 25),
+      //     //   endDate: DateTime(2025, 05, 25),
+      //     // );
 
-          // ref
-          //     .read(clubEventsControllerProvider.notifier)
-          //     .addEvent(event: event);
-        },
-        backgroundColor: Colors.purple.shade600,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      //     // ref
+      //     //     .read(clubEventsControllerProvider.notifier)
+      //     //     .addEvent(event: event);
+      //   },
+      //   backgroundColor: Colors.purple.shade600,
+      //   child: const Icon(Icons.add, color: Colors.white),
+      // ),
     );
   }
 
@@ -140,7 +137,7 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
     return SliverToBoxAdapter(
       child: Column(
         children: [
-          const StatsWidget(),
+          const DiscoverStatsWidget(),
           const SizedBox(height: 20),
           _buildTabBar(),
         ],

@@ -46,4 +46,18 @@ class ClubEventsRepo implements ClubEventsInterface {
         .get();
     return snapshot.docs.map((doc) => ClubEventModel.fromMap(doc)).toList();
   }
+
+  @override
+  Future<int> getTotalEventsCount() {
+    return ref.count().get().then((value) => value.count ?? 0);
+  }
+
+  @override
+  Future<int> getTotalEventsByClubId(String clubId) {
+    return ref
+        .where('clubId', isEqualTo: clubId)
+        .count()
+        .get()
+        .then((value) => value.count ?? 0);
+  }
 }

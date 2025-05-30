@@ -57,4 +57,18 @@ class ClubMembersRepo extends ClubMemberInterface {
     final ref = await _ref.where('clubId', isEqualTo: clubId).get();
     return ref.docs.map((e) => ClubMemberModel.fromMap(e)).toList();
   }
+
+  @override
+  Future<int> getTotalMembersByClubId(String clubId) {
+    return _ref
+        .where('clubId', isEqualTo: clubId)
+        .count()
+        .get()
+        .then((value) => value.count ?? 0);
+  }
+
+  @override
+  Future<int> getTotalMembersCount() {
+    return _ref.count().get().then((value) => value.count ?? 0);
+  }
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 
-class ClubInfoCardWidget extends StatelessWidget {
-  final ClubModel club;
-  const ClubInfoCardWidget({super.key, required this.club});
+class ClubInfoCardWidget extends ConsumerWidget {
+  const ClubInfoCardWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final club = ref.watch(selectedClubNotifierProvider);
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
@@ -25,7 +27,7 @@ class ClubInfoCardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (club.description != null) ...[
+            if (club?.description != null) ...[
               const Text(
                 "About",
                 style: TextStyle(
@@ -36,7 +38,7 @@ class ClubInfoCardWidget extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                club.description!,
+                club?.description ?? '',
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.grey.shade700,
@@ -45,7 +47,7 @@ class ClubInfoCardWidget extends StatelessWidget {
               ),
               const SizedBox(height: 20),
             ],
-            _buildMeetingInfo(club),
+            _buildMeetingInfo(club!),
           ],
         ),
       ),

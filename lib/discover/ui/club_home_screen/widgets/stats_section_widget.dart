@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/events_by_club_count_widget.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/members_by_club_count_widget.dart';
 
 class StatsSectionWidget extends StatelessWidget {
   const StatsSectionWidget({super.key});
@@ -22,11 +24,12 @@ class StatsSectionWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            _buildStatItem("Members", "156", Icons.people_outline),
+            const MembersByClubCountWidget(),
             _buildStatDivider(),
-            _buildStatItem("Events", "24", Icons.event_outlined),
+            const EventsByClubCountWidget(),
             _buildStatDivider(),
-            _buildStatItem("Projects", "12", Icons.handshake_outlined),
+            // TODO Fix this
+            _buildStatItem("Projects", "_", Icons.handshake_outlined),
           ],
         ),
       ),

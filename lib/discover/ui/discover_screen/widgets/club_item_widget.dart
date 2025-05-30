@@ -1,12 +1,14 @@
 // Modern Club Item Widget
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/discover/ui/club_home_screen/club_home_screen.dart';
 
-class ClubItemWidget extends StatelessWidget {
+class ClubItemWidget extends ConsumerWidget {
   final ClubModel club;
 
   const ClubItemWidget({
@@ -15,7 +17,7 @@ class ClubItemWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -33,7 +35,10 @@ class ClubItemWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () => context.push(ClubHomeScreen(id: club.id)),
+          onTap: () {
+            ref.read(selectedClubNotifierProvider.notifier).updateClub(club);
+            context.push(ClubHomeScreen(id: club.id));
+          },
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(

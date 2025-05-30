@@ -7,4 +7,6 @@ abstract class ClubMemberInterface {
   Future<ClubMemberModel?> getMemberById(String id);
   Future<List<ClubMemberModel>> getAllMembers();
   Future<List<ClubMemberModel>> getAllMembersByClubId(String clubId);
+  Future<int> getTotalMembersCount();
+  Future<int> getTotalMembersByClubId(String clubId);
 }

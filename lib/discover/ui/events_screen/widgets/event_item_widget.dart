@@ -10,11 +10,89 @@ class EventItemWidget extends ConsumerWidget {
   final ClubEventModel event;
   const EventItemWidget({super.key, required this.event});
 
+  void _showFullScreenImage(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black87,
+      builder: (context) => Dialog.fullscreen(
+        backgroundColor: Colors.transparent,
+        child: Stack(
+          children: [
+            // Dismissible background
+            GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: Container(
+                color: Colors.transparent,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+            // Image container
+            Center(
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                child: InteractiveViewer(
+                  panEnabled: true,
+                  boundaryMargin: const EdgeInsets.all(20),
+                  minScale: 0.5,
+                  maxScale: 4.0,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(color: Colors.white),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade800,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.error_outline,
+                              size: 48, color: Colors.white70),
+                          SizedBox(height: 8),
+                          Text('Failed to load image',
+                              style: TextStyle(color: Colors.white70)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // Close button
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 10,
+              right: 20,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  iconSize: 24,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final startDate =
         DateFormat('dd MMM yyyy').format(event.startDate as DateTime);
     final endDate = DateFormat('dd MMM yyyy').format(event.endDate as DateTime);
+    final imageUrl = event.imageUrl ?? Constants.kDefaultImageLink;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -33,15 +111,40 @@ class EventItemWidget extends ConsumerWidget {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: CachedNetworkImage(
-              imageUrl: event.imageUrl ?? Constants.kDefaultImageLink,
-              height: 250,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => Container(
-                height: 160,
-                color: Colors.grey.shade200,
-                child: const Icon(Icons.event, size: 40, color: Colors.grey),
+            child: GestureDetector(
+              onTap: () => _showFullScreenImage(context, imageUrl),
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    height: 250,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Container(
+                      height: 160,
+                      color: Colors.grey.shade200,
+                      child:
+                          const Icon(Icons.event, size: 40, color: Colors.grey),
+                    ),
+                  ),
+                  // Optional: Add a subtle overlay to indicate it's tappable
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Icon(
+                        Icons.fullscreen,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -97,3 +200,15 @@ class EventItemWidget extends ConsumerWidget {
     );
   }
 }
+
+// > trading businesses
+// > operates on tally
+
+// > can tally get online
+// > transactions are decentralised
+// > can get on tally remotely
+
+// >> Step 1: get it in the cloud
+// >> Step 2: get various people to post
+// >> Step 3: add more modules
+// >>
