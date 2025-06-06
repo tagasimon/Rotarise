@@ -16,7 +16,6 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
   final _screens = const [
     // HomeScreen(),
     DiscoverClubsScreen(),
-    // MembersScreen(),
     ProfileScreen(),
   ];
   @override
@@ -42,6 +41,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
           ),
+
           NavigationDestination(
             label: "Profile",
             icon: Icon(Icons.person_outline),

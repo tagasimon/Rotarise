@@ -29,6 +29,8 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   fluttertoast: ^8.2.12
   url_launcher: ^6.3.1
+  csv: ^6.0.0
+  # image_network: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -36,3 +38,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 flutter:  
   uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/fonts/
+    - assets/csv/

@@ -58,8 +58,19 @@ class ClubEventModel {
     };
   }
 
-  factory ClubEventModel.fromMap(DocumentSnapshot snapshot) {
-    final map = snapshot.data() as Map<String, dynamic>;
+  // from firestore
+  factory ClubEventModel.fromFirestore(DocumentSnapshot snapshot) {
+    final json = snapshot.data() as Map<String, dynamic>;
+    if (json.isEmpty) {
+      throw Exception('ClubEvent data is empty');
+    }
+    return ClubEventModel.fromMap(json);
+  }
+
+  factory ClubEventModel.fromMap(Map<String, dynamic> map) {
+    if (map.isEmpty) {
+      throw Exception('ClubEvent data is empty');
+    }
     return ClubEventModel(
       id: map['id'] as String,
       title: map['title'] as String,
@@ -75,7 +86,7 @@ class ClubEventModel {
   String toJson() => json.encode(toMap());
 
   factory ClubEventModel.fromJson(String source) =>
-      ClubEventModel.fromMap(json.decode(source) as DocumentSnapshot);
+      ClubEventModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

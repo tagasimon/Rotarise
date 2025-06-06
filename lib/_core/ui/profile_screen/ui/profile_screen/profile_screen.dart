@@ -34,7 +34,7 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: 20.0),
               const SocialMediaHandles(),
               const Text(
-                '© 2025 Rotaract Club of Kampala North.\nGalilee',
+                '© 2025 Rotaract Club of Kampala North',
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey,

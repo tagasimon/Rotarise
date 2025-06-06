@@ -43,8 +43,19 @@ class BuddyGroupModel {
     };
   }
 
-  factory BuddyGroupModel.fromMap(DocumentSnapshot snapshot) {
-    final map = snapshot.data() as Map<String, dynamic>;
+  // from firestore
+  factory BuddyGroupModel.fromFirestore(DocumentSnapshot snapshot) {
+    final json = snapshot.data() as Map<String, dynamic>;
+    if (json.isEmpty) {
+      throw Exception('Project data is empty');
+    }
+    return BuddyGroupModel.fromMap(json);
+  }
+
+  factory BuddyGroupModel.fromMap(Map<String, dynamic> map) {
+    if (map.isEmpty) {
+      throw Exception('BuddyGroup data is empty');
+    }
     return BuddyGroupModel(
       id: map['id'] as String,
       clubId: map['clubId'] as String,
@@ -58,7 +69,7 @@ class BuddyGroupModel {
   String toJson() => json.encode(toMap());
 
   factory BuddyGroupModel.fromJson(String source) =>
-      BuddyGroupModel.fromMap(json.decode(source) as DocumentSnapshot);
+      BuddyGroupModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/club_tab_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/error_screen_widget.dart';
 import 'package:rotaract/_core/shared_widgets/loading_screen_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_app_bar_widget.dart';
@@ -12,8 +11,7 @@ import 'package:rotaract/discover/ui/club_home_screen/widgets/stats_section_widg
 import 'package:rotaract/discover/ui/club_home_screen/widgets/tab_section_widget.dart';
 
 class ClubHomeScreen extends ConsumerStatefulWidget {
-  final String id;
-  const ClubHomeScreen({super.key, required this.id});
+  const ClubHomeScreen({super.key});
 
   @override
   ConsumerState<ClubHomeScreen> createState() => _ClubHomeScreenState();
@@ -49,8 +47,8 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final clubByIdProv = ref.watch(getClubByIdProvider(widget.id));
-
+    final clubByIdProv = ref.watch(getClubByIdProvider);
+    _tabController.index = ref.read(clubTabIndexProvider);
     return clubByIdProv.when(
       data: (club) {
         if (club == null) {
@@ -75,7 +73,6 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
         );
       },
       error: (error, stack) {
-        log("Error: $error, StackTrace: $stack");
         return const ErrorScreenWidget(
           error: "Failed to load club information",
         );

@@ -26,14 +26,16 @@ class ClubEventsRepo implements ClubEventsInterface {
   @override
   Future<List<ClubEventModel>> getAllEvents() async {
     final snapshot = await ref.orderBy('startDate', descending: true).get();
-    return snapshot.docs.map((doc) => ClubEventModel.fromMap(doc)).toList();
+    return snapshot.docs
+        .map((doc) => ClubEventModel.fromFirestore(doc))
+        .toList();
   }
 
   @override
   Future<ClubEventModel?> getEventById(String eventId) async {
     final doc = await ref.doc(eventId).get();
     if (doc.exists) {
-      return ClubEventModel.fromMap(doc);
+      return ClubEventModel.fromFirestore(doc);
     }
     return null;
   }
@@ -44,7 +46,9 @@ class ClubEventsRepo implements ClubEventsInterface {
         .where('clubId', isEqualTo: clubId)
         .orderBy('startDate', descending: true)
         .get();
-    return snapshot.docs.map((doc) => ClubEventModel.fromMap(doc)).toList();
+    return snapshot.docs
+        .map((doc) => ClubEventModel.fromFirestore(doc))
+        .toList();
   }
 
   @override

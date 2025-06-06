@@ -39,8 +39,8 @@ class AuthRepository {
     final firstTimeUser = ClubMemberModel(
       id: auth!.uid,
       email: auth.email!,
-      firstName: "First",
-      lastName: "Last",
+      firstName: "First Name",
+      lastName: "Last Name",
       // Defaults to Kampala North
       clubId: "0b65b229-2114-41e5-be04-d4d688ee08b5",
     );
@@ -50,7 +50,7 @@ class AuthRepository {
       if (!doc.exists) {
         ref.set(firstTimeUser.toMap());
       }
-      return ClubMemberModel.fromMap(doc);
+      return ClubMemberModel.fromFirestore(doc);
     });
   }
 
@@ -58,6 +58,6 @@ class AuthRepository {
     return _ref
         .doc(userId)
         .snapshots()
-        .map((doc) => ClubMemberModel.fromMap(doc));
+        .map((doc) => ClubMemberModel.fromFirestore(doc));
   }
 }

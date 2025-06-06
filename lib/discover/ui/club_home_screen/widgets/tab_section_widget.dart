@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_events_widget.dart';
-import 'package:rotaract/discover/ui/club_home_screen/widgets/club_info_card_widget.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/club_members_screen.dart';
 
 class TabSectionWidget extends StatelessWidget {
@@ -37,7 +36,7 @@ class TabSectionWidget extends StatelessWidget {
                 Tab(text: "POSTS"),
                 Tab(text: "EVENTS"),
                 Tab(text: "MEMBERS"),
-                Tab(text: "INFO"),
+                Tab(text: "PROJECTS"),
               ],
               labelColor: Colors.purple.shade600,
               unselectedLabelColor: Colors.grey.shade600,
@@ -52,7 +51,7 @@ class TabSectionWidget extends StatelessWidget {
                   _buildTabContent("No posts yet", Icons.article_outlined),
                   const ClubEventsWidget(),
                   const ClubMembersScreen(),
-                  const ClubInfoCardWidget(),
+                  _buildTabContent("No Projects yet", Icons.article_outlined),
                 ],
               ),
             ),

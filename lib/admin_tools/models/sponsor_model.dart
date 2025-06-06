@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class SponsorModel {
   final String id;
   final String name;
@@ -44,6 +46,15 @@ class SponsorModel {
       'websiteUrl': websiteUrl,
       'description': description,
     };
+  }
+
+  // from firestore
+  factory SponsorModel.fromFirestore(DocumentSnapshot snapshot) {
+    final json = snapshot.data() as Map<String, dynamic>;
+    if (json.isEmpty) {
+      throw Exception('Sponsor data is empty');
+    }
+    return SponsorModel.fromMap(json);
   }
 
   factory SponsorModel.fromMap(Map<String, dynamic> map) {

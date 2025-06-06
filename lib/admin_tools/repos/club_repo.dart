@@ -42,7 +42,7 @@ class ClubRepo implements ClubInterface {
     final ref = await _ref.where('id', isEqualTo: id).get();
 
     if (ref.docs.isNotEmpty) {
-      return ClubModel.fromMap(ref.docs.first);
+      return ClubModel.fromFirestore(ref.docs.first);
     }
     return null;
   }
@@ -51,7 +51,7 @@ class ClubRepo implements ClubInterface {
   @override
   Future<List<ClubModel>> getAllVerifiedClubs() async {
     final ref = await _ref.where('isVerified', isEqualTo: true).get();
-    return ref.docs.map((e) => ClubModel.fromMap(e)).toList();
+    return ref.docs.map((e) => ClubModel.fromFirestore(e)).toList();
   }
 
   // get all verified clubs by country
@@ -61,7 +61,7 @@ class ClubRepo implements ClubInterface {
         .where('isVerified', isEqualTo: true)
         .where('country', isEqualTo: country)
         .get();
-    return ref.docs.map((e) => ClubModel.fromMap(e)).toList();
+    return ref.docs.map((e) => ClubModel.fromFirestore(e)).toList();
   }
 
   // get all verified clubs by city
@@ -71,7 +71,7 @@ class ClubRepo implements ClubInterface {
         .where('isVerified', isEqualTo: true)
         .where('city', isEqualTo: city)
         .get();
-    return ref.docs.map((e) => ClubModel.fromMap(e)).toList();
+    return ref.docs.map((e) => ClubModel.fromFirestore(e)).toList();
   }
 
   @override

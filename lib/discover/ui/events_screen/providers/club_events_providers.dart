@@ -36,7 +36,7 @@ final getTotalEventsCountProvider = FutureProvider((ref) async {
 });
 
 // get total events by club id
-final getTotalEventsByClubIdProvider = FutureProvider.autoDispose((ref) async {
+final getTotalEventsByClubIdProvider = FutureProvider((ref) async {
   final cClub = ref.watch(selectedClubNotifierProvider);
   final repo = ref.watch(clubEventsRepoProvider);
   if (cClub == null) {

@@ -26,9 +26,7 @@ class ProfileAdminWidget extends ConsumerWidget {
               radius: 30.0,
               child: ClipOval(
                 child: cMember?.imageUrl != null
-                    ?
-                    // cached network image
-                    CachedNetworkImage(
+                    ? CachedNetworkImage(
                         imageUrl: cMember!.imageUrl!,
                         placeholder: (context, url) =>
                             const CircularProgressIndicator(),

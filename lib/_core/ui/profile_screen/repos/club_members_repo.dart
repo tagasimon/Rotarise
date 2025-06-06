@@ -38,7 +38,7 @@ class ClubMembersRepo extends ClubMemberInterface {
     final ref = await _ref.where('id', isEqualTo: id).get();
 
     if (ref.docs.isNotEmpty) {
-      return ClubMemberModel.fromMap(ref.docs.first);
+      return ClubMemberModel.fromFirestore(ref.docs.first);
     }
     return null;
   }
@@ -47,7 +47,9 @@ class ClubMembersRepo extends ClubMemberInterface {
   @override
   Future<List<ClubMemberModel>> getAllMembers() async {
     return await _ref.get().then((snapshot) {
-      return snapshot.docs.map((e) => ClubMemberModel.fromMap(e)).toList();
+      return snapshot.docs
+          .map((e) => ClubMemberModel.fromFirestore(e))
+          .toList();
     });
   }
 
@@ -55,7 +57,7 @@ class ClubMembersRepo extends ClubMemberInterface {
   @override
   Future<List<ClubMemberModel>> getAllMembersByClubId(String clubId) async {
     final ref = await _ref.where('clubId', isEqualTo: clubId).get();
-    return ref.docs.map((e) => ClubMemberModel.fromMap(e)).toList();
+    return ref.docs.map((e) => ClubMemberModel.fromFirestore(e)).toList();
   }
 
   @override

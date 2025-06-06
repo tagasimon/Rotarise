@@ -41,8 +41,7 @@ final totalMembersCountProvider = FutureProvider<int>((ref) async {
   return membersRepo.getTotalMembersCount();
 });
 // total members by club id
-final totalMembersByClubIdProvider =
-    FutureProvider.autoDispose<int>((ref) async {
+final totalMembersByClubIdProvider = FutureProvider<int>((ref) async {
   final cClub = ref.read(selectedClubNotifierProvider);
   final membersRepo = ref.watch(membersRepoProvider);
   if (cClub == null) {

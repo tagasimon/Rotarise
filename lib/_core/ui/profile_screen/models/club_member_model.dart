@@ -121,44 +121,46 @@ class ClubMemberModel {
     };
   }
 
-  factory ClubMemberModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>?;
-
-    if (data == null) {
-      throw Exception('Document data is null');
+  //     id: doc.id,
+  //     clubId: data['clubId'] as String?,
+  //     firstName: data['firstName'] as String? ?? '',
+  //     lastName: data['lastName'] as String? ?? '',
+  //     gender: data['gender'] as String?,
+  //     profession: data['profession'] as String?,
+  //     imageUrl: data['imageUrl'] as String?,
+  //     dateOfBirth: data['dateOfBirth']?.toDate(),
+  //     email: data['email'] as String?,
+  //     phoneNumber: data['phoneNumber'] as String?,
+  //     address: data['address'] as String?,
+  //     company: data['company'] as String?,
+  //     jobTitle: data['jobTitle'] as String?,
+  //     expertise: data['expertise'] != null
+  //         ? List<String>.from(data['expertise'] as List)
+  //         : null,
+  //     education: data['education'] != null
+  //         ? List<String>.from(data['education'] as List)
+  //         : null,
+  //     joinedDate: data['joinedDate']?.toDate(),
+  //     currentClubRole: data['currentClubRole'] as String?,
+  //     previousRoles: data['previousRoles'] != null
+  //         ? List<String>.from(data['previousRoles'] as List)
+  //         : null,
+  //   );
+  // }
+  // from firebase
+  factory ClubMemberModel.fromFirestore(DocumentSnapshot snapshot) {
+    final json = snapshot.data() as Map<String, dynamic>;
+    if (json.isEmpty) {
+      throw Exception('Project data is empty');
     }
-
-    return ClubMemberModel(
-      id: doc.id,
-      clubId: data['clubId'] as String?,
-      firstName: data['firstName'] as String? ?? '',
-      lastName: data['lastName'] as String? ?? '',
-      gender: data['gender'] as String?,
-      profession: data['profession'] as String?,
-      imageUrl: data['imageUrl'] as String?,
-      dateOfBirth: data['dateOfBirth']?.toDate(),
-      email: data['email'] as String?,
-      phoneNumber: data['phoneNumber'] as String?,
-      address: data['address'] as String?,
-      company: data['company'] as String?,
-      jobTitle: data['jobTitle'] as String?,
-      expertise: data['expertise'] != null
-          ? List<String>.from(data['expertise'] as List)
-          : null,
-      education: data['education'] != null
-          ? List<String>.from(data['education'] as List)
-          : null,
-      joinedDate: data['joinedDate']?.toDate(),
-      currentClubRole: data['currentClubRole'] as String?,
-      previousRoles: data['previousRoles'] != null
-          ? List<String>.from(data['previousRoles'] as List)
-          : null,
-    );
+    return ClubMemberModel.fromMap(json);
   }
 
   /// Create a MemberModel from a Map
-  factory ClubMemberModel.fromMap(DocumentSnapshot snapshot) {
-    final map = snapshot.data() as Map<String, dynamic>;
+  factory ClubMemberModel.fromMap(Map<String, dynamic> map) {
+    if (map.isEmpty) {
+      throw Exception('ClubMemberModel data is empty');
+    }
     return ClubMemberModel(
       id: map['id'] as String? ?? '',
       clubId: map['clubId'] as String?,
@@ -194,7 +196,7 @@ class ClubMemberModel {
   String toJson() => json.encode(toMap());
 
   factory ClubMemberModel.fromJson(String source) =>
-      ClubMemberModel.fromMap(json.decode(source) as DocumentSnapshot);
+      ClubMemberModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

@@ -24,9 +24,9 @@ class StatsSectionWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const MembersByClubCountWidget(),
+            const Expanded(child: MembersByClubCountWidget()),
             _buildStatDivider(),
-            const EventsByClubCountWidget(),
+            const Expanded(child: EventsByClubCountWidget()),
             _buildStatDivider(),
             // TODO Fix this
             _buildStatItem("Projects", "_", Icons.handshake_outlined),

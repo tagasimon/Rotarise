@@ -188,9 +188,9 @@ class EventItemWidget extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [ClubInfoWidget(clubId: event.clubId)],
+                  children: [ClubInfoWidget()],
                 ),
               ],
             ),
@@ -200,15 +200,3 @@ class EventItemWidget extends ConsumerWidget {
     );
   }
 }
-
-// > trading businesses
-// > operates on tally
-
-// > can tally get online
-// > transactions are decentralised
-// > can get on tally remotely
-
-// >> Step 1: get it in the cloud
-// >> Step 2: get various people to post
-// >> Step 3: add more modules
-// >>

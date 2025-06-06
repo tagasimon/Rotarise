@@ -1,11 +1,13 @@
 // Modern Club Item Widget
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
-import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/discover/ui/club_home_screen/club_home_screen.dart';
 
 class ClubItemWidget extends ConsumerWidget {
@@ -37,7 +39,7 @@ class ClubItemWidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
           onTap: () {
             ref.read(selectedClubNotifierProvider.notifier).updateClub(club);
-            context.push(ClubHomeScreen(id: club.id));
+            context.push(const ClubHomeScreen());
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -71,7 +73,7 @@ class ClubItemWidget extends ConsumerWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: CachedNetworkImage(
-          imageUrl: club.imageUrl ?? Constants.kDefaultImageLink,
+          imageUrl: club.coverImageUrl ?? Constants.kDefaultImageLink,
           fit: BoxFit.cover,
           errorWidget: (context, url, error) => Container(
             color: Colors.grey.shade200,

@@ -29,8 +29,9 @@ class ClubModel {
   final Object? foundedDate;
   final Object? createdAt;
   final bool isVerified;
-  // adminlist
-  // editorlist
+  // projectsCount
+  // membersCount
+  //  eventsCount
   ClubModel({
     required this.id,
     required this.name,
@@ -145,8 +146,19 @@ class ClubModel {
     };
   }
 
-  factory ClubModel.fromMap(DocumentSnapshot snapshot) {
-    final map = snapshot.data() as Map<String, dynamic>;
+  // from firestore
+  factory ClubModel.fromFirestore(DocumentSnapshot snapshot) {
+    final json = snapshot.data() as Map<String, dynamic>;
+    if (json.isEmpty) {
+      throw Exception('ClubModel data is empty');
+    }
+    return ClubModel.fromMap(json);
+  }
+
+  factory ClubModel.fromMap(Map<String, dynamic> map) {
+    if (map.isEmpty) {
+      throw Exception('Club data is empty');
+    }
     return ClubModel(
       id: map['id'] as String,
       name: map['name'] as String,
@@ -184,7 +196,7 @@ class ClubModel {
   String toJson() => json.encode(toMap());
 
   factory ClubModel.fromJson(String source) =>
-      ClubModel.fromMap(json.decode(source) as DocumentSnapshot);
+      ClubModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

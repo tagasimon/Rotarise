@@ -33,7 +33,7 @@ class RolesRepo implements RoleInterface {
     final ref = await _ref.where('id', isEqualTo: roleId).get();
 
     if (ref.docs.isNotEmpty) {
-      return ClubRole.fromMap(ref.docs.first);
+      return ClubRole.fromFirestore(ref.docs.first);
     }
     return null;
   }
@@ -43,7 +43,7 @@ class RolesRepo implements RoleInterface {
     final ref = await _ref.where('clubId', isEqualTo: clubId).get();
 
     if (ref.docs.isNotEmpty) {
-      return ref.docs.map((e) => ClubRole.fromMap(e)).toList();
+      return ref.docs.map((e) => ClubRole.fromFirestore(e)).toList();
     }
     return null;
   }

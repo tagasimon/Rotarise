@@ -40,6 +40,17 @@ class ProjectsTabWidget extends StatelessWidget {
         'color': Colors.cyan,
         'icon': Icons.water_drop,
       },
+      {
+        'title': 'Deserving Hope',
+        'description': '',
+        'progress': 0.04,
+        'raised': '\$10,000',
+        'target': '\$500,000',
+        'club': 'Rotaract Club of Gayaza',
+        'category': 'Water & Sanitation',
+        'color': Colors.purple,
+        'icon': Icons.water_drop,
+      },
     ];
 
     final project = mockProjects[index % mockProjects.length];
