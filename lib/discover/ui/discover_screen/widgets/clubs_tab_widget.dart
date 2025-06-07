@@ -19,9 +19,9 @@ class ClubsTabWidget extends ConsumerWidget {
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: clubs.length,
-            itemBuilder: (context, index) => ClubItemWidget(
-              club: clubs[index],
-            ),
+            itemBuilder: (_, index) {
+              return ClubItemWidget(club: clubs[index]);
+            },
           ),
         );
       },

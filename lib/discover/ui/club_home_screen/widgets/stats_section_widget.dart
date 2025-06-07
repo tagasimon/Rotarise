@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rotaract/discover/ui/club_home_screen/widgets/events_by_club_count_widget.dart';
-import 'package:rotaract/discover/ui/club_home_screen/widgets/members_by_club_count_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/club_tab_notifier.dart';
+import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
+import 'package:rotaract/discover/ui/discover_screen/widgets/stat_card_widget.dart';
 
-class StatsSectionWidget extends StatelessWidget {
+class StatsSectionWidget extends ConsumerWidget {
   const StatsSectionWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cClub = ref.watch(selectedClubNotifierProvider);
     return SliverToBoxAdapter(
       child: Container(
         margin: const EdgeInsets.all(16),
@@ -24,9 +27,27 @@ class StatsSectionWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Expanded(child: MembersByClubCountWidget()),
+            Expanded(
+              // child: MembersByClubCountWidget(),
+              child: StatCardWidget(
+                  onTap: () =>
+                      ref.read(clubTabIndexProvider.notifier).setTabIndex(0),
+                  number: "${cClub?.membersCount ?? 0}",
+                  label: "Members",
+                  icon: Icons.group,
+                  color: Colors.purple.shade400),
+            ),
             _buildStatDivider(),
-            const Expanded(child: EventsByClubCountWidget()),
+            Expanded(
+              // child: EventsByClubCountWidget(),
+              child: StatCardWidget(
+                  onTap: () =>
+                      ref.read(clubTabIndexProvider.notifier).setTabIndex(1),
+                  number: "${cClub?.eventsCount ?? 0}",
+                  label: "Events",
+                  icon: Icons.event,
+                  color: Colors.green.shade400),
+            ),
             _buildStatDivider(),
             // TODO Fix this
             _buildStatItem("Projects", "_", Icons.handshake_outlined),

@@ -16,8 +16,7 @@ class EventsScreen extends ConsumerWidget {
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: events.length,
-            itemBuilder: (context, index) =>
-                EventItemWidget(event: events[index]),
+            itemBuilder: (_, index) => EventItemWidget(event: events[index]),
             physics: const BouncingScrollPhysics(),
           ),
         );

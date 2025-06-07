@@ -194,7 +194,6 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                   ),
                 ),
               ),
-
               // Content
               SliverToBoxAdapter(
                 child: Padding(
@@ -287,7 +286,6 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                           ),
                         ),
                       ),
-                      // Empty State
                       if (_filteredClubs.isEmpty && _isSearching)
                         FadeTransition(
                           opacity: _fadeAnimation,
@@ -364,7 +362,6 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                             ),
                           ),
                         ),
-
                       // Clubs Grid
                       if (_filteredClubs.isNotEmpty)
                         FadeTransition(
@@ -374,7 +371,7 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: _filteredClubs.length,
                             separatorBuilder: (context, index) =>
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 5),
                             itemBuilder: (context, index) {
                               return Container(
                                 decoration: BoxDecoration(

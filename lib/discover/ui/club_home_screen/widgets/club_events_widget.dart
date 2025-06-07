@@ -11,6 +11,11 @@ class ClubEventsWidget extends ConsumerWidget {
     final eventsProvider = ref.watch(clubEventsByClubIdProvider);
     return eventsProvider.when(
       data: (events) {
+        if (events.isEmpty) {
+          return const Center(
+            child: Text("No Events"),
+          );
+        }
         return Container(
           margin: const EdgeInsets.only(top: 20),
           child: ListView.builder(

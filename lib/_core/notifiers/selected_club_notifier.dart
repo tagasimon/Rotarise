@@ -10,8 +10,12 @@ class SelectedClubNotifier extends StateNotifier<ClubModel?> {
   SelectedClubNotifier() : super(null);
 
   // update selected club
-  void updateClub(ClubModel? club) => state = club;
+  void updateClub(ClubModel? club) {
+    state = club;
+  }
 
   // reset selected club
-  void resetClub() => state = null;
+  void resetClub() {
+    state = null;
+  }
 }

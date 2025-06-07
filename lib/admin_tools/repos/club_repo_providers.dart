@@ -9,10 +9,15 @@ final clubRepoProvider = Provider<ClubRepo>((ref) {
 });
 
 // get a club by id
-final getClubByIdProvider = FutureProvider((ref) async {
+final getClubByIdProvider = FutureProvider.autoDispose((ref) async {
   final cClub = ref.read(selectedClubNotifierProvider);
 
   return ref.read(clubRepoProvider).getClubById(cClub!.id);
+});
+
+final getEventClubByIdProvider =
+    FutureProvider.autoDispose.family((ref, String clubId) async {
+  return ref.read(clubRepoProvider).getClubById(clubId);
 });
 
 // get all verified clubs

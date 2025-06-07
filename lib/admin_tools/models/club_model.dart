@@ -29,12 +29,13 @@ class ClubModel {
   final Object? foundedDate;
   final Object? createdAt;
   final bool isVerified;
-  // projectsCount
-  // membersCount
-  //  eventsCount
+  final int? projectsCount;
+  final int? membersCount;
+  final int? eventsCount;
   ClubModel({
     required this.id,
     required this.name,
+    required this.isVerified,
     this.nickName,
     this.description,
     this.imageUrl,
@@ -57,7 +58,9 @@ class ClubModel {
     this.meetingTime,
     this.foundedDate,
     this.createdAt,
-    required this.isVerified,
+    this.eventsCount,
+    this.membersCount,
+    this.projectsCount,
   });
 
   ClubModel copyWith({
@@ -86,6 +89,9 @@ class ClubModel {
     Object? foundedDate,
     Object? createdAt,
     bool? isVerified,
+    int? projectsCount,
+    int? membersCount,
+    int? eventsCount,
   }) {
     return ClubModel(
       id: id ?? this.id,
@@ -113,6 +119,9 @@ class ClubModel {
       foundedDate: foundedDate ?? this.foundedDate,
       createdAt: createdAt ?? this.createdAt,
       isVerified: isVerified ?? this.isVerified,
+      projectsCount: projectsCount ?? this.projectsCount,
+      membersCount: membersCount ?? this.membersCount,
+      eventsCount: eventsCount ?? this.eventsCount,
     );
   }
 
@@ -143,6 +152,9 @@ class ClubModel {
       'foundedDate': foundedDate,
       'createdAt': createdAt,
       'isVerified': isVerified,
+      'projectsCount': projectsCount,
+      'membersCount': membersCount,
+      'eventsCount': eventsCount,
     };
   }
 
@@ -190,6 +202,15 @@ class ClubModel {
       foundedDate: map['foundedDate']?.toDate(),
       createdAt: map['createdAt']?.toDate(),
       isVerified: map['isVerified'] as bool,
+      projectsCount: map['projectsCount'] != null
+          ? int.parse(map['projectsCount'].toString())
+          : null,
+      membersCount: map['membersCount'] != null
+          ? int.parse(map['membersCount'].toString())
+          : null,
+      eventsCount: map['eventsCount'] != null
+          ? int.parse(map['eventsCount'].toString())
+          : null,
     );
   }
 
@@ -200,7 +221,7 @@ class ClubModel {
 
   @override
   String toString() {
-    return 'ClubModel(id: $id, name: $name, nickName: $nickName, description: $description, imageUrl: $imageUrl, coverImageUrl: $coverImageUrl, email: $email, phone: $phone, website: $website, facebook: $facebook, instagram: $instagram, twitter: $twitter, linkedin: $linkedin, youtube: $youtube, whatsapp: $whatsapp, location: $location, country: $country, city: $city, address: $address, postalCode: $postalCode, meetingDay: $meetingDay, meetingTime: $meetingTime, foundedDate: $foundedDate, createdAt: $createdAt, isVerified: $isVerified)';
+    return 'ClubModel(id: $id, name: $name, nickName: $nickName, description: $description, imageUrl: $imageUrl, coverImageUrl: $coverImageUrl, email: $email, phone: $phone, website: $website, facebook: $facebook, instagram: $instagram, twitter: $twitter, linkedin: $linkedin, youtube: $youtube, whatsapp: $whatsapp, location: $location, country: $country, city: $city, address: $address, postalCode: $postalCode, meetingDay: $meetingDay, meetingTime: $meetingTime, foundedDate: $foundedDate, createdAt: $createdAt, isVerified: $isVerified, projectsCount: $projectsCount, membersCount: $membersCount, eventsCount: $eventsCount)';
   }
 
   @override
@@ -231,7 +252,10 @@ class ClubModel {
         other.meetingTime == meetingTime &&
         other.foundedDate == foundedDate &&
         other.createdAt == createdAt &&
-        other.isVerified == isVerified;
+        other.isVerified == isVerified &&
+        other.projectsCount == projectsCount &&
+        other.membersCount == membersCount &&
+        other.eventsCount == eventsCount;
   }
 
   @override
@@ -260,6 +284,9 @@ class ClubModel {
         meetingTime.hashCode ^
         foundedDate.hashCode ^
         createdAt.hashCode ^
-        isVerified.hashCode;
+        isVerified.hashCode ^
+        projectsCount.hashCode ^
+        membersCount.hashCode ^
+        eventsCount.hashCode;
   }
 }

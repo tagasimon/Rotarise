@@ -25,7 +25,11 @@ class ClubEventsRepo implements ClubEventsInterface {
 
   @override
   Future<List<ClubEventModel>> getAllEvents() async {
-    final snapshot = await ref.orderBy('startDate', descending: true).get();
+    // Get events where endDate is greater than current date
+    final snapshot = await ref
+        .where('endDate', isGreaterThan: DateTime.now())
+        .orderBy('startDate', descending: true)
+        .get();
     return snapshot.docs
         .map((doc) => ClubEventModel.fromFirestore(doc))
         .toList();
@@ -44,6 +48,7 @@ class ClubEventsRepo implements ClubEventsInterface {
   Future<List<ClubEventModel>> getEventsByClubId(String clubId) async {
     final snapshot = await ref
         .where('clubId', isEqualTo: clubId)
+        .where('endDate', isGreaterThan: DateTime.now())
         .orderBy('startDate', descending: true)
         .get();
     return snapshot.docs
