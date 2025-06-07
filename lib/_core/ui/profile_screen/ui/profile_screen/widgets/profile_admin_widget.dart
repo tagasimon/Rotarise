@@ -16,7 +16,7 @@ class ProfileAdminWidget extends ConsumerWidget {
         side: BorderSide(color: Colors.grey.shade400, width: 1),
         borderRadius: BorderRadius.circular(10),
       ),
-      elevation: 2.0,
+      elevation: 5.0,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
@@ -28,9 +28,7 @@ class ProfileAdminWidget extends ConsumerWidget {
               radius: 30.0,
               child: ClipOval(
                 child: cMember?.imageUrl != null
-                    ?
-                    // cached network image
-                    CachedNetworkImage(
+                    ? CachedNetworkImage(
                         imageUrl: cMember!.imageUrl!,
                         placeholder: (context, url) =>
                             const CircularProgressIndicator(),

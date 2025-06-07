@@ -14,6 +14,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(authControllerProvider);
     return Scaffold(
+        // backgroundColor: Colors.white,
         body: NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         const ModernAppBarWidget(
