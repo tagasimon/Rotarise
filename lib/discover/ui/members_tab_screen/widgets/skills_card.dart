@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/discover/ui/members_tab_screen/widgets/skill_chip.dart';
+
+class SkillsCard extends ConsumerWidget {
+  final String title;
+  final List<String> items;
+  final Color accentColor;
+  final bool isDark;
+  const SkillsCard(
+      {super.key,
+      required this.title,
+      required this.items,
+      required this.accentColor,
+      required this.isDark});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: isDark ? Colors.grey[850] : Colors.white,
+        border: Border.all(
+          color: accentColor.withOpacity(0.2),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: accentColor.withOpacity(0.1),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: accentColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.school_outlined,
+                  color: accentColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white : Colors.grey[800],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: items
+                .map((item) => SkillChip(label: item, accentColor: accentColor))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
