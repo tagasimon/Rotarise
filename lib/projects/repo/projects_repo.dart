@@ -69,4 +69,9 @@ class ProjectsRepo implements ProjectsInterface {
       }
     });
   }
+
+  @override
+  Future<int> getTotalProjectsCount() {
+    return _ref.count().get().then((value) => value.count ?? 0);
+  }
 }

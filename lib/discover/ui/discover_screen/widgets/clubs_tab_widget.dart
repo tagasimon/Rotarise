@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/admin_tools/repos/club_repo_providers.dart';
+import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/club_item_widget.dart';
 
 class ClubsTabWidget extends ConsumerWidget {

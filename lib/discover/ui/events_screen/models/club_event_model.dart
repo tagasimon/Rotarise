@@ -11,7 +11,6 @@ class ClubEventModel {
   final String location;
   final String clubId;
   final String? imageUrl;
-  final String? inCharge;
   ClubEventModel({
     required this.id,
     required this.title,
@@ -20,7 +19,6 @@ class ClubEventModel {
     required this.location,
     required this.clubId,
     this.imageUrl,
-    this.inCharge,
   });
 
   ClubEventModel copyWith({
@@ -31,7 +29,6 @@ class ClubEventModel {
     String? location,
     String? clubId,
     String? imageUrl,
-    String? inCharge,
   }) {
     return ClubEventModel(
       id: id ?? this.id,
@@ -41,7 +38,6 @@ class ClubEventModel {
       location: location ?? this.location,
       clubId: clubId ?? this.clubId,
       imageUrl: imageUrl ?? this.imageUrl,
-      inCharge: inCharge ?? this.inCharge,
     );
   }
 
@@ -54,7 +50,6 @@ class ClubEventModel {
       'location': location,
       'clubId': clubId,
       'imageUrl': imageUrl,
-      'inCharge': inCharge,
     };
   }
 
@@ -68,9 +63,6 @@ class ClubEventModel {
   }
 
   factory ClubEventModel.fromMap(Map<String, dynamic> map) {
-    if (map.isEmpty) {
-      throw Exception('ClubEvent data is empty');
-    }
     return ClubEventModel(
       id: map['id'] as String,
       title: map['title'] as String,
@@ -79,7 +71,6 @@ class ClubEventModel {
       location: map['location'] as String,
       clubId: map['clubId'] as String,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
-      inCharge: map['inCharge'] != null ? map['inCharge'] as String : null,
     );
   }
 
@@ -90,7 +81,7 @@ class ClubEventModel {
 
   @override
   String toString() {
-    return 'ClubEventModel(id: $id, title: $title, startDate: $startDate, endDate: $endDate, location: $location, clubId: $clubId, imageUrl: $imageUrl, inCharge: $inCharge)';
+    return 'ClubEventModel(id: $id, title: $title, startDate: $startDate, endDate: $endDate, location: $location, clubId: $clubId, imageUrl: $imageUrl)';
   }
 
   @override
@@ -103,8 +94,7 @@ class ClubEventModel {
         other.endDate == endDate &&
         other.location == location &&
         other.clubId == clubId &&
-        other.imageUrl == imageUrl &&
-        other.inCharge == inCharge;
+        other.imageUrl == imageUrl;
   }
 
   @override
@@ -115,7 +105,6 @@ class ClubEventModel {
         endDate.hashCode ^
         location.hashCode ^
         clubId.hashCode ^
-        imageUrl.hashCode ^
-        inCharge.hashCode;
+        imageUrl.hashCode;
   }
 }

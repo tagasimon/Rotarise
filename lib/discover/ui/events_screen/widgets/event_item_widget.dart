@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/shared_widgets/club_info_widget.dart';
 import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EventItemWidget extends ConsumerWidget {
   final ClubEventModel event;
@@ -184,20 +182,18 @@ class EventItemWidget extends ConsumerWidget {
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: () async {
-                        final encodedLocation =
-                            Uri.encodeComponent(event.location);
+                        // TODO Fix this
+                        //                       final encodedLocation = Uri.encodeComponent(locationName);
 
-                        final url = kIsWeb
-                            ? Uri.parse(
-                                'https://www.google.com/maps/dir/?api=1&destination=$encodedLocation')
-                            : Uri.parse('google.navigation:q=$encodedLocation');
+                        // final url = kIsWeb
+                        //     ? Uri.parse('https://www.google.com/maps/dir/?api=1&destination=$encodedLocation')
+                        //     : Uri.parse('google.navigation:q=$encodedLocation');
 
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(url,
-                              mode: LaunchMode.externalApplication);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
+                        // if (await canLaunchUrl(url)) {
+                        //   await launchUrl(url, mode: LaunchMode.externalApplication);
+                        // } else {
+                        //   throw 'Could not launch $url';
+                        // }
                       },
                       child: Text(
                         event.location,

@@ -7,17 +7,15 @@ import 'package:flutter/foundation.dart';
 class ClubRole {
   final String id;
   final String clubId;
-  final String roleTitle;
-  final String? roleDescription;
-  final bool isActive;
+  final String title;
+  final String? description;
   final List<dynamic> responsibilities;
   final Object createdAt;
   ClubRole({
     required this.id,
     required this.clubId,
-    required this.roleTitle,
-    this.roleDescription,
-    required this.isActive,
+    required this.title,
+    this.description,
     required this.responsibilities,
     required this.createdAt,
   });
@@ -25,18 +23,16 @@ class ClubRole {
   ClubRole copyWith({
     String? id,
     String? clubId,
-    String? roleTitle,
-    String? roleDescription,
-    bool? isActive,
+    String? title,
+    String? description,
     List<dynamic>? responsibilities,
     Object? createdAt,
   }) {
     return ClubRole(
       id: id ?? this.id,
       clubId: clubId ?? this.clubId,
-      roleTitle: roleTitle ?? this.roleTitle,
-      roleDescription: roleDescription ?? this.roleDescription,
-      isActive: isActive ?? this.isActive,
+      title: title ?? this.title,
+      description: description ?? this.description,
       responsibilities: responsibilities ?? this.responsibilities,
       createdAt: createdAt ?? this.createdAt,
     );
@@ -46,9 +42,8 @@ class ClubRole {
     return <String, dynamic>{
       'id': id,
       'clubId': clubId,
-      'roleTitle': roleTitle,
-      'roleDescription': roleDescription,
-      'isActive': isActive,
+      'title': title,
+      'description': description,
       'responsibilities': responsibilities,
       'createdAt': createdAt,
     };
@@ -64,17 +59,12 @@ class ClubRole {
   }
 
   factory ClubRole.fromMap(Map<String, dynamic> map) {
-    if (map.isEmpty) {
-      throw Exception('ClubRole data is empty');
-    }
     return ClubRole(
       id: map['id'] as String,
-      roleTitle: map['roleTitle'] as String,
       clubId: map['clubId'] as String,
-      roleDescription: map['roleDescription'] != null
-          ? map['roleDescription'] as String
-          : null,
-      isActive: map['isActive'] as bool,
+      title: map['title'] as String,
+      description:
+          map['description'] != null ? map['description'] as String : null,
       responsibilities:
           List<dynamic>.from((map['responsibilities'] as List<dynamic>)),
       createdAt: map['createdAt'].toDate(),
@@ -88,7 +78,7 @@ class ClubRole {
 
   @override
   String toString() {
-    return 'ClubRole(id: $id, clubId: $clubId, roleTitle: $roleTitle, roleDescription: $roleDescription, isActive: $isActive, responsibilities: $responsibilities, createdAt: $createdAt)';
+    return 'ClubRole(id: $id, clubId: $clubId, title: $title, description: $description, responsibilities: $responsibilities, createdAt: $createdAt)';
   }
 
   @override
@@ -97,9 +87,8 @@ class ClubRole {
 
     return other.id == id &&
         other.clubId == clubId &&
-        other.roleTitle == roleTitle &&
-        other.roleDescription == roleDescription &&
-        other.isActive == isActive &&
+        other.title == title &&
+        other.description == description &&
         listEquals(other.responsibilities, responsibilities) &&
         other.createdAt == createdAt;
   }
@@ -108,9 +97,8 @@ class ClubRole {
   int get hashCode {
     return id.hashCode ^
         clubId.hashCode ^
-        roleTitle.hashCode ^
-        roleDescription.hashCode ^
-        isActive.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
         responsibilities.hashCode ^
         createdAt.hashCode;
   }

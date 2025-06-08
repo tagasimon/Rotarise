@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/tab_index_notifier.dart';
+import 'package:rotaract/admin_tools/news_feed/news_feed_screen/news_feed_screen.dart';
 
 import 'package:rotaract/discover/ui/discover_screen/discover_clubs_screen.dart';
 import 'package:rotaract/_core/ui/profile_screen/ui/profile_screen/profile_screen.dart';
@@ -14,9 +15,10 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen>
     with TickerProviderStateMixin {
-  final _screens = const [
-    DiscoverClubsScreen(),
-    ProfileScreen(),
+  final _screens = [
+    const NewsFeedScreen(),
+    const DiscoverClubsScreen(),
+    const ProfileScreen(),
   ];
 
   late AnimationController _animationController;
@@ -108,13 +110,21 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen>
               _buildModernDestination(
                 index: 0,
                 currentIndex: tabIndex,
+                icon: Icons.home_outlined,
+                selectedIcon: Icons.home,
+                label: "Feed",
+                primaryColor: theme.primaryColor,
+              ),
+              _buildModernDestination(
+                index: 1,
+                currentIndex: tabIndex,
                 icon: Icons.explore_outlined,
                 selectedIcon: Icons.explore,
                 label: "Discover",
                 primaryColor: theme.primaryColor,
               ),
               _buildModernDestination(
-                index: 1,
+                index: 2,
                 currentIndex: tabIndex,
                 icon: Icons.person_outline_rounded,
                 selectedIcon: Icons.person_rounded,

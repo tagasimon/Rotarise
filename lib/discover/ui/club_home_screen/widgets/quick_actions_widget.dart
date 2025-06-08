@@ -44,8 +44,8 @@ class QuickActionsWidget extends StatelessWidget {
               ),
             Expanded(
               child: ClubActionWidget(
-                icon: FontAwesomeIcons.info,
-                label: 'Info',
+                icon: FontAwesomeIcons.diamondTurnRight,
+                label: 'Directions',
                 color: Colors.purple.shade600,
                 onTap: () {
                   // TODO Show scrollable pop up sheet of the club info

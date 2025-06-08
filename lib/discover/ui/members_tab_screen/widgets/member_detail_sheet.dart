@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:rotaract/_core/extensions/extensions.dart';
 
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
+import 'package:rotaract/_core/ui/profile_screen/ui/edit_profile_screen/edit_profile_screen.dart';
 
 class MemberDetailSheet extends ConsumerStatefulWidget {
   final ClubMemberModel member;
-  const MemberDetailSheet({super.key, required this.member});
+  final bool isProfileScreen;
+  const MemberDetailSheet(
+      {super.key, required this.member, this.isProfileScreen = true});
 
   @override
   ConsumerState<MemberDetailSheet> createState() => _MemberDetailSheetState();
@@ -81,20 +85,14 @@ class _MemberDetailSheetState extends ConsumerState<MemberDetailSheet>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: isDark
-                ? [
-                    Colors.grey[900]!,
-                    Colors.black,
-                  ]
-                : [
-                    Colors.white,
-                    Colors.grey[50]!,
-                  ],
+                ? [Colors.grey[900]!, Colors.black]
+                : [Colors.white, Colors.grey[50]!],
           ),
         ),
         child: Column(
           children: [
-            _buildDragIndicator(),
-            _buildHeader(isDark),
+            if (widget.isProfileScreen) _buildDragIndicator(),
+            if (widget.isProfileScreen) _buildHeader(isDark),
             Expanded(
               child: FadeTransition(
                 opacity: _fadeAnimation,
@@ -110,7 +108,8 @@ class _MemberDetailSheetState extends ConsumerState<MemberDetailSheet>
                         const SizedBox(height: 32),
                         _buildInfoSections(theme, isDark),
                         const SizedBox(height: 32),
-                        _buildActionButtons(isDark),
+                        if (!widget.isProfileScreen)
+                          _buildActionButtons(isDark),
                         const SizedBox(height: 32),
                       ],
                     ),
@@ -309,6 +308,34 @@ class _MemberDetailSheetState extends ConsumerState<MemberDetailSheet>
                 ),
               ),
             ),
+            if (!widget.isProfileScreen)
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () => context
+                        .push(EditProfileEditPage(member: widget.member)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF667eea),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ],
       ),

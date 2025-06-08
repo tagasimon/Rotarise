@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class ModernAppBarWidget extends StatelessWidget {
   final String title;
   final String subtitle;
+  final List<Widget>? actions;
+  final Widget? leading;
   const ModernAppBarWidget(
-      {super.key, required this.title, required this.subtitle});
+      {super.key,
+      required this.title,
+      required this.subtitle,
+      this.actions,
+      this.leading});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +21,8 @@ class ModernAppBarWidget extends StatelessWidget {
       elevation: 0,
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.transparent,
+      actions: actions,
+      leading: leading,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: const BoxDecoration(
@@ -32,7 +40,9 @@ class ModernAppBarWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: leading != null
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,

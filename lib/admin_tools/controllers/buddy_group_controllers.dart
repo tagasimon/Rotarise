@@ -5,16 +5,15 @@ import 'package:rotaract/admin_tools/repos/club_roles_repo.dart';
 
 // role controller provider
 final roleControllerProvider =
-    StateNotifierProvider<RoleControllerNotifier, AsyncValue>(
-  (ref) => RoleControllerNotifier(ref.watch(clubRolesRepoProvider)),
+    StateNotifierProvider<BuddyGroupControllers, AsyncValue>(
+  (ref) => BuddyGroupControllers(ref.watch(clubRolesRepoProvider)),
 );
 
-class RoleControllerNotifier extends StateNotifier<AsyncValue> {
+class BuddyGroupControllers extends StateNotifier<AsyncValue> {
   final ClubRolesRepo _repo;
-  RoleControllerNotifier(this._repo) : super(const AsyncData([]));
+  BuddyGroupControllers(this._repo) : super(const AsyncData([]));
 
-  // add a new role
-  Future<bool> addRole(ClubRole role) async {
+  Future<bool> addBuddyGroup(ClubRole role) async {
     state = const AsyncLoading();
     try {
       await _repo.createRole(role);
@@ -26,7 +25,6 @@ class RoleControllerNotifier extends StateNotifier<AsyncValue> {
     }
   }
 
-  // update a role
   Future<bool> updateRole(ClubRole role) async {
     state = const AsyncLoading();
     try {
@@ -38,15 +36,4 @@ class RoleControllerNotifier extends StateNotifier<AsyncValue> {
       return false;
     }
   }
-
-  // delete a role
-  // Future<void> deleteRole(String roleId) async {
-  //   state = const AsyncLoading();
-  //   try {
-  //     await _repo.deleteRole(roleId);
-  //     state = const AsyncData([]);
-  //   } catch (e, s) {
-  //     state = AsyncError(e, s);
-  //   }
-  // }
 }

@@ -1,67 +1,130 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/controllers/auth_controller.dart';
-import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
-import 'package:rotaract/_core/ui/profile_screen/ui/profile_screen/widgets/profile_admin_widget.dart';
-import 'package:rotaract/_core/ui/profile_screen/ui/profile_screen/widgets/profile_menu_widget.dart';
-import 'package:rotaract/_core/ui/profile_screen/ui/profile_screen/widgets/social_media_handles.dart';
-import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/admin_tools/ui/admin_tools/admin_tools_screen.dart';
+import 'package:rotaract/discover/ui/members_tab_screen/widgets/member_detail_sheet.dart';
 
-class ProfileScreen extends ConsumerWidget {
-  static const String route = "/NewProfileScreen";
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authControllerProvider);
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends ConsumerState<ProfileScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cUser = ref.watch(currentUserNotifierProvider);
     return Scaffold(
-        // backgroundColor: Colors.white,
-        body: NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        const ModernAppBarWidget(
-          title: "Profile",
-          subtitle: "Manage your profile and settings",
-        ),
-      ],
-      body: Container(
-        margin: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const ProfileAdminWidget(),
-              const SizedBox(height: 10.0),
-              const ProfileMenuWidget(),
-              const SizedBox(height: 20.0),
-              const SocialMediaHandles(),
-              const Text(
-                '© 2025 Rotaract Club of Kampala North',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const Text("v ${Constants.kAppVersion}"),
-              TextButton.icon(
-                onPressed: state.isLoading
-                    ? null
-                    : () async {
-                        await ref
-                            .read(authControllerProvider.notifier)
-                            .signOut();
-                      },
-                label: state.isLoading
-                    ? const CircularProgressIndicator()
-                    : const Text("Log Out"),
-                icon: const Icon(Icons.logout),
-                style: TextButton.styleFrom(foregroundColor: Colors.red),
-              ),
-            ],
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: AppBar(
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          TextButton.icon(
+            onPressed: () => context.push(const AdminToolsScreen()),
+            label: const Text(
+              "Admin",
+              style: TextStyle(color: Colors.white),
+            ),
+            icon: const Icon(
+              Icons.admin_panel_settings,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
-    ));
+      body: Column(
+        children: [
+          // Header section with subtitle
+          Container(
+            width: double.infinity,
+            color: Theme.of(context).primaryColor,
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+            child: const Text(
+              "Manage your profile and settings",
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+              ),
+            ),
+          ),
+
+          // Main content area
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: SlideTransition(
+                  position: _slideAnimation,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Column(
+                        children: [
+                          if (cUser != null)
+                            MemberDetailSheet(
+                              member: cUser,
+                              isProfileScreen: false,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

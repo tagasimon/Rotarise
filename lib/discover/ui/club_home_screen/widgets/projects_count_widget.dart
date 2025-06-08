@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/discover_tab_index_notifier.dart';
-import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/stat_card_widget.dart';
+import 'package:rotaract/projects/providers/projects_provider.dart';
 
-class ClubsCountWidget extends ConsumerWidget {
-  const ClubsCountWidget({super.key});
+class ProjectsCountWidget extends ConsumerWidget {
+  const ProjectsCountWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final countProv = ref.watch(getTotalClubsCountProvider);
+    final countProv = ref.watch(getTotalProjectsCountProvider);
     return GestureDetector(
       onTap: () {
-        ref.read(discoverTabIndexProvider.notifier).setTabIndex(0);
+        ref.read(discoverTabIndexProvider.notifier).setTabIndex(2);
       },
       child: countProv.when(data: (count) {
         return StatCardWidget(
             number: "$count",
-            label: "Clubs",
-            icon: Icons.groups_outlined,
-            color: Colors.blue.shade400);
+            label: "Projects",
+            icon: Icons.event,
+            color: Colors.green.shade400);
       }, error: (e, s) {
         return StatCardWidget(
             number: "_",
-            label: "Clubs",
+            label: "Projects",
             icon: Icons.groups_outlined,
             color: Colors.blue.shade400);
       }, loading: () {
         return StatCardWidget(
             number: "...",
-            label: "Clubs",
-            icon: Icons.groups_outlined,
+            label: "Projects",
+            icon: Icons.event,
             color: Colors.blue.shade400);
       }),
     );

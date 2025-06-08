@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rotaract/admin_tools/domain/role_interface.dart';
 import 'package:rotaract/admin_tools/models/club_role.dart';
 
-class RolesRepo implements RoleInterface {
+class ClubRolesRepo implements RoleInterface {
   final CollectionReference _ref;
-  RolesRepo(this._ref);
+  ClubRolesRepo(this._ref);
   @override
   Future<void> createRole(ClubRole role) async {
     await _ref.add(role.toMap());

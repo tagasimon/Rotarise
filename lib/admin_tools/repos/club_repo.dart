@@ -16,10 +16,7 @@ class ClubRepo implements ClubInterface {
   // update a club
   @override
   Future<void> updateClub(ClubModel club) async {
-    final ref = await _ref
-        .where('id', isEqualTo: club.id)
-        .where('id', isEqualTo: club.id)
-        .get();
+    final ref = await _ref.where('id', isEqualTo: club.id).get();
 
     if (ref.docs.isNotEmpty) {
       await ref.docs.first.reference.update(club.toMap());

@@ -13,22 +13,26 @@ class ClubEventsController extends StateNotifier<AsyncValue> {
   final ClubEventsRepo _repo;
   ClubEventsController(this._repo) : super(const AsyncValue.loading());
 
-  Future<void> addEvent({required ClubEventModel event}) async {
+  Future<bool> addEvent({required ClubEventModel event}) async {
     try {
       await _repo.addEvent(event: event);
       state = const AsyncValue.data(null);
+      return true;
     } catch (e, s) {
       state = AsyncValue.error(e, s);
+      return false;
     }
   }
 
   // update an event
-  Future<void> updateEvent({required ClubEventModel event}) async {
+  Future<bool> updateEvent({required ClubEventModel event}) async {
     try {
       await _repo.updateEvent(event: event);
       state = const AsyncValue.data(null);
+      return true;
     } catch (e, s) {
       state = AsyncValue.error(e, s);
+      return true;
     }
   }
 

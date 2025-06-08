@@ -24,3 +24,8 @@ final projectsByClubIdProvider =
     FutureProvider.family<List<ProjectModel>?, String>((ref, clubId) {
   return ref.watch(projectsRepoProvider).getProjectsByClubId(clubId);
 });
+
+// get total projects count
+final getTotalProjectsCountProvider = FutureProvider((ref) async {
+  return ref.read(projectsRepoProvider).getTotalProjectsCount();
+});

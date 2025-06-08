@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/club_tab_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/error_screen_widget.dart';
 import 'package:rotaract/_core/shared_widgets/loading_screen_widget.dart';
-import 'package:rotaract/admin_tools/repos/club_repo_providers.dart';
+import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_about_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_app_bar_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_events_widget.dart';

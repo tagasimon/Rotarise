@@ -7,12 +7,14 @@ class BuddyGroupModel {
   final String id;
   final String clubId;
   final String name;
+  final String addedBy;
   final String? description;
   final String? imageUrl;
   BuddyGroupModel({
     required this.id,
     required this.clubId,
     required this.name,
+    required this.addedBy,
     this.description,
     this.imageUrl,
   });
@@ -21,6 +23,7 @@ class BuddyGroupModel {
     String? id,
     String? clubId,
     String? name,
+    String? addedBy,
     String? description,
     String? imageUrl,
   }) {
@@ -28,6 +31,7 @@ class BuddyGroupModel {
       id: id ?? this.id,
       clubId: clubId ?? this.clubId,
       name: name ?? this.name,
+      addedBy: addedBy ?? this.addedBy,
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
     );
@@ -38,28 +42,26 @@ class BuddyGroupModel {
       'id': id,
       'clubId': clubId,
       'name': name,
+      'addedBy': addedBy,
       'description': description,
       'imageUrl': imageUrl,
     };
   }
 
-  // from firestore
   factory BuddyGroupModel.fromFirestore(DocumentSnapshot snapshot) {
     final json = snapshot.data() as Map<String, dynamic>;
     if (json.isEmpty) {
-      throw Exception('Project data is empty');
+      throw Exception('BuddyGroupModel data is empty');
     }
     return BuddyGroupModel.fromMap(json);
   }
 
   factory BuddyGroupModel.fromMap(Map<String, dynamic> map) {
-    if (map.isEmpty) {
-      throw Exception('BuddyGroup data is empty');
-    }
     return BuddyGroupModel(
       id: map['id'] as String,
       clubId: map['clubId'] as String,
       name: map['name'] as String,
+      addedBy: map['addedBy'] as String,
       description:
           map['description'] != null ? map['description'] as String : null,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
@@ -73,7 +75,7 @@ class BuddyGroupModel {
 
   @override
   String toString() {
-    return 'BuddyGroupModel(id: $id, clubId: $clubId, name: $name, description: $description, imageUrl: $imageUrl)';
+    return 'BuddyGroupModel(id: $id, clubId: $clubId, name: $name, addedBy: $addedBy, description: $description, imageUrl: $imageUrl)';
   }
 
   @override
@@ -83,6 +85,7 @@ class BuddyGroupModel {
     return other.id == id &&
         other.clubId == clubId &&
         other.name == name &&
+        other.addedBy == addedBy &&
         other.description == description &&
         other.imageUrl == imageUrl;
   }
@@ -92,6 +95,7 @@ class BuddyGroupModel {
     return id.hashCode ^
         clubId.hashCode ^
         name.hashCode ^
+        addedBy.hashCode ^
         description.hashCode ^
         imageUrl.hashCode;
   }

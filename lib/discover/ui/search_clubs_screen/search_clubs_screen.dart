@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/shared_widgets/error_screen_widget.dart';
 import 'package:rotaract/_core/shared_widgets/loading_screen_widget.dart';
-import 'package:rotaract/admin_tools/repos/club_repo_providers.dart';
+import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/discover/ui/search_clubs_screen/widgets/club_card_widget.dart';
 
 class SearchClubsScreen extends ConsumerStatefulWidget {

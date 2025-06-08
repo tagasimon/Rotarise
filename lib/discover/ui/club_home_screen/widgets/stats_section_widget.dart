@@ -49,45 +49,17 @@ class StatsSectionWidget extends ConsumerWidget {
                   color: Colors.green.shade400),
             ),
             _buildStatDivider(),
-            // TODO Fix this
-            _buildStatItem("Projects", "_", Icons.handshake_outlined),
+            Expanded(
+              child: StatCardWidget(
+                  onTap: () =>
+                      ref.read(clubTabIndexProvider.notifier).setTabIndex(2),
+                  number: "${cClub?.projectsCount ?? 0}",
+                  label: "Projects",
+                  icon: Icons.event,
+                  color: Colors.green.shade400),
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String label, String value, IconData icon) {
-    return Expanded(
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.purple.shade50,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: Colors.purple.shade400, size: 24),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }

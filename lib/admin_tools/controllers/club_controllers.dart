@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
-import 'package:rotaract/admin_tools/repos/club_repo_providers.dart';
+import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/admin_tools/repos/club_repo.dart';
 
 // club controller provider
@@ -37,13 +37,13 @@ class ClubControllerNotifier extends StateNotifier<AsyncValue> {
 
   // delete a club
 
-  Future<void> deleteClub(ClubModel club) async {
-    state = const AsyncLoading();
-    try {
-      await _repo.deleteClub(club);
-      state = const AsyncData(null);
-    } catch (e, s) {
-      state = AsyncError(e, s);
-    }
-  }
+  // Future<void> deleteClub(ClubModel club) async {
+  //   state = const AsyncLoading();
+  //   try {
+  //     await _repo.deleteClub(club);
+  //     state = const AsyncData(null);
+  //   } catch (e, s) {
+  //     state = AsyncError(e, s);
+  //   }
+  // }
 }
