@@ -135,7 +135,7 @@ class ProfileSection extends ConsumerWidget {
                     onTap: () async {
                       // TODO Implement pick image
                       String? url =
-                          await ImagePickerNotifier.pickAndUploadImage();
+                          await ImagePickerNotifier.uploadCustomerImage();
                       debugPrint("$url");
                     },
                     child: Container(

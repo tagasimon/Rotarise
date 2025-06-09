@@ -25,13 +25,13 @@ class ModernAppBarWidget extends StatelessWidget {
       leading: leading,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.teal,
-                Colors.teal,
+                Theme.of(context).primaryColor,
+                Theme.of(context).primaryColor,
               ],
             ),
           ),
