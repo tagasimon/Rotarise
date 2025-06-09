@@ -76,21 +76,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       ),
       body: Column(
         children: [
-          // Header section with subtitle
-          Container(
-            width: double.infinity,
-            color: Theme.of(context).primaryColor,
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-            child: const Text(
-              "Manage your profile and settings",
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 14,
-              ),
-            ),
-          ),
-
-          // Main content area
           Expanded(
             child: Container(
               decoration: const BoxDecoration(

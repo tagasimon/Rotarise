@@ -8,7 +8,7 @@ final clubEventsRepoProvider = Provider<ClubEventsRepo>((ref) {
 });
 
 // getAllEvents provider
-final allEventsProvider = FutureProvider.autoDispose((ref) async {
+final allEventsProvider = FutureProvider((ref) async {
   final repo = ref.watch(clubEventsRepoProvider);
   return repo.getAllEvents();
 });
@@ -21,7 +21,7 @@ final clubEventByIdProvider =
 });
 
 // getEventsByClubId
-final clubEventsByClubIdProvider = FutureProvider.autoDispose((ref) async {
+final clubEventsByClubIdProvider = FutureProvider((ref) async {
   final cClub = ref.watch(selectedClubNotifierProvider);
   final repo = ref.watch(clubEventsRepoProvider);
   if (cClub == null) {

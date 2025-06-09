@@ -30,8 +30,7 @@ class ModernAppBarWidget extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color(0xFF4A90E2),
-                // Color(0xFF50E3C2),
+                Colors.teal,
                 Colors.teal,
               ],
             ),

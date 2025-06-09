@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -541,8 +542,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.network(
-              update['image'],
+            child: CachedNetworkImage(
+              imageUrl: update['image'],
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -670,8 +671,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.network(
-                      item['url']!,
+                    CachedNetworkImage(
+                      imageUrl: item['url']!,
                       fit: BoxFit.cover,
                     ),
                     if (item['type'] == 'video')
@@ -806,8 +807,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
               width: 60,
               height: 60,
               fit: BoxFit.cover,
@@ -981,8 +982,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
               child: InteractiveViewer(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    item['url']!,
+                  child: CachedNetworkImage(
+                    imageUrl: item['url']!,
                     fit: BoxFit.contain,
                   ),
                 ),

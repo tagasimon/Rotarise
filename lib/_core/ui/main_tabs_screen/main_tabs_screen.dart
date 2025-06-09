@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/tab_index_notifier.dart';
-import 'package:rotaract/admin_tools/news_feed/news_feed_screen/news_feed_screen.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/news_feed_screen.dart';
 
 import 'package:rotaract/discover/ui/discover_screen/discover_clubs_screen.dart';
 import 'package:rotaract/_core/ui/profile_screen/ui/profile_screen/profile_screen.dart';

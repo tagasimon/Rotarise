@@ -5,9 +5,9 @@ import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/discover/ui/club_home_screen/club_home_screen.dart';
 
-class ClubInfoWidget extends ConsumerWidget {
+class ClubNameByIdWidget extends ConsumerWidget {
   final String clubId;
-  const ClubInfoWidget({super.key, required this.clubId});
+  const ClubNameByIdWidget({super.key, required this.clubId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

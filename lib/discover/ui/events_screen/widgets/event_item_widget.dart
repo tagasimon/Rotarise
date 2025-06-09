@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rotaract/_constants/constants.dart';
-import 'package:rotaract/_core/shared_widgets/club_info_widget.dart';
+import 'package:rotaract/_core/shared_widgets/club_name_by_id_widget.dart';
 import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
 
 class EventItemWidget extends ConsumerWidget {
@@ -204,7 +204,7 @@ class EventItemWidget extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                ClubInfoWidget(clubId: event.clubId)
+                ClubNameByIdWidget(clubId: event.clubId)
               ],
             ),
           ),

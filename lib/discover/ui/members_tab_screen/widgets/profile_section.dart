@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/image_picker_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/club_name_by_id_widget.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/_core/ui/profile_screen/ui/edit_profile_screen/edit_profile_screen.dart';
 
@@ -166,6 +167,7 @@ class ProfileSection extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 20),
+          if (member.clubId != null) ClubNameByIdWidget(clubId: member.clubId!),
           Text(
             "${member.firstName} ${member.lastName}",
             style: const TextStyle(

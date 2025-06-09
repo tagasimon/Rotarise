@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/notifiers/discover_tab_index_notifier.dart';
-import 'package:rotaract/_core/providers/auth_provider.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/clubs_tab_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/discover_stats_widget.dart';
@@ -57,15 +55,6 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
 
   @override
   Widget build(BuildContext context) {
-    // TODO Find another spot to listen to the current user
-    ref.listen<AsyncValue>(watchCurrentUserProvider, (_, next) {
-      next.whenData(
-        (value) {
-          ref.read(currentUserNotifierProvider.notifier).updateUser(value);
-        },
-      );
-    });
-
     // Listen to Riverpod state changes and update TabController accordingly
     ref.listen<int>(discoverTabIndexProvider, (previous, next) {
       if (_tabController.index != next) {
