@@ -1,6 +1,6 @@
 // Full Screen Image Viewer
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 
 class FullScreenImageViewer extends StatefulWidget {
   final String imageUrl;
@@ -47,9 +47,9 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer>
               maxScale: 4.0,
               child: Hero(
                 tag: 'image_hero',
-                child: CachedNetworkImage(
+                child: ImageWidget(
                   imageUrl: widget.imageUrl,
-                  fit: BoxFit.contain,
+                  size: const Size(50, 50),
                 ),
               ),
             ),

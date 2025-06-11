@@ -59,9 +59,10 @@ class _NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
 
     return Scaffold(
       body: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           const ModernAppBarWidget(
-            title: "Muliiwa?",
+            title: "Rotarise",
             subtitle: "Stay updated with club activities",
           ),
         ],

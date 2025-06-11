@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/create_post_modal.dart';
 
 class CreatePostSection extends ConsumerStatefulWidget {
@@ -33,15 +34,11 @@ class _CreatePostSectionState extends ConsumerState<CreatePostSection> {
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 20,
-            backgroundImage: cUser?.imageUrl == null
-                ? const NetworkImage(
-                    Constants.kDefaultImageLink,
-                  )
-                : NetworkImage(
-                    cUser!.imageUrl!,
-                  ),
+          ProfessionalCircleImageWidget(
+            imageUrl: cUser?.imageUrl == null
+                ? Constants.kDefaultImageLink
+                : cUser!.imageUrl!,
+            size: 40,
           ),
           const SizedBox(width: 12),
           Expanded(

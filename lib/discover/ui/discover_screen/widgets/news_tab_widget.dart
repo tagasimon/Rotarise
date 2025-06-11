@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 
 class NewsTabWidget extends StatelessWidget {
   const NewsTabWidget({super.key});
@@ -58,17 +59,9 @@ class NewsTabWidget extends StatelessWidget {
           ClipRRect(
             borderRadius:
                 const BorderRadius.horizontal(left: Radius.circular(16)),
-            child: CachedNetworkImage(
-              imageUrl: news['image']!,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => Container(
-                width: 100,
-                height: 100,
-                color: Colors.grey.shade200,
-                child: const Icon(Icons.article, color: Colors.grey),
-              ),
+            child: ImageWidget(
+              imageUrl: news["image"] ?? Constants.kDefaultImageLink,
+              size: const Size(100, 100),
             ),
           ),
           Expanded(

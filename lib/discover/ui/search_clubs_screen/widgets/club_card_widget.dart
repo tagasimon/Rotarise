@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/discover/ui/club_home_screen/club_home_screen.dart';
 
@@ -282,30 +282,9 @@ class _ClubCardWidgetState extends ConsumerState<ClubCardWidget>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24),
           child: widget.club.imageUrl != null
-              ? CachedNetworkImage(
+              ? ImageWidget(
                   imageUrl: widget.club.imageUrl!,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: _colorGradient
-                            .map((c) => c.withOpacity(0.1))
-                            .toList(),
-                      ),
-                    ),
-                    child: const Center(
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => _buildAvatarFallback(),
+                  size: const Size(24, 24),
                 )
               : _buildAvatarFallback(),
         ),

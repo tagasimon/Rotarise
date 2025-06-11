@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 
 class ProfileAdminWidget extends ConsumerWidget {
   const ProfileAdminWidget({super.key});
@@ -20,31 +21,8 @@ class ProfileAdminWidget extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // TODO : Add a profile picture
-            CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 30.0,
-              child: ClipOval(
-                child: cMember?.imageUrl != null
-                    ? CachedNetworkImage(
-                        imageUrl: cMember!.imageUrl!,
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(
-                          Icons.error,
-                          size: 60.0,
-                          color: Colors.red,
-                        ),
-                        fit: BoxFit.cover,
-                        width: 60.0,
-                        height: 60.0,
-                      )
-                    : const Icon(
-                        Icons.person,
-                        size: 60.0,
-                        color: Colors.grey,
-                      ),
-              ),
+            ProfessionalCircleImageWidget(
+              imageUrl: cMember?.imageUrl ?? Constants.kDefaultImageLink,
             ),
             Container(
               margin: const EdgeInsets.all(10.0),

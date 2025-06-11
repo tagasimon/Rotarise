@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   final Map<String, dynamic> project;
@@ -542,11 +542,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: CachedNetworkImage(
+            child: ImageWidget(
               imageUrl: update['image'],
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
+              size: const Size(double.infinity, 200),
             ),
           ),
           Padding(
@@ -671,9 +669,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    CachedNetworkImage(
+                    ImageWidget(
                       imageUrl: item['url']!,
-                      fit: BoxFit.cover,
+                      size: const Size(50, 50),
                     ),
                     if (item['type'] == 'video')
                       Container(
@@ -807,11 +805,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: CachedNetworkImage(
+            child: ImageWidget(
               imageUrl: imageUrl,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
+              size: const Size(60, 60),
             ),
           ),
           const SizedBox(width: 16),
@@ -982,9 +978,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
               child: InteractiveViewer(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: CachedNetworkImage(
+                  child: ImageWidget(
                     imageUrl: item['url']!,
-                    fit: BoxFit.contain,
+                    size: const Size(50, 50),
                   ),
                 ),
               ),

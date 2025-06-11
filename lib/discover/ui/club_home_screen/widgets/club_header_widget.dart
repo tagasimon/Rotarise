@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 
 class ClubHeaderWidget extends StatelessWidget {
@@ -19,32 +19,8 @@ class ClubHeaderWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white, width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
-                  child: CachedNetworkImage(
-                    imageUrl: club.imageUrl ?? Constants.kDefaultImageLink,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => Container(
-                      color: Colors.white,
-                      child: Icon(Icons.groups, color: Colors.grey.shade600),
-                    ),
-                  ),
-                ),
-              ),
+              ProfessionalCircleImageWidget(
+                  imageUrl: club.imageUrl ?? Constants.kDefaultImageLink),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(

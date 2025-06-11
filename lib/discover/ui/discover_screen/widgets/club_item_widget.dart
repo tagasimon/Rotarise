@@ -1,12 +1,9 @@
-// Modern Club Item Widget
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/discover/ui/club_home_screen/club_home_screen.dart';
 
@@ -45,39 +42,15 @@ class ClubItemWidget extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                _buildClubLogo(),
+                // _buildClubLogo(),
+                ProfessionalCircleImageWidget(
+                  imageUrl: club.coverImageUrl ?? Constants.kDefaultImageLink,
+                  size: 50,
+                ),
                 const SizedBox(width: 16),
                 Expanded(child: _buildClubInfo()),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildClubLogo() {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: CachedNetworkImage(
-          imageUrl: club.coverImageUrl ?? Constants.kDefaultImageLink,
-          fit: BoxFit.cover,
-          errorWidget: (context, url, error) => Container(
-            color: Colors.grey.shade200,
-            child: Icon(Icons.groups, color: Colors.grey.shade600),
           ),
         ),
       ),

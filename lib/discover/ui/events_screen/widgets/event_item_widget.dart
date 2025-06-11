@@ -1,16 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_network/image_network.dart';
 import 'package:intl/intl.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/shared_widgets/club_name_by_id_widget.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
 
 class EventItemWidget extends ConsumerWidget {
   final ClubEventModel event;
   const EventItemWidget({super.key, required this.event});
 
-  void _showFullScreenImage(BuildContext context, String imageUrl) {
+  void _showFullScreenImage(BuildContext context, String imageUrl, Size size) {
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -35,31 +36,11 @@ class EventItemWidget extends ConsumerWidget {
                 child: InteractiveViewer(
                   panEnabled: true,
                   boundaryMargin: const EdgeInsets.all(20),
-                  minScale: 0.5,
-                  maxScale: 4.0,
-                  child: CachedNetworkImage(
+                  child: ImageWidget(
                     imageUrl: imageUrl,
-                    fit: BoxFit.contain,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(color: Colors.white),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade800,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.error_outline,
-                              size: 48, color: Colors.white70),
-                          SizedBox(height: 8),
-                          Text('Failed to load image',
-                              style: TextStyle(color: Colors.white70)),
-                        ],
-                      ),
-                    ),
+                    size: Size(size.height * 0.8, size.height * 0.7),
+                    boxFitMobile: BoxFit.fitWidth,
+                    boxFitWeb: BoxFitWeb.contain,
                   ),
                 ),
               ),
@@ -92,7 +73,7 @@ class EventItemWidget extends ConsumerWidget {
         DateFormat('dd MMM yyyy').format(event.startDate as DateTime);
     final endDate = DateFormat('dd MMM yyyy').format(event.endDate as DateTime);
     final imageUrl = event.imageUrl ?? Constants.kDefaultImageLink;
-
+    final size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -112,20 +93,12 @@ class EventItemWidget extends ConsumerWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             child: GestureDetector(
-              onTap: () => _showFullScreenImage(context, imageUrl),
+              onTap: () => _showFullScreenImage(context, imageUrl, size),
               child: Stack(
                 children: [
-                  CachedNetworkImage(
+                  ImageWidget(
                     imageUrl: imageUrl,
-                    height: 250,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) => Container(
-                      height: 160,
-                      color: Colors.grey.shade200,
-                      child:
-                          const Icon(Icons.event, size: 40, color: Colors.grey),
-                    ),
+                    size: Size(size.width * 0.9, 250),
                   ),
                   // Optional: Add a subtle overlay to indicate it's tappable
                   Positioned(

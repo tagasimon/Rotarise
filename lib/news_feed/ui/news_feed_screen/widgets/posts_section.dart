@@ -70,7 +70,7 @@ class _PostsSectionState extends ConsumerState<PostsSection> {
           child: RefreshIndicator(
             onRefresh: _handleRefresh,
             child: ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: data.length,
               itemBuilder: (context, index) {

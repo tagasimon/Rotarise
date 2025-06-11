@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/member_detail_sheet.dart';
 
@@ -174,39 +174,9 @@ class _MemberItemWidgetState extends ConsumerState<MemberItemWidget>
           backgroundColor: Colors.transparent,
           child: ClipOval(
             child: widget.member.imageUrl != null
-                ? CachedNetworkImage(
+                ? ImageWidget(
                     imageUrl: widget.member.imageUrl!,
-                    placeholder: (context, url) => Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey[300],
-                      ),
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey[400],
-                      ),
-                      child: const Icon(
-                        Icons.person,
-                        size: 32,
-                        color: Colors.white,
-                      ),
-                    ),
-                    fit: BoxFit.cover,
-                    width: 64,
-                    height: 64,
+                    size: const Size(64, 64),
                   )
                 : Container(
                     width: 64,

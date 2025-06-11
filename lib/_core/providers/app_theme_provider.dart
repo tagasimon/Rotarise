@@ -12,7 +12,7 @@ class AppThemeProvider extends StateNotifier<ThemeData> {
 
   static final _lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color(0xFF50E3C2),
+      seedColor: Colors.pink,
     ),
     appBarTheme: const AppBarTheme(
       titleTextStyle: TextStyle(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_header_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/gradient_overlay_widget.dart';
-import 'package:rotaract/discover/ui/club_home_screen/widgets/hero_image_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/share_button_widget.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -65,7 +65,11 @@ class ClubAppBarWidget extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            HeroImageWidget(club: club),
+            // HeroImageWidget(club: club),
+            ImageWidget(
+              imageUrl: club.coverImageUrl ?? club.imageUrl,
+              size: const Size(350.0, 240.0),
+            ),
             const GradientOverlayWidget(),
             ClubHeaderWidget(club: club),
           ],

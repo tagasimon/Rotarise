@@ -17,6 +17,7 @@ class ClubsTabWidget extends ConsumerWidget {
         return Container(
           margin: const EdgeInsets.only(top: 20),
           child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: clubs.length,
             itemBuilder: (_, index) {

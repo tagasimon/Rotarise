@@ -105,8 +105,9 @@ class _MemberDetailSheetState extends ConsumerState<MemberDetailSheet>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ProfileSection(
-                            member: widget.member,
-                            isProfileScreen: widget.isProfileScreen),
+                          member: widget.member,
+                          isProfileScreen: widget.isProfileScreen,
+                        ),
                         const SizedBox(height: 32),
                         InfoSections(member: widget.member, isDark: isDark),
                         const SizedBox(height: 32),

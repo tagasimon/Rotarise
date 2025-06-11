@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
 
 class EventsCarouselWidget extends ConsumerWidget {
@@ -9,6 +10,7 @@ class EventsCarouselWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size;
     final eventsProv = ref.watch(allEventsProvider);
     return eventsProv.when(
       data: (data) {
@@ -45,8 +47,9 @@ class EventsCarouselWidget extends ConsumerWidget {
                         if (event.imageUrl == null) {
                           return;
                         }
-                        showFullScreenImage(
-                            event.imageUrl!, event.title, context);
+
+                        await showFullScreenImage(
+                            event.imageUrl!, event.title, context, size);
                       },
                       child: Container(
                         width: 90,
@@ -54,47 +57,11 @@ class EventsCarouselWidget extends ConsumerWidget {
                         child: Column(
                           children: [
                             // Event Image Circle (WhatsApp Status style)
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.6),
-                                  ],
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              padding: const EdgeInsets.all(3),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                padding: const EdgeInsets.all(2),
-                                child: ClipOval(
-                                  child: CachedNetworkImage(
-                                    imageUrl: event.imageUrl == null
-                                        ? Constants.kDefaultImageLink
-                                        : event.imageUrl!,
-                                    fit: BoxFit.cover,
-                                    width: 64,
-                                    height: 64,
-                                  ),
-                                ),
-                              ),
+
+                            ProfessionalCircleImageWidget(
+                              imageUrl: event.imageUrl == null
+                                  ? Constants.kDefaultImageLink
+                                  : event.imageUrl!,
                             ),
                             const SizedBox(height: 8),
                             // Event Title
@@ -129,9 +96,9 @@ class EventsCarouselWidget extends ConsumerWidget {
     );
   }
 
-  void showFullScreenImage(
-      String imageUrl, String title, BuildContext context) {
-    showDialog(
+  Future<void> showFullScreenImage(
+      String imageUrl, String title, BuildContext context, Size size) async {
+    await showDialog(
       context: context,
       barrierColor: Colors.black87,
       builder: (context) => Dialog.fullscreen(
@@ -142,9 +109,9 @@ class EventsCarouselWidget extends ConsumerWidget {
               child: InteractiveViewer(
                 minScale: 0.5,
                 maxScale: 3.0,
-                child: CachedNetworkImage(
+                child: ImageWidget(
                   imageUrl: imageUrl,
-                  fit: BoxFit.contain,
+                  size: Size(size.height * 0.7, size.height * 0.7),
                 ),
               ),
             ),

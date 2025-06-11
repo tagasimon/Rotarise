@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/news_feed/controllers/posts_controller.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/full_screen_image_viewer.dart';
@@ -232,10 +233,9 @@ class PostCardState extends ConsumerState<PostCard>
                           MemberByIdWidget(memberId: widget.post.authorId),
                     );
                   },
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundImage:
-                        CachedNetworkImageProvider(widget.post.authorAvatar),
+                  child: ProfessionalCircleImageWidget(
+                    imageUrl: widget.post.authorAvatar,
+                    size: 50,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -317,13 +317,12 @@ class PostCardState extends ConsumerState<PostCard>
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: CachedNetworkImage(
-                                      imageUrl: widget.post.imageUrl!,
-                                      width: double.infinity,
-                                      height: 200,
-                                      fit: BoxFit.cover,
-                                    )),
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: ImageWidget(
+                                    imageUrl: widget.post.imageUrl!,
+                                    size: const Size(200, 200),
+                                  ),
+                                ),
                               ),
                             ),
                           ),

@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/image_picker_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/club_name_by_id_widget.dart';
+import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/_core/ui/profile_screen/ui/edit_profile_screen/edit_profile_screen.dart';
 
@@ -79,36 +79,9 @@ class ProfileSection extends ConsumerWidget {
                       backgroundColor: Colors.transparent,
                       child: ClipOval(
                         child: member.imageUrl != null
-                            ? CachedNetworkImage(
+                            ? ImageWidget(
                                 imageUrl: member.imageUrl!,
-                                placeholder: (context, url) => Container(
-                                  width: 120,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.grey[300],
-                                  ),
-                                  child: const Center(
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 3),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => Container(
-                                  width: 120,
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.grey[400],
-                                  ),
-                                  child: const Icon(
-                                    Icons.person,
-                                    size: 60,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                fit: BoxFit.cover,
-                                width: 120,
-                                height: 120,
+                                size: const Size(120, 120),
                               )
                             : Container(
                                 width: 120,
@@ -128,41 +101,42 @@ class ProfileSection extends ConsumerWidget {
                   ),
                 ),
                 // Edit icon positioned at bottom right of the circular avatar
-                Positioned(
-                  bottom: 8,
-                  right: 8,
-                  child: GestureDetector(
-                    onTap: () async {
-                      // TODO Implement pick image
-                      String? url =
-                          await ImagePickerNotifier.uploadCustomerImage();
-                      debugPrint("$url");
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF667eea),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 3,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 6,
-                            offset: const Offset(0, 2),
+                if (!isProfileScreen)
+                  Positioned(
+                    bottom: 8,
+                    right: 8,
+                    child: GestureDetector(
+                      onTap: () async {
+                        // TODO Implement pick image
+                        String? url =
+                            await ImagePickerNotifier.uploadCustomerImage();
+                        debugPrint("$url");
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF667eea),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 3,
                           ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.edit,
-                        size: 18,
-                        color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -206,35 +180,35 @@ class ProfileSection extends ConsumerWidget {
                 ),
               ),
             ),
-            if (!isProfileScreen)
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () =>
-                        context.push(EditProfileEditPage(member: member)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF667eea),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      elevation: 0,
+          ],
+          if (!isProfileScreen)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () =>
+                      context.push(EditProfileEditPage(member: member)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF667eea),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'Edit',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ],
-              ),
-          ],
+                ),
+              ],
+            ),
         ],
       ),
     );
