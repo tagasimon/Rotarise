@@ -1,21 +1,9 @@
-import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_network/image_network.dart';
 
-/// A professional, production-ready circular image widget with advanced styling,
-/// error handling, and cross-platform compatibility.
-///
-/// Features:
-/// - Gradient border with customizable colors
-/// - Elevation shadow with configurable blur and offset
-/// - Platform-aware image loading (web vs mobile)
-/// - Comprehensive error states and loading indicators
-/// - Accessibility support
-/// - Performance optimizations
-/// - Consistent sizing and aspect ratio handling
 class ProfessionalCircleImageWidget extends ConsumerWidget {
   /// The URL of the image to display
   final String imageUrl;

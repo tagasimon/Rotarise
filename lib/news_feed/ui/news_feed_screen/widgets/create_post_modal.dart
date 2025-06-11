@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/news_feed/controllers/posts_controller.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/media_option.dart';
@@ -39,11 +40,18 @@ class CreatePostModalState extends ConsumerState<CreatePostModal> {
         Fluttertoast.showToast(msg: "You don't belong to a Club");
         return;
       }
-
+      // final clubInfoProv = ref.watch(getEventClubByIdProvider(clubId));
+      final club =
+          await ref.watch(getEventClubByIdProvider(cUser.clubId!).future);
+      if (club == null) {
+        Fluttertoast.showToast(msg: "Error!!!");
+        return;
+      }
       final post = PostModel(
         id: const Uuid().v4(),
         authorId: cUser.id,
         clubId: cUser.clubId!,
+        clubName: club.name,
         authorName: "${cUser.firstName} ${cUser.lastName}",
         authorAvatar: cUser.imageUrl ?? Constants.kDefaultImageLink,
         content: widget.controller.text.trim(),
@@ -193,6 +201,8 @@ class CreatePostModalState extends ConsumerState<CreatePostModal> {
                             color: Colors.green,
                             isSelected: selectedMediaType == 'photo',
                             onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "Image Posting Coming Soon...");
                               //   _isPosting ? null : () => setState(() {
                               //   selectedMediaType =
                               //       selectedMediaType == 'photo' ? null : 'photo';
@@ -204,6 +214,8 @@ class CreatePostModalState extends ConsumerState<CreatePostModal> {
                             color: Colors.blue,
                             isSelected: selectedMediaType == 'video',
                             onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "Video Posting Coming Soon...");
                               //   _isPosting ? null : () => setState(() {
                               //   selectedMediaType =
                               //       selectedMediaType == 'video' ? null : 'video';

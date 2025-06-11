@@ -11,6 +11,7 @@ class PostModel {
   final String authorAvatar;
   final String content;
   final DateTime timestamp;
+  final String clubName;
   final int? likesCount;
   final int? commentsCount;
   final int? reportsCount;
@@ -24,6 +25,7 @@ class PostModel {
     required this.authorAvatar,
     required this.content,
     required this.timestamp,
+    required this.clubName,
     this.likesCount,
     this.commentsCount,
     this.reportsCount,
@@ -39,6 +41,7 @@ class PostModel {
     String? authorAvatar,
     String? content,
     DateTime? timestamp,
+    String? clubName,
     int? likesCount,
     int? commentsCount,
     int? reportsCount,
@@ -53,6 +56,7 @@ class PostModel {
       authorAvatar: authorAvatar ?? this.authorAvatar,
       content: content ?? this.content,
       timestamp: timestamp ?? this.timestamp,
+      clubName: clubName ?? this.clubName,
       likesCount: likesCount ?? this.likesCount,
       commentsCount: commentsCount ?? this.commentsCount,
       reportsCount: reportsCount ?? this.reportsCount,
@@ -70,6 +74,7 @@ class PostModel {
       'authorAvatar': authorAvatar,
       'content': content,
       'timestamp': timestamp,
+      'clubName': clubName,
       'likesCount': likesCount,
       'commentsCount': commentsCount,
       'reportsCount': reportsCount,
@@ -95,6 +100,7 @@ class PostModel {
       authorAvatar: map['authorAvatar'] as String,
       content: map['content'] as String,
       timestamp: map['timestamp'].toDate(),
+      clubName: map['clubName'] as String,
       likesCount: map['likesCount'] != null ? map['likesCount'] as int : null,
       commentsCount:
           map['commentsCount'] != null ? map['commentsCount'] as int : null,
@@ -112,7 +118,7 @@ class PostModel {
 
   @override
   String toString() {
-    return 'PostModel(id: $id, authorId: $authorId, clubId: $clubId, authorName: $authorName, authorAvatar: $authorAvatar, content: $content, timestamp: $timestamp, likesCount: $likesCount, commentsCount: $commentsCount, reportsCount: $reportsCount, imageUrl: $imageUrl, videoUrl: $videoUrl)';
+    return 'PostModel(id: $id, authorId: $authorId, clubId: $clubId, authorName: $authorName, authorAvatar: $authorAvatar, content: $content, timestamp: $timestamp, clubName: $clubName, likesCount: $likesCount, commentsCount: $commentsCount, reportsCount: $reportsCount, imageUrl: $imageUrl, videoUrl: $videoUrl)';
   }
 
   @override
@@ -126,6 +132,7 @@ class PostModel {
         other.authorAvatar == authorAvatar &&
         other.content == content &&
         other.timestamp == timestamp &&
+        other.clubName == clubName &&
         other.likesCount == likesCount &&
         other.commentsCount == commentsCount &&
         other.reportsCount == reportsCount &&
@@ -142,6 +149,7 @@ class PostModel {
         authorAvatar.hashCode ^
         content.hashCode ^
         timestamp.hashCode ^
+        clubName.hashCode ^
         likesCount.hashCode ^
         commentsCount.hashCode ^
         reportsCount.hashCode ^

@@ -17,7 +17,7 @@ final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
 
 final watchCurrentUserProvider =
     StreamProvider.autoDispose<ClubMemberModel>((ref) {
-  return ref.watch(authRepositoryProvider).watchCurrentUserInfo();
+  return ref.watch(authRepositoryProvider).watchCurrentUserInfoSimple();
 });
 
 // watchUserInfo provides the user information

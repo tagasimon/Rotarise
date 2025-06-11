@@ -34,22 +34,35 @@ class AuthRepository {
     return _firebaseAuth.signOut();
   }
 
-  Stream<ClubMemberModel> watchCurrentUserInfo() {
+  Stream<ClubMemberModel> watchCurrentUserInfoSimple() {
     final auth = _firebaseAuth.currentUser;
-    final firstTimeUser = ClubMemberModel(
-      id: auth!.uid,
-      email: auth.email!,
-      firstName: "First Name",
-      lastName: "Last Name",
-      // Defaults to Kampala North
-      clubId: "0b65b229-2114-41e5-be04-d4d688ee08b5",
-    );
+    if (auth == null) {
+      throw Exception('User not authenticated');
+    }
 
     final ref = _ref.doc(auth.uid);
-    return ref.snapshots().map((doc) {
+
+    return ref.snapshots().asyncMap((doc) async {
       if (!doc.exists) {
-        ref.set(firstTimeUser.toMap());
+        final firstTimeUser = ClubMemberModel(
+          id: auth.uid,
+          email: auth.email!,
+          firstName: "Name",
+          lastName: "",
+        );
+
+        // Use set with merge: false to create only if doesn't exist
+        // This will fail silently if document already exists
+        await ref.set(firstTimeUser.toMap()).catchError((error) {
+          // Ignore errors - document might have been created by another process
+          print('Error creating user document (likely already exists): $error');
+        });
+
+        // Fetch the document again to get the actual data
+        final newDoc = await ref.get();
+        return ClubMemberModel.fromFirestore(newDoc);
       }
+
       return ClubMemberModel.fromFirestore(doc);
     });
   }

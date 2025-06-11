@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
@@ -115,12 +116,13 @@ class _ClubCardWidgetState extends ConsumerState<ClubCardWidget>
     return Hero(
       tag: 'club_${widget.club.id}',
       child: SizedBox(
-          width: 48,
-          height: 48,
-          child: ProfessionalCircleImageWidget(
-            imageUrl: widget.club.imageUrl!,
-            size: 48,
-          )),
+        width: 48,
+        height: 48,
+        child: ProfessionalCircleImageWidget(
+          imageUrl: widget.club.imageUrl ?? Constants.kDefaultImageLink,
+          size: 48,
+        ),
+      ),
     );
   }
 

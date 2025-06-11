@@ -36,6 +36,7 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -49,7 +50,8 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer>
                 tag: 'image_hero',
                 child: ImageWidget(
                   imageUrl: widget.imageUrl,
-                  size: const Size(50, 50),
+                  size: Size(size.width * 0.9, size.height * 0.8),
+                  boxFitMobile: BoxFit.fitWidth,
                 ),
               ),
             ),

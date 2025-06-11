@@ -7,7 +7,12 @@ import 'package:rotaract/discover/ui/club_home_screen/club_home_screen.dart';
 
 class ClubNameByIdWidget extends ConsumerWidget {
   final String clubId;
-  const ClubNameByIdWidget({super.key, required this.clubId});
+  final TextStyle? style;
+  const ClubNameByIdWidget({
+    super.key,
+    required this.clubId,
+    this.style,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,11 +26,11 @@ class ClubNameByIdWidget extends ConsumerWidget {
           },
           child: Text(
             club!.name,
-            style: TextStyle(
-              color: Colors.purple.shade600,
-              fontWeight: FontWeight.w600,
-              fontSize: 13,
-            ),
+            style: style ??
+                const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
           ),
         );
       },

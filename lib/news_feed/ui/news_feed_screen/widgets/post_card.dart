@@ -35,8 +35,7 @@ class PostCardState extends ConsumerState<PostCard>
   @override
   void initState() {
     super.initState();
-    // isLiked = widget.post.isLiked;
-    isLiked = true;
+    isLiked = false;
     _controller = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
@@ -197,6 +196,7 @@ class PostCardState extends ConsumerState<PostCard>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Container(
@@ -286,6 +286,14 @@ class PostCardState extends ConsumerState<PostCard>
                           ),
                         ],
                       ),
+                      Text(
+                        widget.post.clubName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[600],
+                          fontSize: 10,
+                        ),
+                      ),
                       const SizedBox(height: 4),
 
                       // Post content
@@ -320,7 +328,7 @@ class PostCardState extends ConsumerState<PostCard>
                                   borderRadius: BorderRadius.circular(15),
                                   child: ImageWidget(
                                     imageUrl: widget.post.imageUrl!,
-                                    size: const Size(200, 200),
+                                    size: Size(size.width * 0.7, 300),
                                   ),
                                 ),
                               ),
@@ -390,7 +398,10 @@ class PostCardState extends ConsumerState<PostCard>
                           PostActionWidget(
                             icon: Icons.chat_bubble_outline,
                             count: widget.post.commentsCount ?? 0,
-                            onTap: () {},
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "Comments Coming Soon...");
+                            },
                             color: Colors.grey[600]!,
                           ),
 
@@ -401,9 +412,11 @@ class PostCardState extends ConsumerState<PostCard>
                                 : Icons.favorite_border,
                             count: widget.post.likesCount ?? 0,
                             onTap: () {
-                              setState(() {
-                                isLiked = !isLiked;
-                              });
+                              Fluttertoast.showToast(
+                                  msg: "Likes Coming Soon...");
+                              // setState(() {
+                              //   isLiked = !isLiked;
+                              // });
                             },
                             color: isLiked ? Colors.red : Colors.grey[600]!,
                             isActive: isLiked,
