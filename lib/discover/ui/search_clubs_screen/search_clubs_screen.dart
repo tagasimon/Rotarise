@@ -146,6 +146,7 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                         border: Border.all(color: Colors.grey[300]!),
                       ),
                       child: TextField(
+                        autofocus: true,
                         controller: _searchController,
                         focusNode: _searchFocusNode,
                         decoration: InputDecoration(

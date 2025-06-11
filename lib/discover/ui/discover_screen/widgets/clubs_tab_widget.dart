@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
-import 'package:rotaract/discover/ui/discover_screen/widgets/club_item_widget.dart';
+import 'package:rotaract/discover/ui/search_clubs_screen/widgets/club_card_widget.dart';
 
 class ClubsTabWidget extends ConsumerWidget {
   const ClubsTabWidget({super.key});
@@ -21,7 +21,7 @@ class ClubsTabWidget extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: clubs.length,
             itemBuilder: (_, index) {
-              return ClubItemWidget(club: clubs[index]);
+              return ClubCardWidget(club: clubs[index]);
             },
           ),
         );

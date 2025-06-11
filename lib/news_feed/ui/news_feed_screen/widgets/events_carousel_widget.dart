@@ -87,12 +87,8 @@ class EventsCarouselWidget extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(
-        child: LinearProgressIndicator(),
-      ),
-      error: (error, stackTrace) {
-        return const SizedBox.shrink();
-      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 

@@ -21,6 +21,7 @@ class ClubsCountWidget extends ConsumerWidget {
             icon: Icons.groups_outlined,
             color: Colors.blue.shade400);
       }, error: (e, s) {
+        debugPrint("Error $e, $s");
         return StatCardWidget(
             number: "_",
             label: "Clubs",
