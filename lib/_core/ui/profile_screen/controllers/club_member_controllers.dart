@@ -37,6 +37,18 @@ class ClubMemberControllers extends StateNotifier<AsyncValue> {
     }
   }
 
+  Future<bool> updateMemberPic(String memberId, String downloadUrl) async {
+    state = const AsyncValue.loading();
+    try {
+      await _repo.updateMemberPic(memberId, downloadUrl);
+      state = const AsyncValue.data(null);
+      return true;
+    } catch (e, s) {
+      state = AsyncValue.error(e, s);
+      return false;
+    }
+  }
+
   Future<void> deleteMember(ClubMemberModel member) async {
     state = const AsyncValue.loading();
     try {

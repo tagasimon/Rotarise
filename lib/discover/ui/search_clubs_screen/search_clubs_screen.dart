@@ -51,32 +51,51 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
 
   void _onSearchChanged() {
     final query = _searchController.text.toLowerCase().trim();
+
+    // Use mounted check to prevent setState on disposed widget
+    if (!mounted) return;
+
     setState(() {
       if (query.isEmpty) {
-        _filteredClubs = _allClubs;
+        _filteredClubs =
+            List.from(_allClubs); // Create new list to avoid reference issues
         _isSearching = false;
       } else {
         _isSearching = true;
         _filteredClubs = _allClubs.where((club) {
-          // Adjust these field names based on your club model structure
-          final clubName = (club.name ?? '').toLowerCase();
-          final clubLocation = (club.location ?? '').toLowerCase();
-          final clubDescription = (club.description ?? '').toLowerCase();
+          try {
+            // Safe null checks with proper null handling
+            final clubName = club?.name?.toString().toLowerCase() ?? '';
+            final clubLocation = club?.location?.toString().toLowerCase() ?? '';
+            final clubDescription =
+                club?.description?.toString().toLowerCase() ?? '';
 
-          return clubName.contains(query) ||
-              clubLocation.contains(query) ||
-              clubDescription.contains(query);
+            return clubName.contains(query) ||
+                clubLocation.contains(query) ||
+                clubDescription.contains(query);
+          } catch (e) {
+            // Handle any errors in filtering gracefully
+            print('Error filtering club: $e');
+            return false;
+          }
         }).toList();
       }
     });
+
+    // Only animate if controller is not disposed
+    if (_animationController.isAnimating || !_animationController.isCompleted) {
+      _animationController.reset();
+    }
     _animationController.forward();
   }
 
   void _clearSearch() {
+    if (!mounted) return;
+
     _searchController.clear();
     _searchFocusNode.unfocus();
     setState(() {
-      _filteredClubs = _allClubs;
+      _filteredClubs = List.from(_allClubs);
       _isSearching = false;
     });
   }
@@ -87,14 +106,26 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
 
     return clubsProv.when(
       data: (data) {
-        // Update clubs data when received
-        if (_allClubs != data) {
-          _allClubs = data;
-          if (!_isSearching) {
-            _filteredClubs = data;
-          }
+        // Safe data handling with null checks
+        final clubs = data ?? [];
+
+        // Update clubs data when received - use deep comparison to avoid unnecessary updates
+        if (_allClubs.length != clubs.length ||
+            !_listsEqual(_allClubs, clubs)) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            _animationController.forward();
+            if (mounted) {
+              setState(() {
+                _allClubs = List.from(clubs);
+                if (!_isSearching) {
+                  _filteredClubs = List.from(clubs);
+                }
+              });
+              if (_animationController.isAnimating ||
+                  !_animationController.isCompleted) {
+                _animationController.reset();
+              }
+              _animationController.forward();
+            }
           });
         }
 
@@ -119,7 +150,11 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new,
                         color: Colors.black87, size: 20),
-                    onPressed: () => context.pop(false),
+                    onPressed: () {
+                      if (context.mounted) {
+                        context.pop(false);
+                      }
+                    },
                   ),
                 ),
                 flexibleSpace: const FlexibleSpaceBar(
@@ -146,7 +181,8 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                         border: Border.all(color: Colors.grey[300]!),
                       ),
                       child: TextField(
-                        autofocus: true,
+                        // Remove autofocus for web compatibility
+                        autofocus: false,
                         controller: _searchController,
                         focusNode: _searchFocusNode,
                         decoration: InputDecoration(
@@ -203,193 +239,218 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Search Results Header
-                      FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.04),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
+                      AnimatedBuilder(
+                        animation: _fadeAnimation,
+                        builder: (context, child) {
+                          return Opacity(
+                            opacity: _fadeAnimation.value,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
                               ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Icon(
-                                  FontAwesomeIcons.users,
-                                  color: Theme.of(context).primaryColor,
-                                  size: 16,
-                                ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.04),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${_filteredClubs.length} club${_filteredClubs.length == 1 ? '' : 's'}',
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    Text(
-                                      _isSearching
-                                          ? 'found matching your search'
-                                          : 'available to join',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey[600],
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (_isSearching)
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: const Text(
-                                    'FILTERED',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (_filteredClubs.isEmpty && _isSearching)
-                        FadeTransition(
-                          opacity: _fadeAnimation,
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(32),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.04),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    FontAwesomeIcons.magnifyingGlass,
-                                    color: Colors.grey[400],
-                                    size: 32,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                const Text(
-                                  'No clubs found',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Try adjusting your search terms or browse all available clubs.',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                TextButton(
-                                  onPressed: _clearSearch,
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.1),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 24,
-                                      vertical: 12,
-                                    ),
-                                    shape: RoundedRectangleBorder(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                  ),
-                                  child: Text(
-                                    'Show All Clubs',
-                                    style: TextStyle(
+                                    child: Icon(
+                                      FontAwesomeIcons.users,
                                       color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.w600,
+                                      size: 16,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${_filteredClubs.length} club${_filteredClubs.length == 1 ? '' : 's'}',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                        Text(
+                                          _isSearching
+                                              ? 'found matching your search'
+                                              : 'available to join',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.grey[600],
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (_isSearching)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: const Text(
+                                        'FILTERED',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                      // Clubs Grid
-                      if (_filteredClubs.isNotEmpty)
-                        FadeTransition(
-                          opacity: _fadeAnimation,
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: _filteredClubs.length,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 5),
-                            itemBuilder: (context, index) {
-                              return Container(
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+
+                      if (_filteredClubs.isEmpty && _isSearching)
+                        AnimatedBuilder(
+                          animation: _fadeAnimation,
+                          builder: (context, child) {
+                            return Opacity(
+                              opacity: _fadeAnimation.value,
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(32),
                                 decoration: BoxDecoration(
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.black.withOpacity(0.04),
                                       blurRadius: 8,
-                                      offset: const Offset(0, 4),
+                                      offset: const Offset(0, 2),
                                     ),
                                   ],
                                 ),
-                                child:
-                                    ClubCardWidget(club: _filteredClubs[index]),
-                              );
-                            },
-                          ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        FontAwesomeIcons.magnifyingGlass,
+                                        color: Colors.grey[400],
+                                        size: 32,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    const Text(
+                                      'No clubs found',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Try adjusting your search terms or browse all available clubs.',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    TextButton(
+                                      onPressed: _clearSearch,
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.1),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 12,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'Show All Clubs',
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+
+                      // Clubs Grid
+                      if (_filteredClubs.isNotEmpty)
+                        AnimatedBuilder(
+                          animation: _fadeAnimation,
+                          builder: (context, child) {
+                            return Opacity(
+                              opacity: _fadeAnimation.value,
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: _filteredClubs.length,
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 5),
+                                itemBuilder: (context, index) {
+                                  // Add safety check for list bounds
+                                  if (index >= _filteredClubs.length) {
+                                    return const SizedBox.shrink();
+                                  }
+
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.04),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: ClubCardWidget(
+                                        club: _filteredClubs[index]),
+                                  );
+                                },
+                              ),
+                            );
+                          },
                         ),
                     ],
                   ),
@@ -406,5 +467,14 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
       },
       loading: () => const LoadingScreenWidget(),
     );
+  }
+
+  // Helper method to compare lists safely
+  bool _listsEqual(List<dynamic> list1, List<dynamic> list2) {
+    if (list1.length != list2.length) return false;
+    for (int i = 0; i < list1.length; i++) {
+      if (list1[i] != list2[i]) return false;
+    }
+    return true;
   }
 }

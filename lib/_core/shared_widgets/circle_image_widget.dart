@@ -207,16 +207,6 @@ class ProfessionalCircleImageWidget extends ConsumerWidget {
     );
   }
 
-  /// Builds loading indicator with progress (no longer needed for ImageNetwork)
-  Widget _buildLoadingIndicator(
-    BuildContext context,
-    double imageSize,
-    ImageChunkEvent? loadingProgress,
-  ) {
-    // This method is kept for compatibility but not used with ImageNetwork
-    return _buildPlaceholder(context, imageSize);
-  }
-
   /// Builds the error state widget
   Widget _buildErrorWidget(BuildContext context, double imageSize) {
     if (errorWidget != null) return errorWidget!;
@@ -291,33 +281,3 @@ extension ProfessionalCircleImageWidgetExtensions
     );
   }
 }
-
-/// Usage Examples:
-/// 
-/// ```dart
-/// // Add to pubspec.yaml:
-/// // dependencies:
-/// //   image_network: ^2.5.4+1
-/// //   cached_network_image: ^3.3.1
-/// 
-/// // Basic usage
-/// ProfessionalCircleImageWidget(
-///   imageUrl: 'https://example.com/image.jpg',
-///   size: 80.0,
-/// )
-/// 
-/// // With custom styling
-/// ProfessionalCircleImageWidget(
-///   imageUrl: 'https://example.com/image.jpg',
-///   size: 100.0,
-///   gradientColors: [Colors.blue, Colors.purple],
-///   semanticLabel: 'User profile picture',
-///   heroTag: 'profile-hero',
-/// )
-/// 
-/// // Using predefined sizes
-/// ProfessionalCircleImageWidget.small(
-///   imageUrl: 'https://example.com/image.jpg',
-///   heroTag: 'profile-small',
-/// )
-/// ```

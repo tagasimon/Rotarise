@@ -73,4 +73,14 @@ class ClubMembersRepo extends ClubMemberInterface {
   Future<int> getTotalMembersCount() {
     return _ref.count().get().then((value) => value.count ?? 0);
   }
+
+  @override
+  Future<void> updateMemberPic(String memberId, String downloadUrl) async {
+    final ref = await _ref.where('id', isEqualTo: memberId).get();
+    if (ref.docs.isNotEmpty) {
+      await ref.docs.first.reference.update({
+        'imageUrl': downloadUrl,
+      });
+    }
+  }
 }

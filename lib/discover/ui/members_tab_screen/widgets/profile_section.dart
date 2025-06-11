@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
-import 'package:rotaract/_core/notifiers/image_picker_notifier.dart';
+import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/_core/notifiers/tab_index_notifier.dart';
+import 'package:rotaract/_core/notifiers/upload_image_controller.dart';
 import 'package:rotaract/_core/shared_widgets/club_name_by_id_widget.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
+import 'package:rotaract/_core/ui/profile_screen/controllers/club_member_controllers.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/_core/ui/profile_screen/ui/edit_profile_screen/edit_profile_screen.dart';
 
@@ -18,6 +22,9 @@ class ProfileSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state2 = ref.watch(uploadImageControllerProvider);
+    ref.listen<AsyncValue>(uploadImageControllerProvider,
+        (_, state) => state.showSnackBarOnError(context));
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -106,12 +113,29 @@ class ProfileSection extends ConsumerWidget {
                     bottom: 8,
                     right: 8,
                     child: GestureDetector(
-                      onTap: () async {
-                        // TODO Implement pick image
-                        String? url =
-                            await ImagePickerNotifier.uploadCustomerImage();
-                        debugPrint("$url");
-                      },
+                      onTap: state2.isLoading
+                          ? null
+                          : () async {
+                              // TODO Implement pick image
+                              final String? downloadUrl = await ref
+                                  .read(uploadImageControllerProvider.notifier)
+                                  .getUserDownloadUrl("PROFILE-PICS");
+                              if (downloadUrl != null) {
+                                final cUser =
+                                    ref.read(currentUserNotifierProvider);
+                                if (cUser == null) return;
+                                final res = await ref
+                                    .read(
+                                        clubMemberControllersProvider.notifier)
+                                    .updateMemberPic(cUser.id, downloadUrl);
+                                if (res) {
+                                  Fluttertoast.showToast(msg: "SUCCESS :)");
+                                  ref
+                                      .read(tabIndexProvider.notifier)
+                                      .setTabIndex(0);
+                                }
+                              }
+                            },
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
@@ -129,11 +153,13 @@ class ProfileSection extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        child: const Icon(
-                          Icons.edit,
-                          size: 18,
-                          color: Colors.white,
-                        ),
+                        child: state2.isLoading
+                            ? const CircularProgressIndicator()
+                            : const Icon(
+                                Icons.edit,
+                                size: 18,
+                                color: Colors.white,
+                              ),
                       ),
                     ),
                   ),
