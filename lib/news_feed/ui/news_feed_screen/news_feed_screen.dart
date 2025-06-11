@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/providers/auth_provider.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
-import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/create_post_section.dart';
-import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/events_carousel_widget.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/create_post_sliver_section.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/events_carousel_sliver_widget.dart'; // Back to original import
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/posts_section.dart';
 
 class NewsFeedScreen extends ConsumerStatefulWidget {
@@ -60,14 +60,18 @@ class _NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
     return Scaffold(
       body: NestedScrollView(
         physics: const BouncingScrollPhysics(),
+        floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           const ModernAppBarWidget(
             title: "Rotarise",
             subtitle: "Stay updated with club activities",
           ),
+          const EventsCarouselSliverWidget(),
+          const SliverToBoxAdapter(child: SizedBox(height: 5)),
+          const CreatePostSliverSection(),
         ],
         body: Container(
-          margin: const EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 5),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -80,11 +84,7 @@ class _NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
             child: SlideTransition(
               position: _slideAnimation,
               child: const Column(
-                children: [
-                  EventsCarouselWidget(),
-                  CreatePostSection(),
-                  PostsSection()
-                ],
+                children: [PostsSection()],
               ),
             ),
           ),

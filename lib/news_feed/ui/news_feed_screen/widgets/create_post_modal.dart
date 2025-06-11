@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/news_feed/controllers/posts_controller.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
@@ -66,7 +67,8 @@ class CreatePostModalState extends ConsumerState<CreatePostModal> {
         widget.onPost(widget.controller.text.trim(), selectedMediaType);
 
         // Show success message
-        Fluttertoast.showToast(msg: "Post created successfully!");
+        Fluttertoast.showToast(msg: "SUCCESS :)");
+        widget.controller.clear();
 
         // Close the modal
         if (mounted) {
@@ -157,13 +159,10 @@ class CreatePostModalState extends ConsumerState<CreatePostModal> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage: cUser?.imageUrl == null
-                            ? const NetworkImage(
-                                Constants.kDefaultImageLink,
-                              )
-                            : NetworkImage(cUser!.imageUrl!),
+                      ProfessionalCircleImageWidget(
+                        imageUrl:
+                            cUser?.imageUrl ?? Constants.kDefaultImageLink,
+                        size: 50,
                       ),
                       const SizedBox(width: 12),
                       Expanded(

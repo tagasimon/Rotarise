@@ -287,7 +287,7 @@ class PostCardState extends ConsumerState<PostCard>
                         ],
                       ),
                       Text(
-                        widget.post.clubName,
+                        truncateText(widget.post.clubName),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600],
@@ -297,8 +297,9 @@ class PostCardState extends ConsumerState<PostCard>
                       const SizedBox(height: 4),
 
                       // Post content
+
                       Text(
-                        widget.post.content,
+                        truncateText(widget.post.content),
                         style: const TextStyle(
                           fontSize: 15,
                           height: 1.3,
@@ -441,4 +442,11 @@ class PostCardState extends ConsumerState<PostCard>
       ),
     );
   }
+}
+
+String truncateText(String text) {
+  if (text.length > 100) {
+    return '${text.substring(0, 100)}...See More';
+  }
+  return text;
 }
