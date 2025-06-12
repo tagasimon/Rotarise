@@ -2,16 +2,17 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rotaract/_constants/constants.dart';
 
 class PostModel {
   final String id;
   final String authorId;
   final String clubId;
-  final String authorName;
-  final String authorAvatar;
-  final String content;
   final DateTime timestamp;
-  final String clubName;
+  final String? authorName;
+  final String? authorAvatar;
+  final String? content;
+  final String? clubName;
   final int? likesCount;
   final int? commentsCount;
   final int? reportsCount;
@@ -21,11 +22,11 @@ class PostModel {
     required this.id,
     required this.authorId,
     required this.clubId,
-    required this.authorName,
-    required this.authorAvatar,
-    required this.content,
+    this.authorName,
+    this.authorAvatar,
+    this.content,
     required this.timestamp,
-    required this.clubName,
+    this.clubName,
     this.likesCount,
     this.commentsCount,
     this.reportsCount,
@@ -96,11 +97,11 @@ class PostModel {
       id: map['id'] as String,
       authorId: map['authorId'] as String,
       clubId: map['clubId'] as String,
-      authorName: map['authorName'] as String,
-      authorAvatar: map['authorAvatar'] as String,
-      content: map['content'] as String,
       timestamp: map['timestamp'].toDate(),
-      clubName: map['clubName'] as String,
+      authorName: map['authorName'] ?? "",
+      authorAvatar: map['authorAvatar'] ?? Constants.kDefaultImageLink,
+      content: map['content'] ?? "",
+      clubName: map['clubName'] ?? "",
       likesCount: map['likesCount'] != null ? map['likesCount'] as int : null,
       commentsCount:
           map['commentsCount'] != null ? map['commentsCount'] as int : null,

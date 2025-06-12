@@ -234,7 +234,7 @@ class PostCardState extends ConsumerState<PostCard>
                     );
                   },
                   child: ProfessionalCircleImageWidget(
-                    imageUrl: widget.post.authorAvatar,
+                    imageUrl: widget.post.authorAvatar!,
                     size: 50,
                   ),
                 ),
@@ -249,7 +249,7 @@ class PostCardState extends ConsumerState<PostCard>
                       Row(
                         children: [
                           Text(
-                            widget.post.authorName,
+                            widget.post.authorName ?? "",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
@@ -287,7 +287,7 @@ class PostCardState extends ConsumerState<PostCard>
                         ],
                       ),
                       Text(
-                        truncateText(widget.post.clubName),
+                        truncateText(widget.post.clubName ?? ""),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600],
@@ -299,7 +299,7 @@ class PostCardState extends ConsumerState<PostCard>
                       // Post content
 
                       Text(
-                        truncateText(widget.post.content),
+                        truncateText(widget.post.content ?? ""),
                         style: const TextStyle(
                           fontSize: 15,
                           height: 1.3,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_network/image_network.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
@@ -118,6 +119,8 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
                 child: ImageWidget(
                   imageUrl: imageUrl,
                   size: Size(size.height * 0.7, size.height * 0.7),
+                  boxFitWeb: BoxFitWeb.contain,
+                  boxFitMobile: BoxFit.fitWidth,
                 ),
               ),
             ),

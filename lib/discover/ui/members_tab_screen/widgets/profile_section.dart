@@ -116,25 +116,7 @@ class ProfileSection extends ConsumerWidget {
                       onTap: state2.isLoading
                           ? null
                           : () async {
-                              // TODO Implement pick image
-                              final String? downloadUrl = await ref
-                                  .read(uploadImageControllerProvider.notifier)
-                                  .getUserDownloadUrl("PROFILE-PICS");
-                              if (downloadUrl != null) {
-                                final cUser =
-                                    ref.read(currentUserNotifierProvider);
-                                if (cUser == null) return;
-                                final res = await ref
-                                    .read(
-                                        clubMemberControllersProvider.notifier)
-                                    .updateMemberPic(cUser.id, downloadUrl);
-                                if (res) {
-                                  Fluttertoast.showToast(msg: "SUCCESS :)");
-                                  ref
-                                      .read(tabIndexProvider.notifier)
-                                      .setTabIndex(0);
-                                }
-                              }
+                              await _handleProfilePicUpdate(ref);
                             },
                       child: Container(
                         padding: const EdgeInsets.all(8),
@@ -154,7 +136,14 @@ class ProfileSection extends ConsumerWidget {
                           ],
                         ),
                         child: state2.isLoading
-                            ? const CircularProgressIndicator()
+                            ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
                             : const Icon(
                                 Icons.edit,
                                 size: 18,
@@ -238,5 +227,39 @@ class ProfileSection extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _handleProfilePicUpdate(WidgetRef ref) async {
+    try {
+      // First, pick the image file
+      final controller = ref.read(uploadImageControllerProvider.notifier);
+      final pickedFile = await controller.pickImageFile();
+
+      if (pickedFile != null) {
+        // Then upload the picked file
+        final String? downloadUrl =
+            await controller.uploadImage(pickedFile, "PROFILE-PICS");
+
+        if (downloadUrl != null) {
+          final cUser = ref.read(currentUserNotifierProvider);
+          if (cUser == null) return;
+
+          final res = await ref
+              .read(clubMemberControllersProvider.notifier)
+              .updateMemberPic(cUser.id, downloadUrl);
+
+          if (res) {
+            Fluttertoast.showToast(msg: "SUCCESS :)");
+            ref.read(tabIndexProvider.notifier).setTabIndex(0);
+          }
+        }
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Failed to update profile picture: $e",
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
   }
 }

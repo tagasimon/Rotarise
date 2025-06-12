@@ -6,8 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final firestoreInstanceProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
 
-final firebaseStorageProvider =
-    Provider<FirebaseStorage>((ref) => FirebaseStorage.instance);
+final firebaseStorageProvider = Provider<FirebaseStorage>((ref) =>
+    FirebaseStorage.instanceFor(
+        bucket: "gs://rotaract-584b8.firebasestorage.app"));
 
 final firebaseAuthProvider =
     Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);

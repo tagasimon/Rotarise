@@ -5,7 +5,7 @@ class MediaOption extends StatelessWidget {
   final String label;
   final Color color;
   final bool isSelected;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const MediaOption({
     required this.icon,

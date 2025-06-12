@@ -87,9 +87,9 @@ class _CreatePostSectionState extends ConsumerState<CreatePostSliverSection> {
       builder: (context) => CreatePostModal(
         controller: _postController,
         // onPost: _handleNewPost,
-        onPost: (a, b) {
-          // TODO Implement this
-        },
+        // onPost: (a, b, c) {
+        //   // TODO Implement this
+        // },
       ),
     );
   }
