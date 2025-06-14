@@ -29,10 +29,14 @@ final rolesCollectionRefProvider = Provider<CollectionReference>(
 final eventsCollectionRefProvider = Provider<CollectionReference>(
     (ref) => ref.watch(firestoreInstanceProvider).collection('EVENTS'));
 
+// PROJECTS Collection
+final projectsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('PROJECTS'));
+
 // POSTS Collection
 final postsCollectionRefProvider = Provider<CollectionReference>(
     (ref) => ref.watch(firestoreInstanceProvider).collection('POSTS'));
 
-// PROJECTS Collection
-final projectsCollectionRefProvider = Provider<CollectionReference>(
-    (ref) => ref.watch(firestoreInstanceProvider).collection('PROJECTS'));
+// LIKES Collection
+final likesCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('LIKES'));

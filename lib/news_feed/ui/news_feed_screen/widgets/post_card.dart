@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
@@ -12,6 +13,7 @@ import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/full_screen_image
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/full_screen_video_viewer.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/member_by_id_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_action_widget.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_like_widget.dart';
 
 class PostCard extends ConsumerStatefulWidget {
   final PostModel post;
@@ -31,14 +33,12 @@ class PostCardState extends ConsumerState<PostCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
-  bool isLiked = false;
   bool isRetweeted = false;
   bool isExpanded = false;
 
   @override
   void initState() {
     super.initState();
-    isLiked = false;
     _controller = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
@@ -79,27 +79,21 @@ class PostCardState extends ConsumerState<PostCard>
   // Function to handle URL launches
   Future<void> _launchUrl(String url) async {
     try {
-      print('Attempting to launch URL: $url'); // Debug print
-
       // Ensure URL has a scheme
       String formattedUrl = url;
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         formattedUrl = 'https://$url';
       }
 
-      print('Formatted URL: $formattedUrl'); // Debug print
-
       final Uri uri = Uri.parse(formattedUrl);
 
       bool canLaunch = await canLaunchUrl(uri);
-      print('Can launch URL: $canLaunch'); // Debug print
 
       if (canLaunch) {
         bool launched = await launchUrl(
           uri,
           mode: LaunchMode.externalApplication,
         );
-        print('URL launched successfully: $launched'); // Debug print
 
         if (!launched) {
           throw Exception('Failed to launch URL');
@@ -108,7 +102,6 @@ class PostCardState extends ConsumerState<PostCard>
         throw Exception('Cannot launch URL');
       }
     } catch (e) {
-      print('Error launching URL: $e'); // Debug print
       Fluttertoast.showToast(
         msg: "Could not open link: $url",
         backgroundColor: Colors.red,
@@ -211,7 +204,6 @@ class PostCardState extends ConsumerState<PostCard>
         ),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            print('Link tapped: $url'); // Debug
             _launchUrl(url);
           },
       ));
@@ -363,6 +355,7 @@ class PostCardState extends ConsumerState<PostCard>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Container(
@@ -563,23 +556,7 @@ class PostCardState extends ConsumerState<PostCard>
                             },
                             color: Colors.grey[600]!,
                           ),
-
-                          // Like
-                          PostActionWidget(
-                            icon: isLiked
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            count: widget.post.likesCount ?? 0,
-                            onTap: () {
-                              Fluttertoast.showToast(
-                                  msg: "Likes Coming Soon...");
-                              // setState(() {
-                              //   isLiked = !isLiked;
-                              // });
-                            },
-                            color: isLiked ? Colors.red : Colors.grey[600]!,
-                            isActive: isLiked,
-                          ),
+                          PostLikeWidget(post: widget.post),
 
                           // Share
                           PostActionWidget(
