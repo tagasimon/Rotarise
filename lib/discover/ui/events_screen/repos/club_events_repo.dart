@@ -28,7 +28,7 @@ class ClubEventsRepo implements ClubEventsInterface {
     // Get events where endDate is greater than current date
     final snapshot = await ref
         .where('endDate', isGreaterThan: DateTime.now())
-        .orderBy('startDate', descending: true)
+        .orderBy('startDate')
         .get();
     return snapshot.docs
         .map((doc) => ClubEventModel.fromFirestore(doc))

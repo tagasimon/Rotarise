@@ -1,3 +1,5 @@
+// Update this NewEventSheet so that i also select an image along side the other fields for a clubEventModel
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -64,7 +66,8 @@ class QuickActionsWidget extends ConsumerWidget {
                         startDate: result['startDate'],
                         endDate: result['endDate'],
                         location: result['location'].toString().trim(),
-                        clubId: cUser!.clubId!);
+                        clubId: cUser!.clubId!,
+                        imageUrl: result['downloadUrl']);
                     final res = await ref
                         .watch(clubEventsControllerProvider.notifier)
                         .addEvent(event: cEvent);

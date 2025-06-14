@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/management_card_widget.dart';
+import 'package:rotaract/admin_tools/ui/events_screen/club_events_screen.dart';
 
 class ManagementActionsWidget extends ConsumerWidget {
   const ManagementActionsWidget({super.key});
@@ -30,7 +32,7 @@ class ManagementActionsWidget extends ConsumerWidget {
           icon: Icons.calendar_month,
           title: "Events",
           subtitle: "Manage Events",
-          onTap: () {},
+          onTap: () => context.push(const EventsByClubScreen()),
         ),
         const SizedBox(height: 12),
         ManagementCardWidget(

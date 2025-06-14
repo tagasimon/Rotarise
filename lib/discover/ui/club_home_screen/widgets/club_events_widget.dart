@@ -8,7 +8,7 @@ class ClubEventsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final eventsProvider = ref.watch(clubEventsByClubIdProvider);
+    final eventsProvider = ref.watch(eventsByClubIdProvider);
     return eventsProvider.when(
       data: (events) {
         if (events.isEmpty) {

@@ -73,6 +73,7 @@ class PostCardState extends ConsumerState<PostCard>
     }
   }
 
+// TODO Use the same _showFullScreen across the entire app
   void _showFullScreenImage(BuildContext context, String imageUrl) {
     Navigator.of(context).push(
       PageRouteBuilder(
