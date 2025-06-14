@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
@@ -31,6 +33,7 @@ class PostCardState extends ConsumerState<PostCard>
   late Animation<double> _scaleAnimation;
   bool isLiked = false;
   bool isRetweeted = false;
+  bool isExpanded = false;
 
   @override
   void initState() {
@@ -71,6 +74,168 @@ class PostCardState extends ConsumerState<PostCard>
       // Format as date for older posts
       return '${timestamp.day}/${timestamp.month}/${timestamp.year.toString().substring(2)}';
     }
+  }
+
+  // Function to handle URL launches
+  Future<void> _launchUrl(String url) async {
+    try {
+      print('Attempting to launch URL: $url'); // Debug print
+
+      // Ensure URL has a scheme
+      String formattedUrl = url;
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        formattedUrl = 'https://$url';
+      }
+
+      print('Formatted URL: $formattedUrl'); // Debug print
+
+      final Uri uri = Uri.parse(formattedUrl);
+
+      bool canLaunch = await canLaunchUrl(uri);
+      print('Can launch URL: $canLaunch'); // Debug print
+
+      if (canLaunch) {
+        bool launched = await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+        print('URL launched successfully: $launched'); // Debug print
+
+        if (!launched) {
+          throw Exception('Failed to launch URL');
+        }
+      } else {
+        throw Exception('Cannot launch URL');
+      }
+    } catch (e) {
+      print('Error launching URL: $e'); // Debug print
+      Fluttertoast.showToast(
+        msg: "Could not open link: $url",
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
+  }
+
+  Widget _buildPostContent() {
+    final content = widget.post.content ?? "";
+
+    if (content.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final shouldTruncate = content.length > 100;
+    final displayText =
+        shouldTruncate && !isExpanded ? content.substring(0, 100) : content;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          child: SelectableText.rich(
+            TextSpan(
+              children: _buildTextSpans(displayText),
+            ),
+            style: const TextStyle(
+              fontSize: 15,
+              height: 1.3,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            if (shouldTruncate) ...[
+              GestureDetector(
+                onTap: () {
+                  print(
+                      'See More/Show Less tapped. Current state: $isExpanded'); // Debug
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                  print('New state: $isExpanded'); // Debug
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[50],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    isExpanded ? "Show Less" : "See More",
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.blue[600],
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+            ],
+          ],
+        ),
+      ],
+    );
+  }
+
+  List<TextSpan> _buildTextSpans(String text) {
+    final List<TextSpan> spans = [];
+    final RegExp urlRegex = RegExp(
+      r'https?://[^\s]+|www\.[^\s]+|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.([a-zA-Z]{2,})[^\s]*',
+      caseSensitive: false,
+    );
+
+    int lastMatchEnd = 0;
+
+    for (final match in urlRegex.allMatches(text)) {
+      // Add text before the URL
+      if (match.start > lastMatchEnd) {
+        spans.add(TextSpan(
+          text: text.substring(lastMatchEnd, match.start),
+          style: const TextStyle(color: Colors.black),
+        ));
+      }
+
+      // Add the clickable URL
+      final url = match.group(0)!;
+      spans.add(TextSpan(
+        text: url,
+        style: TextStyle(
+          color: Colors.blue[600],
+          decoration: TextDecoration.underline,
+          decorationColor: Colors.blue[600],
+        ),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            print('Link tapped: $url'); // Debug
+            _launchUrl(url);
+          },
+      ));
+
+      lastMatchEnd = match.end;
+    }
+
+    // Add remaining text after the last URL
+    if (lastMatchEnd < text.length) {
+      spans.add(TextSpan(
+        text: text.substring(lastMatchEnd),
+        style: const TextStyle(color: Colors.black),
+      ));
+    }
+
+    // If no URLs were found, return the entire text
+    if (spans.isEmpty) {
+      spans.add(TextSpan(
+        text: text,
+        style: const TextStyle(color: Colors.black),
+      ));
+    }
+
+    return spans;
   }
 
 // TODO Use the same _showFullScreen across the entire app
@@ -288,25 +453,17 @@ class PostCardState extends ConsumerState<PostCard>
                         ],
                       ),
                       Text(
-                        truncateText(widget.post.clubName ?? ""),
+                        widget.post.clubName ?? "",
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600],
                           fontSize: 10,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 8),
 
-                      // Post content
-
-                      Text(
-                        truncateText(widget.post.content ?? ""),
-                        style: const TextStyle(
-                          fontSize: 15,
-                          height: 1.3,
-                          color: Colors.black,
-                        ),
-                      ),
+                      // Post content with clickable links, expandable text, and copy functionality
+                      _buildPostContent(),
 
                       // Media
                       if (widget.post.imageUrl != null) ...[
@@ -443,11 +600,4 @@ class PostCardState extends ConsumerState<PostCard>
       ),
     );
   }
-}
-
-String truncateText(String text) {
-  if (text.length > 100) {
-    return '${text.substring(0, 100)}...See More';
-  }
-  return text;
 }

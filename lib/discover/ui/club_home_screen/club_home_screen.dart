@@ -23,6 +23,7 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   final ScrollController _scrollController = ScrollController();
+
   bool _isScrolled = false;
 
   @override
@@ -96,6 +97,7 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
                   club: club,
                   isScrolled: _isScrolled,
                 ),
+
                 QuickActionsWidget(club: club),
                 const StatsSectionWidget(),
                 // Pinned TabBar that stays visible
@@ -106,9 +108,9 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
                       controller: _tabController,
                       tabs: const [
                         // Tab(text: 'Posts'),
-                        Tab(text: 'Members'),
                         Tab(text: 'Events'),
                         Text("Projects"),
+                        Tab(text: 'Members'),
                         Tab(text: 'About'),
                       ],
                       indicatorColor: Theme.of(context).primaryColor,
@@ -132,9 +134,9 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
               children: const [
                 // Posts Tab Content
                 // _buildTabContent('Posts'),
-                ClubMembersScreen(),
                 ClubEventsWidget(),
                 Center(child: Text("Projects")),
+                ClubMembersScreen(),
                 ClubAboutWidget()
               ],
             ),

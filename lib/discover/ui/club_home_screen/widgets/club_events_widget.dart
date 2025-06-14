@@ -12,9 +12,7 @@ class ClubEventsWidget extends ConsumerWidget {
     return eventsProvider.when(
       data: (events) {
         if (events.isEmpty) {
-          return const Center(
-            child: Text("No Events"),
-          );
+          return const Center(child: Text("No Events"));
         }
         return Container(
           margin: const EdgeInsets.only(top: 20),
