@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
 import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
 import 'package:rotaract/discover/ui/events_screen/widgets/event_item_widget.dart';
-import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/repos/posts_repo.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_card.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/posts_error_widget.dart';

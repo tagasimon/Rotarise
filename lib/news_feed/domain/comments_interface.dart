@@ -8,5 +8,5 @@ abstract class CommentsInterface {
   Future<void> removeComment(String commentId);
 
   // Get Posts by clubId
-  Future<List<CommentModel>> fetchCommentByPostId(String postId);
+  Stream<List<CommentModel>> fetchCommentByPostId(String postId);
 }

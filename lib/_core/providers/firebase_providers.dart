@@ -40,3 +40,7 @@ final postsCollectionRefProvider = Provider<CollectionReference>(
 // LIKES Collection
 final likesCollectionRefProvider = Provider<CollectionReference>(
     (ref) => ref.watch(firestoreInstanceProvider).collection('LIKES'));
+
+// COMMENTS Collection
+final commentsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('COMMENTS'));

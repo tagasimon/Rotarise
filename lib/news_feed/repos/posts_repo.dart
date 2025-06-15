@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
 
 import 'package:rotaract/news_feed/domain/posts_interface.dart';
@@ -12,6 +13,22 @@ final postsRepoProvider = Provider<PostsRepo>((ref) {
 
 final fetchPostsProvider = FutureProvider<List<PostModel>>((ref) async {
   return ref.watch(postsRepoProvider).fetchPosts();
+});
+
+final postCommentsCountProvider = StreamProvider.autoDispose<int?>((ref) {
+  final post = ref.watch(selectedPostNotifierProvider);
+  if (post == null) {
+    return Stream.value(0);
+  }
+  return ref.watch(postsRepoProvider).watchPostCommentsCount(post.id);
+});
+
+final postLikesCountProvider = StreamProvider.autoDispose<int?>((ref) {
+  final post = ref.watch(selectedPostNotifierProvider);
+  if (post == null) {
+    return Stream.value(0);
+  }
+  return ref.watch(postsRepoProvider).watchPostLikesCount(post.id);
 });
 
 class PostsRepo implements PostsInterface {
@@ -60,5 +77,23 @@ class PostsRepo implements PostsInterface {
   @override
   Future<void> updatePost(PostModel post) async {
     await _ref.doc(post.id).update(post.toMap());
+  }
+
+  @override
+  Stream<int?> watchPostCommentsCount(String postId) {
+    return FirebaseFirestore.instance
+        .collection('COMMENTS')
+        .where('postId', isEqualTo: postId)
+        .snapshots()
+        .map((snapshot) => snapshot.size);
+  }
+
+  @override
+  Stream<int?> watchPostLikesCount(String postId) {
+    return FirebaseFirestore.instance
+        .collection('LIKES')
+        .where('postId', isEqualTo: postId)
+        .snapshots()
+        .map((snapshot) => snapshot.size);
   }
 }

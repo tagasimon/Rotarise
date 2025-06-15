@@ -2,18 +2,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_actions_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/news_feed/controllers/posts_controller.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
+import 'package:rotaract/news_feed/ui/post_details_screen/post_details_screen.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/full_screen_image_viewer.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/full_screen_video_viewer.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/member_by_id_widget.dart';
-import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_action_widget.dart';
-import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_like_widget.dart';
 
 class PostCard extends ConsumerStatefulWidget {
   final PostModel post;
@@ -370,7 +372,10 @@ class PostCardState extends ConsumerState<PostCard>
         ),
         child: InkWell(
           onTap: () {
-            // Handle post tap if needed
+            ref
+                .read(selectedPostNotifierProvider.notifier)
+                .updatePost(widget.post);
+            context.push(const PostDetailsScreen());
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -543,30 +548,7 @@ class PostCardState extends ConsumerState<PostCard>
 
                       // Action buttons
                       const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Reply
-                          PostActionWidget(
-                            icon: Icons.chat_bubble_outline,
-                            count: widget.post.commentsCount ?? 0,
-                            onTap: () {
-                              Fluttertoast.showToast(
-                                  msg: "Comments Coming Soon...");
-                            },
-                            color: Colors.grey[600]!,
-                          ),
-                          PostLikeWidget(post: widget.post),
-
-                          // Share
-                          PostActionWidget(
-                            icon: Icons.share_outlined,
-                            count: null,
-                            onTap: () {},
-                            color: Colors.grey[600]!,
-                          ),
-                        ],
-                      ),
+                      PostActionsWidget(post: widget.post)
                     ],
                   ),
                 ),

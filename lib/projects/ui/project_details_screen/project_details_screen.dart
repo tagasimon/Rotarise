@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
+  //
   final Map<String, dynamic> project;
 
   const ProjectDetailsScreen({super.key, required this.project});

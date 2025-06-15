@@ -18,4 +18,8 @@ abstract class PostsInterface {
 
   // Get Posts by clubId
   Future<List<PostModel>> fetchPostsByClubId(String clubId);
+
+  Stream<int?> watchPostCommentsCount(String postId);
+
+  Stream<int?> watchPostLikesCount(String postId);
 }
