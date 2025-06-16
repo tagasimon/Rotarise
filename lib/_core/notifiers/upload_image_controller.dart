@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -88,7 +86,7 @@ class UploadImageController extends StateNotifier<AsyncValue<String?>> {
 
   /// Validates the file type and size
   void _validateFile(PlatformFile file, Uint8List fileBytes) {
-    final fileName = file.name ?? '';
+    final fileName = file.name;
     final extension = fileName.split('.').last.toLowerCase();
 
     if (!_allowedExtensions.contains(extension)) {
@@ -108,7 +106,7 @@ class UploadImageController extends StateNotifier<AsyncValue<String?>> {
     String folderName,
   ) async {
     final timestamp = DateTime.now();
-    final fileName = file.name ?? '${timestamp.millisecondsSinceEpoch}';
+    final fileName = file.name;
     final sanitizedFolderName = _sanitizeFolderName(folderName);
 
     final storageRef = _firebaseStorage.ref().child(sanitizedFolderName).child(

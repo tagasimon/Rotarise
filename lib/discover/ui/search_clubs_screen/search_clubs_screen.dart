@@ -105,11 +105,7 @@ class _SearchClubsScreenState extends ConsumerState<SearchClubsScreen>
     final clubsProv = ref.watch(getAllVerifiedClubsProvider);
 
     return clubsProv.when(
-      data: (data) {
-        // Safe data handling with null checks
-        final clubs = data ?? [];
-
-        // Update clubs data when received - use deep comparison to avoid unnecessary updates
+      data: (clubs) {
         if (_allClubs.length != clubs.length ||
             !_listsEqual(_allClubs, clubs)) {
           WidgetsBinding.instance.addPostFrameCallback((_) {

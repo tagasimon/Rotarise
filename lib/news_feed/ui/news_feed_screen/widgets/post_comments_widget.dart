@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
-import 'package:rotaract/news_feed/repos/posts_repo.dart';
+import 'package:rotaract/news_feed/providers/posts_providers.dart';
 import 'package:rotaract/news_feed/ui/post_details_screen/post_details_screen.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_action_widget.dart';
 
@@ -17,7 +17,7 @@ class PostCommentsWidget extends ConsumerWidget {
     return commentsCountProv.when(
       data: (data) {
         return PostActionWidget(
-          icon: Icons.chat_bubble_outline,
+          icon: Icons.comment,
           count: data ?? 0,
           onTap: () {
             ref.read(selectedPostNotifierProvider.notifier).updatePost(post);
@@ -28,7 +28,7 @@ class PostCommentsWidget extends ConsumerWidget {
       },
       loading: () {
         return PostActionWidget(
-          icon: Icons.chat_bubble_outline,
+          icon: Icons.comment,
           count: post.commentsCount ?? 0,
           onTap: () {
             ref.read(selectedPostNotifierProvider.notifier).updatePost(post);

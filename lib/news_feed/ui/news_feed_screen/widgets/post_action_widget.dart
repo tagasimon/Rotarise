@@ -31,7 +31,7 @@ class PostActionWidget extends StatelessWidget {
               ),
               child: Icon(
                 icon,
-                size: 18,
+                // size: 18,
                 color: color,
               ),
             ),

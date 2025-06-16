@@ -1,35 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
-import 'package:rotaract/_core/providers/firebase_providers.dart';
+import 'package:flutter/material.dart';
 
 import 'package:rotaract/news_feed/domain/posts_interface.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
-
-final postsRepoProvider = Provider<PostsRepo>((ref) {
-  return PostsRepo(ref.watch(postsCollectionRefProvider));
-});
-
-final fetchPostsProvider = FutureProvider<List<PostModel>>((ref) async {
-  return ref.watch(postsRepoProvider).fetchPosts();
-});
-
-final postCommentsCountProvider = StreamProvider.autoDispose<int?>((ref) {
-  final post = ref.watch(selectedPostNotifierProvider);
-  if (post == null) {
-    return Stream.value(0);
-  }
-  return ref.watch(postsRepoProvider).watchPostCommentsCount(post.id);
-});
-
-final postLikesCountProvider = StreamProvider.autoDispose<int?>((ref) {
-  final post = ref.watch(selectedPostNotifierProvider);
-  if (post == null) {
-    return Stream.value(0);
-  }
-  return ref.watch(postsRepoProvider).watchPostLikesCount(post.id);
-});
 
 class PostsRepo implements PostsInterface {
   final CollectionReference _ref;
@@ -50,11 +24,42 @@ class PostsRepo implements PostsInterface {
 
   @override
   Future<List<PostModel>> fetchPosts() async {
-    final querySnapshot =
-        await _ref.orderBy("timestamp", descending: true).limit(1000).get();
-    return querySnapshot.docs
-        .map((doc) => PostModel.fromFirestore(doc))
-        .toList();
+    try {
+      final querySnapshot = await _ref
+          .orderBy("timestamp", descending: true)
+          .limit(20) // Initial page size
+          .get();
+
+      final posts = querySnapshot.docs
+          .map((doc) => PostModel.fromFirestore(doc))
+          .toList();
+
+      return posts;
+    } catch (e) {
+      debugPrint('Error fetching posts: $e');
+      rethrow;
+    }
+  }
+
+// New function for loading more posts using cursor pagination
+  @override
+  Future<List<PostModel>> fetchMorePosts(DateTime lastDateTime) async {
+    try {
+      final querySnapshot = await _ref
+          .orderBy("timestamp", descending: true)
+          .startAfter([lastDateTime]) // Start after the last post's datetime
+          .limit(20) // Page size
+          .get();
+
+      final posts = querySnapshot.docs
+          .map((doc) => PostModel.fromFirestore(doc))
+          .toList();
+
+      return posts;
+    } catch (e) {
+      debugPrint('Error fetching more posts: $e');
+      rethrow;
+    }
   }
 
   @override

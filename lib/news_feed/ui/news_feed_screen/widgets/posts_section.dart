@@ -1,26 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
-import 'package:rotaract/discover/ui/events_screen/widgets/event_item_widget.dart';
-import 'package:rotaract/news_feed/repos/posts_repo.dart';
+import 'package:rotaract/news_feed/models/post_model.dart';
+import 'package:rotaract/news_feed/providers/posts_providers.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_card.dart';
-import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/posts_error_widget.dart';
-
-// Add this enum to differentiate between posts and events
-enum FeedItemType { post, event }
-
-// Add this class to represent a feed item
-class FeedItem {
-  final FeedItemType type;
-  final dynamic data; // Will be either a Post or Event object
-  final int originalIndex; // To maintain animation delay logic
-
-  FeedItem({
-    required this.type,
-    required this.data,
-    required this.originalIndex,
-  });
-}
 
 class PostsSection extends ConsumerStatefulWidget {
   const PostsSection({super.key});
@@ -30,171 +12,189 @@ class PostsSection extends ConsumerStatefulWidget {
 }
 
 class _PostsSectionState extends ConsumerState<PostsSection> {
-  Future<void> _handleRefresh() async {
-    // Refresh both providers
-    ref.invalidate(fetchPostsProvider);
-    ref.invalidate(allEventsProvider);
+  List<PostModel> _allPosts = [];
+  bool _isLoadingMore = false;
+  bool _hasMore = true;
+  DateTime? _lastDateTime; // Track last post's datetime
+  static const int _pageSize = 20;
 
-    // Optional: Add a small delay for better UX
-    await Future.delayed(const Duration(milliseconds: 500));
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _allPosts = [];
+      _lastDateTime = null;
+      _hasMore = true;
+    });
+    ref.invalidate(fetchPostsProvider);
+    await Future.delayed(const Duration(milliseconds: 300));
   }
 
-  List<FeedItem> _createMixedFeed(List posts, List events) {
-    final List<FeedItem> mixedFeed = [];
-    int eventIndex = 0;
+  Future<void> _loadMorePosts() async {
+    if (_isLoadingMore || !_hasMore || _lastDateTime == null) return;
 
-    for (int i = 0; i < posts.length; i++) {
-      // Add the post
-      mixedFeed.add(FeedItem(
-        type: FeedItemType.post,
-        data: posts[i],
-        originalIndex: i,
-      ));
+    setState(() {
+      _isLoadingMore = true;
+    });
 
-      // Every 10 posts (1-indexed), add an event if available
-      if ((i + 1) % 5 == 0 && eventIndex < events.length) {
-        mixedFeed.add(FeedItem(
-          type: FeedItemType.event,
-          data: events[eventIndex],
-          originalIndex: i, // Use post index for consistency
-        ));
-        eventIndex++;
-      }
+    try {
+      final morePosts =
+          await ref.read(fetchMorePostsProvider(_lastDateTime!).future);
+
+      setState(() {
+        if (morePosts.isEmpty) {
+          _hasMore = false;
+        } else {
+          _allPosts.addAll(morePosts);
+          // Update last datetime for next pagination
+          _lastDateTime = morePosts.last
+              .timestamp; // Assuming your PostModel has a DateTime timestamp field
+          _hasMore = morePosts.length == _pageSize;
+        }
+        _isLoadingMore = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoadingMore = false;
+      });
+      debugPrint('Error loading more posts: $e');
     }
-
-    return mixedFeed;
   }
 
   @override
   Widget build(BuildContext context) {
     final postsProv = ref.watch(fetchPostsProvider);
-    final eventsProv = ref.watch(allEventsProvider);
 
     return postsProv.when(
-      data: (posts) {
-        if (posts.isEmpty) {
-          return Expanded(
-            child: RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: const SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: SizedBox(
-                  height: 200,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.article_outlined,
-                          size: 48,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          "No Posts Yet",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          "Pull down to refresh",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
+      data: (initialPosts) {
+        // Combine initial posts with loaded posts
+        if (_allPosts.isEmpty && initialPosts.isNotEmpty) {
+          _allPosts = List.from(initialPosts);
+          // Set last datetime for pagination
+          _lastDateTime =
+              initialPosts.last.timestamp; // Assuming DateTime timestamp field
+          _hasMore = initialPosts.length == _pageSize;
+        }
+
+        if (_allPosts.isEmpty) {
+          return _buildEmptyState();
+        }
+
+        return Expanded(
+          child: RefreshIndicator(
+            onRefresh: _handleRefresh,
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: _allPosts.length + (_hasMore ? 1 : 0),
+              cacheExtent: 500,
+              itemBuilder: (context, index) {
+                // Load More button at the end
+                if (index == _allPosts.length) {
+                  return _buildLoadMoreButton();
+                }
+
+                return PostCard(
+                  key: ValueKey(_allPosts[index].id),
+                  post: _allPosts[index],
+                  animationDelay: index < 3 ? index * 100 : 0,
+                );
+              },
+            ),
+          ),
+        );
+      },
+      loading: () => const Expanded(
+        child: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stackTrace) {
+        debugPrint("Posts error: $error");
+        return _buildErrorState();
+      },
+    );
+  }
+
+  Widget _buildLoadMoreButton() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      child: _isLoadingMore
+          ? const Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : Center(
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 100),
+                child: ElevatedButton.icon(
+                  onPressed: _loadMorePosts,
+                  icon: const Icon(Icons.expand_more),
+                  label: const Text('Load More Posts'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
                     ),
                   ),
                 ),
               ),
             ),
-          );
-        }
+    );
+  }
 
-        return eventsProv.when(
-          data: (events) {
-            final mixedFeed = _createMixedFeed(posts, events);
-
-            return Expanded(
-              child: RefreshIndicator(
-                onRefresh: _handleRefresh,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: mixedFeed.length,
-                  itemBuilder: (context, index) {
-                    final feedItem = mixedFeed[index];
-
-                    if (feedItem.type == FeedItemType.post) {
-                      return PostCard(
-                        post: feedItem.data,
-                        animationDelay: feedItem.originalIndex * 100,
-                      );
-                    } else {
-                      return EventItemWidget(event: feedItem.data);
-                    }
-                  },
-                ),
+  Widget _buildEmptyState() {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: const SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            height: 300,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.article_outlined, size: 48, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text("No Posts Yet",
+                      style: TextStyle(fontSize: 16, color: Colors.grey)),
+                  SizedBox(height: 8),
+                  Text("Pull down to refresh",
+                      style: TextStyle(fontSize: 14, color: Colors.grey)),
+                ],
               ),
-            );
-          },
-          loading: () {
-            return Expanded(
-              child: RefreshIndicator(
-                onRefresh: _handleRefresh,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    return PostCard(
-                      post: posts[index],
-                      animationDelay: index * 100,
-                    );
-                  },
-                ),
-              ),
-            );
-          },
-          error: (error, stackTrace) {
-            debugPrint("Events error: $error, $stackTrace");
-            // Show posts only if events fail to load
-            return Expanded(
-              child: RefreshIndicator(
-                onRefresh: _handleRefresh,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    return PostCard(
-                      post: posts[index],
-                      animationDelay: index * 100,
-                    );
-                  },
-                ),
-              ),
-            );
-          },
-        );
-      },
-      loading: () => const Expanded(
-        child: Center(
-          child: CircularProgressIndicator(),
+            ),
+          ),
         ),
       ),
-      error: (error, stackTrace) {
-        debugPrint("Posts error: $error, $stackTrace");
-        return Expanded(
-          child: RefreshIndicator(
-            onRefresh: _handleRefresh,
-            child: const OnErrorRefreshPosts(),
+    );
+  }
+
+  Widget _buildErrorState() {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: const SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            height: 300,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  SizedBox(height: 16),
+                  Text("Something went wrong",
+                      style: TextStyle(fontSize: 16, color: Colors.red)),
+                  SizedBox(height: 8),
+                  Text("Pull down to try again",
+                      style: TextStyle(fontSize: 14, color: Colors.grey)),
+                ],
+              ),
+            ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

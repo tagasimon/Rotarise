@@ -14,9 +14,10 @@ class PostActionsWidget extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        PostCommentsWidget(post: post),
         PostLikeWidget(post: post),
-
+        const SizedBox(width: 16),
+        PostCommentsWidget(post: post),
+        const Spacer(),
         // Share
         PostActionWidget(
           icon: Icons.share_outlined,

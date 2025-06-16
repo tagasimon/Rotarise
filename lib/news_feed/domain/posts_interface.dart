@@ -4,6 +4,8 @@ abstract class PostsInterface {
   /// Fetches all posts for the newsfeed.
   Future<List<PostModel>> fetchPosts();
 
+  Future<List<PostModel>> fetchMorePosts(DateTime lastTimestamp);
+
   /// Adds a new post to the newsfeed.
   Future<void> addPost(PostModel post);
 

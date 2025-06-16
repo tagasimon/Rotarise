@@ -11,15 +11,13 @@ final clubEventsRepoProvider = Provider<ClubEventsRepo>((ref) {
 
 // getAllEvents provider
 final allEventsProvider = FutureProvider((ref) async {
-  final repo = ref.watch(clubEventsRepoProvider);
-  return repo.getAllEvents();
+  return ref.watch(clubEventsRepoProvider).getAllEvents();
 });
 
 // getEventById
 final clubEventByIdProvider =
     FutureProvider.family.autoDispose((ref, String eventId) async {
-  final repo = ref.watch(clubEventsRepoProvider);
-  return repo.getEventById(eventId);
+  return ref.watch(clubEventsRepoProvider).getEventById(eventId);
 });
 
 // getEventsByClubId

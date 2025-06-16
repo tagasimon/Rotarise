@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
-import 'package:rotaract/news_feed/repos/posts_repo.dart';
+import 'package:rotaract/news_feed/providers/posts_providers.dart';
 
 class PostContentWidget extends ConsumerWidget {
   const PostContentWidget({super.key});
