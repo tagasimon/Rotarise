@@ -7,6 +7,10 @@ class ClubRepo implements ClubInterface {
   final CollectionReference _ref;
   ClubRepo(this._ref);
 
+  // Simple cache
+  List<ClubModel>? _cachedClubs;
+  DateTime? _lastFetch;
+
   // create a new club
   @override
   Future<void> createClub(ClubModel club) async {
@@ -44,11 +48,37 @@ class ClubRepo implements ClubInterface {
     return null;
   }
 
-  // get all verified clubs
   @override
   Future<List<ClubModel>> getAllVerifiedClubs() async {
-    final ref = await _ref.where('isVerified', isEqualTo: true).get();
-    return ref.docs.map((e) => ClubModel.fromFirestore(e)).toList();
+    try {
+      // Return cache if less than 2 minutes old
+      if (_cachedClubs != null &&
+          _lastFetch != null &&
+          DateTime.now().difference(_lastFetch!).inMinutes < 2) {
+        return _cachedClubs!;
+      }
+
+      // Fetch from Firestore with limit to prevent memory issues
+      final snapshot = await _ref
+          .where('isVerified', isEqualTo: true)
+          // .limit(100) // Limit to first 100 clubs
+          .get();
+
+      final clubs =
+          snapshot.docs.map((doc) => ClubModel.fromFirestore(doc)).toList();
+
+      // Update cache
+      _cachedClubs = clubs;
+      _lastFetch = DateTime.now();
+
+      return clubs;
+    } catch (e) {
+      // Return cached data if available, otherwise throw error
+      if (_cachedClubs != null) {
+        return _cachedClubs!;
+      }
+      throw Exception('Failed to load clubs: $e');
+    }
   }
 
   // get all verified clubs by country
@@ -76,5 +106,3 @@ class ClubRepo implements ClubInterface {
     return _ref.count().get().then((value) => value.count ?? 0);
   }
 }
-
-// SAAS
