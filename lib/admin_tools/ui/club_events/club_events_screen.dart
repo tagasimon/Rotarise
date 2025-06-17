@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/admin_tools/ui/events_screen/widgets/events_details_bottom_sheet.dart';
-import 'package:rotaract/admin_tools/ui/events_screen/widgets/events_empty_state.dart';
-import 'package:rotaract/admin_tools/ui/events_screen/widgets/events_error_state.dart';
-import 'package:rotaract/admin_tools/ui/events_screen/widgets/events_sort_control.dart';
+import 'package:rotaract/admin_tools/ui/club_events/widgets/events_details_bottom_sheet.dart';
+import 'package:rotaract/admin_tools/ui/club_events/widgets/events_empty_state.dart';
+import 'package:rotaract/admin_tools/ui/club_events/widgets/events_error_state.dart';
+import 'package:rotaract/admin_tools/ui/club_events/widgets/events_sort_control.dart';
 import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
 import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
 
 // Import the separate widget files
-import 'package:rotaract/admin_tools/ui/events_screen/widgets/events_app_bar.dart';
-import 'package:rotaract/admin_tools/ui/events_screen/widgets/events_list_view.dart';
-import 'package:rotaract/admin_tools/ui/events_screen/widgets/events_table_view.dart';
+import 'package:rotaract/admin_tools/ui/club_events/widgets/events_app_bar.dart';
+import 'package:rotaract/admin_tools/ui/club_events/widgets/events_list_view.dart';
+import 'package:rotaract/admin_tools/ui/club_events/widgets/events_table_view.dart';
 
 class EventsByClubScreen extends ConsumerStatefulWidget {
   final String? clubName;
@@ -128,6 +128,7 @@ class _EventsByClubScreenState extends ConsumerState<EventsByClubScreen>
             onPressed: () {
               Navigator.pop(context);
               // Implement delete logic here
+              // TODO Implement Delete Event
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Event "${event.title}" deleted')),
               );

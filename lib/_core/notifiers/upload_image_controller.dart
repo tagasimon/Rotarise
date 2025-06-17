@@ -55,6 +55,7 @@ class UploadImageController extends StateNotifier<AsyncValue<String?>> {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.image,
         allowMultiple: false,
+        compressionQuality: 50,
       );
 
       return result?.files.isNotEmpty == true ? result!.files.first : null;

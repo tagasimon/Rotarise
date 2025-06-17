@@ -79,7 +79,7 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                         child: ImageWidget(
                           imageUrl: imageUrl,
                           size: Size(
-                            MediaQuery.of(context).size.height * 0.8,
+                            MediaQuery.of(context).size.width * 0.8,
                             MediaQuery.of(context).size.height * 0.7,
                           ),
                           boxFitMobile: BoxFit.contain,
@@ -365,6 +365,7 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                       label: 'Interested',
                       onTap: () {
                         // Handle interested action
+                        // TODO implement this
                       },
                     ),
                     _buildActionButton(
@@ -372,6 +373,7 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                       label: 'Share',
                       onTap: () {
                         // Handle share action
+                        // TODO Implement this
                       },
                     ),
                   ],

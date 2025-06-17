@@ -85,9 +85,7 @@ class EventsAppBar extends StatelessWidget implements PreferredSizeWidget {
               // Tabs
               TabBar(
                 controller: tabController,
-                labelColor: Colors.blue,
                 unselectedLabelColor: Colors.grey[600],
-                indicatorColor: Colors.blue,
                 tabs: const [
                   Tab(
                     icon: Icon(Icons.view_list),

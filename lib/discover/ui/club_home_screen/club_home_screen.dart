@@ -132,8 +132,6 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
             body: TabBarView(
               controller: _tabController,
               children: const [
-                // Posts Tab Content
-                // _buildTabContent('Posts'),
                 ClubEventsWidget(),
                 Center(child: Text("Projects")),
                 ClubMembersScreen(),

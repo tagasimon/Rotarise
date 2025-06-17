@@ -32,18 +32,6 @@ class StatsSectionWidget extends ConsumerWidget {
                 onTap: () {
                   ref.read(clubTabIndexProvider.notifier).setTabIndex(0);
                 },
-                number: "${cClub?.membersCount ?? 0}",
-                label: "Members",
-                icon: Icons.group,
-                color: Colors.purple.shade400,
-              ),
-            ),
-            _buildStatDivider(),
-            Expanded(
-              child: StatCardWidget(
-                onTap: () {
-                  ref.read(clubTabIndexProvider.notifier).setTabIndex(1);
-                },
                 number: "${cClub?.eventsCount ?? 0}",
                 label: "Events",
                 icon: Icons.event,
@@ -54,13 +42,25 @@ class StatsSectionWidget extends ConsumerWidget {
             Expanded(
               child: StatCardWidget(
                 onTap: () {
-                  ref.read(clubTabIndexProvider.notifier).setTabIndex(2);
+                  ref.read(clubTabIndexProvider.notifier).setTabIndex(1);
                 },
                 number: "${cClub?.projectsCount ?? 0}",
                 label: "Projects",
                 icon: Icons.work_outline, // Changed icon for better distinction
                 color: Colors
                     .orange.shade400, // Changed color for better distinction
+              ),
+            ),
+            _buildStatDivider(),
+            Expanded(
+              child: StatCardWidget(
+                onTap: () {
+                  ref.read(clubTabIndexProvider.notifier).setTabIndex(2);
+                },
+                number: "${cClub?.membersCount ?? 0}",
+                label: "Members",
+                icon: Icons.group,
+                color: Colors.purple.shade400,
               ),
             ),
           ],

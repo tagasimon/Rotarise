@@ -16,9 +16,7 @@ class EventsTableView extends StatefulWidget {
   State<EventsTableView> createState() => _EventsTableViewState();
 }
 
-class _EventsTableViewState extends State<EventsTableView>
-    with TickerProviderStateMixin {
-  late AnimationController _animationController;
+class _EventsTableViewState extends State<EventsTableView> {
   final String _searchQuery = '';
   final String _sortBy = 'date';
   final bool _sortAscending = true;
@@ -26,16 +24,10 @@ class _EventsTableViewState extends State<EventsTableView>
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _animationController.forward();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
   }
 
@@ -70,47 +62,30 @@ class _EventsTableViewState extends State<EventsTableView>
     final df = DateFormat('MMM dd, yyyy');
     final theme = Theme.of(context);
 
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
-        return FadeTransition(
-          opacity: _animationController,
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 0.1),
-              end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: _animationController,
-              curve: Curves.easeOutCubic,
-            )),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white,
-                    Colors.grey.shade50,
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Expanded(child: _buildModernTable(df, theme)),
-                ],
-              ),
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.white,
+            Colors.grey.shade50,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
-        );
-      },
+        ],
+      ),
+      child: Column(
+        children: [
+          Expanded(child: _buildModernTable(df, theme)),
+        ],
+      ),
     );
   }
 

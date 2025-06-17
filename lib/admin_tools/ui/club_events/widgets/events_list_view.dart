@@ -38,7 +38,7 @@ class EventsListView extends StatelessWidget {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'Upcoming':
-        return Colors.blue;
+        return Colors.pink;
       case 'Ongoing':
         return Colors.green;
       case 'Completed':
@@ -85,7 +85,7 @@ class EventsListView extends StatelessWidget {
                     height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Colors.blue.withOpacity(0.1),
+                      // color: Colors.blue.withOpacity(0.1),
                     ),
                     child: event.imageUrl != null
                         ? ClipRRect(
@@ -94,10 +94,10 @@ class EventsListView extends StatelessWidget {
                               event.imageUrl!,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.event, color: Colors.blue),
+                                  const Icon(Icons.event, color: Colors.pink),
                             ),
                           )
-                        : const Icon(Icons.event, color: Colors.blue, size: 30),
+                        : const Icon(Icons.event, color: Colors.pink, size: 30),
                   ),
                   const SizedBox(width: 16),
 
