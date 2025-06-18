@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
-import 'package:rotaract/admin_tools/repos/club_repo.dart';
+import 'package:rotaract/admin_tools/repos/clubs_repo.dart';
 
 // club controller provider
 final clubControllerProvider =
@@ -10,7 +10,7 @@ final clubControllerProvider =
 );
 
 class ClubControllerNotifier extends StateNotifier<AsyncValue> {
-  final ClubRepo _repo;
+  final ClubsRepo _repo;
   ClubControllerNotifier(this._repo) : super(const AsyncData(null));
 
   // add a new club

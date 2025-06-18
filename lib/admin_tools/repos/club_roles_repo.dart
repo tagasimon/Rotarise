@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rotaract/admin_tools/domain/role_interface.dart';
+import 'package:rotaract/admin_tools/domain/roles_interface.dart';
 import 'package:rotaract/admin_tools/models/club_role.dart';
 
-class ClubRolesRepo implements RoleInterface {
+class ClubRolesRepo implements RolesInterface {
   final CollectionReference _ref;
   ClubRolesRepo(this._ref);
   @override

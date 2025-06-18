@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
-import 'package:rotaract/admin_tools/repos/club_repo.dart';
+import 'package:rotaract/admin_tools/repos/clubs_repo.dart';
 
 // club repo provider
-final clubRepoProvider = Provider<ClubRepo>((ref) {
-  return ClubRepo(ref.watch(clubsCollectionRefProvider));
+final clubRepoProvider = Provider<ClubsRepo>((ref) {
+  return ClubsRepo(ref.watch(clubsCollectionRefProvider));
 });
 
 // get a club by id

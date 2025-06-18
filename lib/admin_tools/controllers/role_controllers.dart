@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/models/club_role.dart';
-import 'package:rotaract/admin_tools/providers/club_roles_providers.dart';
+import 'package:rotaract/admin_tools/providers/club_roles_repo_providers.dart';
 import 'package:rotaract/admin_tools/repos/club_roles_repo.dart';
 
 // role controller provider

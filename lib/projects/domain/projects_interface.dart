@@ -20,4 +20,6 @@ abstract class ProjectsInterface {
   Future<List<ProjectModel>?> getProjectsByClubId(String clubId);
 
   Future<int> getTotalProjectsCount();
+
+  Future<int> getTotalProjectsCountByClubId(String clubId);
 }

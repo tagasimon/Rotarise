@@ -74,4 +74,13 @@ class ProjectsRepo implements ProjectsInterface {
   Future<int> getTotalProjectsCount() {
     return _ref.count().get().then((value) => value.count ?? 0);
   }
+
+  @override
+  Future<int> getTotalProjectsCountByClubId(String clubId) async {
+    return await _ref
+        .where('clubId', isEqualTo: clubId)
+        .count()
+        .get()
+        .then((value) => value.count ?? 0);
+  }
 }

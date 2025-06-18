@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rotaract/admin_tools/domain/club_interface.dart';
+import 'package:rotaract/admin_tools/domain/clubs_interface.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 
-class ClubRepo implements ClubInterface {
+class ClubsRepo implements ClubsInterface {
   final CollectionReference _ref;
-  ClubRepo(this._ref);
+  ClubsRepo(this._ref);
 
   // Simple cache
   List<ClubModel>? _cachedClubs;

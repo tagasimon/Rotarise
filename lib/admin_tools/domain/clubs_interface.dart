@@ -1,6 +1,6 @@
 import 'package:rotaract/admin_tools/models/club_model.dart';
 
-abstract class ClubInterface {
+abstract class ClubsInterface {
   Future<void> createClub(ClubModel club);
   Future<void> updateClub(ClubModel club);
   Future<void> deleteClub(ClubModel club);

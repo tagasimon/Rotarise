@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rotaract/admin_tools/domain/buddy_group_interface.dart';
+import 'package:rotaract/admin_tools/domain/buddy_groups_interface.dart';
 import 'package:rotaract/admin_tools/models/buddy_group_model.dart';
 
-class BuddyGroupRepo implements BuddyGroupInterface {
+class BuddyGroupsRepo implements BuddyGroupsInterface {
   final CollectionReference _ref;
-  BuddyGroupRepo(this._ref);
+  BuddyGroupsRepo(this._ref);
 
   @override
   Future<void> createBuddyGroup(BuddyGroupModel group) async {

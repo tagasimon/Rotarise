@@ -1,6 +1,6 @@
 import 'package:rotaract/admin_tools/models/club_role.dart';
 
-abstract class RoleInterface {
+abstract class RolesInterface {
   Future<void> createRole(ClubRole role);
   Future<void> updateRole(ClubRole role);
   Future<void> deleteRole(String roleId);
