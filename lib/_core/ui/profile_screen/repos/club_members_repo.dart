@@ -56,8 +56,11 @@ class ClubMembersRepo extends ClubMemberInterface {
   // get all members by club id
   @override
   Future<List<ClubMemberModel>> getAllMembersByClubId(String clubId) async {
-    final ref = await _ref.where('clubId', isEqualTo: clubId).get();
-    return ref.docs.map((e) => ClubMemberModel.fromFirestore(e)).toList();
+    return await _ref.where('clubId', isEqualTo: clubId).get().then((snapshot) {
+      return snapshot.docs
+          .map((e) => ClubMemberModel.fromFirestore(e))
+          .toList();
+    });
   }
 
   @override

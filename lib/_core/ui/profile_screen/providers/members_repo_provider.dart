@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
@@ -22,13 +23,20 @@ final membersListByClubIdProvider =
     FutureProvider.autoDispose<List<ClubMemberModel>>((ref) async {
   final cClub = ref.watch(selectedClubNotifierProvider);
   final membersRepo = ref.watch(membersRepoProvider);
-  if (cClub == null) {
-    return []; // or handle the case where no club is selected
-  }
+  if (cClub == null) return [];
   return membersRepo.getAllMembersByClubId(cClub.id);
 });
-// get a member by id
 
+// get all members by club id
+final clubMembersListByClubIdProvider =
+    FutureProvider.autoDispose<List<ClubMemberModel>>((ref) async {
+  final cUser = ref.watch(currentUserNotifierProvider);
+  if (cUser == null || cUser.clubId == null) return [];
+  return ref.watch(membersRepoProvider).getAllMembersByClubId(cUser.clubId!);
+  // 0b65b229-2114-41e5-be04-d4d688ee08b5
+});
+
+// get a member by id
 final memberByIdProvider =
     FutureProvider.family<ClubMemberModel?, String>((ref, id) async {
   final membersRepo = ref.watch(membersRepoProvider);

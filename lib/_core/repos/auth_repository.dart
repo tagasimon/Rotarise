@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:rotaract/_core/models/app_user.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 
@@ -55,7 +56,8 @@ class AuthRepository {
         // This will fail silently if document already exists
         await ref.set(firstTimeUser.toMap()).catchError((error) {
           // Ignore errors - document might have been created by another process
-          print('Error creating user document (likely already exists): $error');
+          debugPrint(
+              'Error creating user document (likely already exists): $error');
         });
 
         // Fetch the document again to get the actual data
