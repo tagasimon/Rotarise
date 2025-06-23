@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:rotaract/discover/ui/events_screen/domain/club_events_interface.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/domain/club_events_interface.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
 class ClubEventsRepo implements ClubEventsInterface {
   final CollectionReference ref;

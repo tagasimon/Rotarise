@@ -32,7 +32,7 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
     // Initialize TabController with the current state from Riverpod
     final initialIndex = ref.read(clubTabIndexProvider);
     _tabController = TabController(
-      length: 4,
+      length: 3,
       vsync: this,
       initialIndex: initialIndex,
     );
@@ -109,7 +109,7 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
                       tabs: const [
                         // Tab(text: 'Posts'),
                         Tab(text: 'Events'),
-                        Text("Projects"),
+                        // Text("Projects"),
                         Tab(text: 'Members'),
                         Tab(text: 'About'),
                       ],
@@ -133,7 +133,6 @@ class _ClubHomeScreenState extends ConsumerState<ClubHomeScreen>
               controller: _tabController,
               children: const [
                 ClubEventsWidget(),
-                Center(child: Text("Projects")),
                 ClubMembersScreen(),
                 ClubAboutWidget()
               ],

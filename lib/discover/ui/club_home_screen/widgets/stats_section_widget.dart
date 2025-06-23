@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rotaract/_core/notifiers/club_tab_notifier.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/stat_card_widget.dart';
@@ -44,23 +45,24 @@ class StatsSectionWidget extends ConsumerWidget {
                 onTap: () {
                   ref.read(clubTabIndexProvider.notifier).setTabIndex(1);
                 },
-                number: "${cClub?.projectsCount ?? 0}",
-                label: "Projects",
-                icon: Icons.work_outline, // Changed icon for better distinction
-                color: Colors
-                    .orange.shade400, // Changed color for better distinction
+                number: "${cClub?.membersCount ?? 0}",
+                label: "Members",
+                icon: Icons.group,
+                color: Colors.purple.shade400,
               ),
             ),
             _buildStatDivider(),
             Expanded(
               child: StatCardWidget(
                 onTap: () {
+                  Fluttertoast.showToast(msg: "Projects Coming Soon!");
                   ref.read(clubTabIndexProvider.notifier).setTabIndex(2);
                 },
-                number: "${cClub?.membersCount ?? 0}",
-                label: "Members",
-                icon: Icons.group,
-                color: Colors.purple.shade400,
+                number: "${cClub?.projectsCount ?? 0}",
+                label: "Projects",
+                icon: Icons.work_outline, // Changed icon for better distinction
+                color: Colors
+                    .orange.shade400, // Changed color for better distinction
               ),
             ),
           ],

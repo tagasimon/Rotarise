@@ -5,7 +5,7 @@ import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/club_header_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/gradient_overlay_widget.dart';
-import 'package:rotaract/discover/ui/club_home_screen/widgets/share_button_widget.dart';
+import 'package:rotaract/_core/shared_widgets/action_button_widget.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ClubAppBarWidget extends StatelessWidget {
@@ -27,7 +27,7 @@ class ClubAppBarWidget extends StatelessWidget {
       elevation: 0,
       backgroundColor: isScrolled ? Colors.white : Colors.transparent,
       surfaceTintColor: Colors.transparent,
-      leading: ShareButtonWidget(
+      leading: ActionButtonWidget(
         icon: Icons.arrow_back_ios_new_rounded,
         onPressed: () => context.pop(false),
         isLight: !isScrolled,
@@ -45,10 +45,10 @@ class ClubAppBarWidget extends StatelessWidget {
         ),
       ),
       actions: [
-        ShareButtonWidget(
+        ActionButtonWidget(
           icon: Icons.share_rounded,
-          onPressed: () {
-            Share.share(
+          onPressed: () async {
+            await Share.share(
               'Check out this Rotaract Club: ${club.name}\n\nDownload the app: ${Constants.kAppLink}',
               subject: 'Rotaract Club - ${club.name}',
             );

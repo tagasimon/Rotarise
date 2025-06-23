@@ -1,4 +1,4 @@
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
 abstract class ClubEventsInterface {
   // add a new event

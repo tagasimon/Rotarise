@@ -25,8 +25,8 @@ class DiscoverTabBar extends ConsumerWidget {
         tabs: const [
           Tab(text: "Clubs"),
           Tab(text: "Events"),
-          Tab(text: "Projects"),
-          // TODO Add News Back
+          // TODO Add Projects  Back
+          // Tab(text: "Projects"),
           // Tab(text: "News"),
         ],
         labelColor: Colors.purple.shade600,

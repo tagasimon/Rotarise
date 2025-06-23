@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/shared_widgets/action_button_widget.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/management_actions_widget.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/quick_actions_widget.dart';
-import 'package:rotaract/discover/ui/club_home_screen/widgets/share_button_widget.dart';
 
 class AdminToolsScreen extends StatelessWidget {
   const AdminToolsScreen({super.key});
@@ -16,7 +16,7 @@ class AdminToolsScreen extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             ModernAppBarWidget(
-              leading: ShareButtonWidget(
+              leading: ActionButtonWidget(
                 icon: Icons.arrow_back_ios_new_rounded,
                 onPressed: () => context.pop(false),
               ),

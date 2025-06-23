@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/_core/providers/firebase_providers.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
-import 'package:rotaract/discover/ui/events_screen/repos/club_events_repo.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/repos/club_events_repo.dart';
 
 final clubEventsRepoProvider = Provider<ClubEventsRepo>((ref) {
   return ClubEventsRepo(ref.watch(eventsCollectionRefProvider));

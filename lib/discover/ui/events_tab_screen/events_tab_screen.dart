@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
-import 'package:rotaract/discover/ui/events_screen/widgets/event_item_widget.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/widgets/event_item_widget.dart';
 
-class EventsScreen extends ConsumerWidget {
-  const EventsScreen({super.key});
+class EventsTabScreen extends ConsumerWidget {
+  const EventsTabScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,11 +20,13 @@ class EventsScreen extends ConsumerWidget {
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                  child: EventItemWidget(event: events[index]),
-                ),
+                (_, i) {
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                    child: EventItemWidget(event: events[i]),
+                  );
+                },
                 childCount: events.length,
               ),
             )

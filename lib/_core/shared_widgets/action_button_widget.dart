@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ShareButtonWidget extends StatelessWidget {
+class ActionButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLight;
   final IconData icon;
-  const ShareButtonWidget({
+  const ActionButtonWidget({
     super.key,
     required this.icon,
     required this.onPressed,

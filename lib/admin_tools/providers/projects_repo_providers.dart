@@ -17,13 +17,6 @@ final totalProjectsCountProvider = FutureProvider<int>((ref) async {
   return await ref.watch(projectsRepoProvider).getTotalProjectsCount();
 });
 
-// final totalProjectsByClubIdProvider =
-//     FutureProvider.family.autoDispose<int, String>((ref, clubId) async {
-//   return await ref
-//       .watch(projectsRepoProvider)
-//       .getTotalProjectsCountByClubId(clubId);
-// });
-
 final projectsByClubIdProvider = FutureProvider.autoDispose
     .family<List<ProjectModel>?, String>((ref, clubId) async {
   return await ref.watch(projectsRepoProvider).getProjectsByClubId(clubId);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
 class EventsTableView extends StatefulWidget {
   final List<ClubEventModel> events;

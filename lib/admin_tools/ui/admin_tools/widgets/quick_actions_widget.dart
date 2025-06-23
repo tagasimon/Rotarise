@@ -17,8 +17,8 @@ import 'package:rotaract/admin_tools/ui/admin_tools/widgets/action_card_widget.d
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/add_bottom_sheet.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/new_event_sheet.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/new_role_sheet.dart';
-import 'package:rotaract/discover/ui/events_screen/controllers/club_events_controller.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/controllers/club_events_controller.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
 class QuickActionsWidget extends ConsumerWidget {
   const QuickActionsWidget({super.key});

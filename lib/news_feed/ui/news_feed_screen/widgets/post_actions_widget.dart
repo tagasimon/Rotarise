@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_constants/widget_helpers.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_action_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_comments_widget.dart';
@@ -22,7 +23,13 @@ class PostActionsWidget extends ConsumerWidget {
         PostActionWidget(
           icon: Icons.share_outlined,
           count: null,
-          onTap: () {},
+          onTap: () {
+            if (post.content == null) return;
+            WidgetHelpers.shareContent(
+              content: post.content!,
+              subject: 'Check out this post from Rotarise',
+            );
+          },
           color: Colors.grey[600]!,
         ),
       ],

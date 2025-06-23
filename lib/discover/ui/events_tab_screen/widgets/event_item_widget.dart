@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_network/image_network.dart';
-import 'package:intl/intl.dart';
+import 'package:rotaract/_constants/image_helpers.dart';
+import 'package:share_plus/share_plus.dart';
+
 import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_constants/date_helpers.dart';
+import 'package:rotaract/_constants/widget_helpers.dart';
 import 'package:rotaract/_core/shared_widgets/club_name_by_id_widget.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
 class EventItemWidget extends ConsumerStatefulWidget {
   final ClubEventModel event;
@@ -48,87 +52,6 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
     super.dispose();
   }
 
-  void _showFullScreenImage(BuildContext context, String imageUrl) {
-    final size = MediaQuery.of(context).size;
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        opaque: false,
-        barrierColor: Colors.black,
-        pageBuilder: (context, animation, _) {
-          return FadeTransition(
-            opacity: animation,
-            child: Dialog.fullscreen(
-              backgroundColor: Colors.transparent,
-              child: Stack(
-                children: [
-                  // Dismissible background
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      color: Colors.transparent,
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                  ),
-                  // Image container
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.all(20),
-                      child: InteractiveViewer(
-                        panEnabled: true,
-                        boundaryMargin: const EdgeInsets.all(20),
-                        child: ImageWidget(
-                          imageUrl: imageUrl,
-                          size: Size(size.width * 0.95, size.height * 0.7),
-                          boxFitMobile: BoxFit.contain,
-                          boxFitWeb: BoxFitWeb.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Close button
-                  Positioned(
-                    top: MediaQuery.of(context).padding.top + 10,
-                    right: 20,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.close, color: Colors.white),
-                        iconSize: 24,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  String _formatEventDate(Object startDate, Object endDate) {
-    // Convert Object to DateTime - they should already be DateTime from fromMap
-    final DateTime start = startDate as DateTime;
-    final DateTime end = endDate as DateTime;
-
-    final startFormatted = DateFormat('dd MMM').format(start);
-    final endFormatted = DateFormat('dd MMM yyyy').format(end);
-
-    // Check if it's the same day
-    if (start.year == end.year &&
-        start.month == end.month &&
-        start.day == end.day) {
-      return DateFormat('dd MMM yyyy').format(start);
-    }
-
-    return '$startFormatted - $endFormatted';
-  }
-
   void _showEventOptions(BuildContext context, TapDownDetails details) {
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -153,6 +76,12 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
               const Text('Share Event', style: TextStyle(fontSize: 14)),
             ],
           ),
+          onTap: () async {
+            await Share.share(
+              'Check out this Event: ${widget.event.title}\n\nDownload the app: ${Constants.kAppLink}',
+              subject: 'Rotaract Event',
+            );
+          },
         ),
         PopupMenuItem(
           value: 'save',
@@ -238,33 +167,44 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                 const SizedBox(height: 12),
 
                 // Event details
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade50,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Icon(
-                        Icons.calendar_today_outlined,
-                        size: 16,
-                        color: Colors.blue.shade600,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        _formatEventDate(
-                            widget.event.startDate, widget.event.endDate),
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: () async {
+                    await DateHelpers.addToCalendar(
+                      title: 'Workshop',
+                      start: DateTime(2024, 7, 15, 10, 0),
+                      end: DateTime(2024, 7, 15, 12, 0),
+                      description: 'Flutter development workshop',
+                      location: 'Online',
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Icon(
+                          Icons.calendar_today_outlined,
+                          size: 16,
+                          color: Colors.blue.shade600,
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          DateHelpers.formatEventDate(
+                              widget.event.startDate, widget.event.endDate),
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
                 const SizedBox(height: 8),
@@ -286,8 +226,8 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                     const SizedBox(width: 8),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () async {
-                          // TODO: Implement location opening
+                        onTap: () {
+                          WidgetHelpers.launchDirections(widget.event.location);
                         },
                         child: Text(
                           widget.event.location,
@@ -306,7 +246,9 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                 // Event image
                 const SizedBox(height: 12),
                 GestureDetector(
-                  onTap: () => _showFullScreenImage(context, imageUrl),
+                  onTap: () {
+                    ImageHelpers.showFullScreenImage(context, imageUrl);
+                  },
                   child: Hero(
                     tag: 'event_image_${widget.event.id}',
                     child: ClipRRect(
@@ -327,6 +269,7 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                                 imageUrl: imageUrl,
                                 size: const Size(double.infinity, 300),
                                 boxFitMobile: BoxFit.cover,
+                                boxFitWeb: BoxFitWeb.cover,
                               ),
                               // Fullscreen indicator
                               Positioned(
@@ -352,30 +295,6 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                     ),
                   ),
                 ),
-
-                // Action buttons
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildActionButton(
-                      icon: Icons.person_add_outlined,
-                      label: 'Interested',
-                      onTap: () {
-                        // Handle interested action
-                        // TODO implement this
-                      },
-                    ),
-                    _buildActionButton(
-                      icon: Icons.share_outlined,
-                      label: 'Share',
-                      onTap: () {
-                        // Handle share action
-                        // TODO Implement this
-                      },
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
@@ -383,37 +302,28 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
       ),
     );
   }
-
-  Widget _buildActionButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 18,
-              color: Colors.grey[600],
-            ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
+
+// TODO Implement Event Actions
+                // const SizedBox(height: 12),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     EventActionButton(
+                //       icon: Icons.person_add_outlined,
+                //       label: 'Interested',
+                //       onTap: () {
+                //         // Handle interested action
+                //         // TODO implement this
+                //       },
+                //     ),
+                //     EventActionButton(
+                //       icon: Icons.share_outlined,
+                //       label: 'Share',
+                //       onTap: () {
+                //         // Handle share action
+                //         // TODO Implement this
+                //       },
+                //     ),
+                //   ],
+                // ),

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/discover_tab_index_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
-import 'package:rotaract/discover/ui/discover_screen/widgets/clubs_tab_widget.dart';
-import 'package:rotaract/discover/ui/discover_screen/widgets/projects_tab_widget.dart';
+import 'package:rotaract/discover/ui/discover_screen/widgets/clubs_tab_screen.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/search_bar_widget.dart';
-import 'package:rotaract/discover/ui/events_screen/events_screen.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/events_tab_screen.dart';
 
 class DiscoverClubsScreen extends ConsumerStatefulWidget {
   const DiscoverClubsScreen({super.key});
@@ -24,7 +23,7 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
     super.initState();
     final initialIndex = ref.read(discoverTabIndexProvider);
     _tabController = TabController(
-      length: 3,
+      length: 2,
       vsync: this,
       initialIndex: initialIndex,
     );
@@ -89,7 +88,8 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
                   tabs: const [
                     Tab(text: 'Clubs'),
                     Tab(text: 'Events'),
-                    Tab(text: 'Projects'),
+                    // TODO Add Projects Tab
+                    // Tab(text: 'Projects'),
                   ],
                   indicatorColor: Theme.of(context).primaryColor,
                   labelColor: Theme.of(context).primaryColor,
@@ -111,9 +111,9 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
           controller: _tabController,
           physics: const BouncingScrollPhysics(),
           children: const [
-            ClubsTabWidget(),
-            EventsScreen(),
-            ProjectsTabWidget(),
+            ClubsTabScreen(),
+            EventsTabScreen(),
+            // ProjectsTabScreen(),
           ],
         ),
       ),

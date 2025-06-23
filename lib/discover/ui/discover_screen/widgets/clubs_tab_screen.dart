@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/discover/ui/search_clubs_screen/widgets/club_card_widget.dart';
 
-class ClubsTabWidget extends ConsumerWidget {
-  const ClubsTabWidget({super.key});
+class ClubsTabScreen extends ConsumerWidget {
+  const ClubsTabScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

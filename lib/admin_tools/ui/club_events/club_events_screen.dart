@@ -4,8 +4,8 @@ import 'package:rotaract/admin_tools/ui/club_events/widgets/events_details_botto
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_empty_state.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_error_state.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_sort_control.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
-import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_app_bar.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_list_view.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_table_view.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/discover/ui/events_screen/models/club_event_model.dart';
-import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
-import 'package:rotaract/discover/ui/events_screen/repos/club_events_repo.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/repos/club_events_repo.dart';
 
 // club events controller provider
 final clubEventsControllerProvider =

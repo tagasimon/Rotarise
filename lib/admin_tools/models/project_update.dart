@@ -3,6 +3,7 @@ import 'dart:convert';
 
 class ProjectUpdate {
   final String id;
+  final String projectId;
   final String title;
   final String description;
   final DateTime date;
@@ -10,6 +11,7 @@ class ProjectUpdate {
   final String? videoUrl;
   ProjectUpdate({
     required this.id,
+    required this.projectId,
     required this.title,
     required this.description,
     required this.date,
@@ -19,6 +21,7 @@ class ProjectUpdate {
 
   ProjectUpdate copyWith({
     String? id,
+    String? projectId,
     String? title,
     String? description,
     DateTime? date,
@@ -27,6 +30,7 @@ class ProjectUpdate {
   }) {
     return ProjectUpdate(
       id: id ?? this.id,
+      projectId: projectId ?? this.projectId,
       title: title ?? this.title,
       description: description ?? this.description,
       date: date ?? this.date,
@@ -38,6 +42,7 @@ class ProjectUpdate {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'projectId': projectId,
       'title': title,
       'description': description,
       'date': date.millisecondsSinceEpoch,
@@ -49,6 +54,7 @@ class ProjectUpdate {
   factory ProjectUpdate.fromMap(Map<String, dynamic> map) {
     return ProjectUpdate(
       id: map['id'] as String,
+      projectId: map['projectId'] as String,
       title: map['title'] as String,
       description: map['description'] as String,
       date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
@@ -64,7 +70,7 @@ class ProjectUpdate {
 
   @override
   String toString() {
-    return 'ProjectUpdate(id: $id, title: $title, description: $description, date: $date, imageUrl: $imageUrl, videoUrl: $videoUrl)';
+    return 'ProjectUpdate(id: $id, projectId: $projectId, title: $title, description: $description, date: $date, imageUrl: $imageUrl, videoUrl: $videoUrl)';
   }
 
   @override
@@ -72,6 +78,7 @@ class ProjectUpdate {
     if (identical(this, other)) return true;
 
     return other.id == id &&
+        other.projectId == projectId &&
         other.title == title &&
         other.description == description &&
         other.date == date &&
@@ -82,6 +89,7 @@ class ProjectUpdate {
   @override
   int get hashCode {
     return id.hashCode ^
+        projectId.hashCode ^
         title.hashCode ^
         description.hashCode ^
         date.hashCode ^

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/providers/projects_provider.dart';
-import 'package:rotaract/admin_tools/models/project_model.dart';
+import 'package:rotaract/discover/ui/projects_tab_screen/widgets/project_card.dart';
 
 class ProjectListScreen extends ConsumerWidget {
   const ProjectListScreen({super.key});
@@ -57,13 +57,12 @@ class ProjectListScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               itemCount: projects.length,
               itemBuilder: (context, index) {
-                final project = projects[index];
                 return ProjectCard(
-                  project: project,
-                  onTap: () {
-                    // Navigate to project details
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectDetailsScreen(project: project)));
-                  },
+                  project: projects[index],
+                  // onTap: () {
+                  //   // Navigate to project details
+                  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectDetailsScreen(project: project)));
+                  // },
                 );
               },
             ),
@@ -102,213 +101,6 @@ class ProjectListScreen extends ConsumerWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ProjectCard extends StatelessWidget {
-  final ProjectModel project;
-  final VoidCallback? onTap;
-
-  const ProjectCard({
-    super.key,
-    required this.project,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Title and Status
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      project.title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ),
-                  if (project.target != null)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color:
-                            project.isCompleted ? Colors.green : Colors.orange,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        project.isCompleted ? 'Completed' : 'In Progress',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 8),
-
-              // Description
-              Text(
-                project.description,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
-                    ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 12),
-
-              // Progress bar (if target exists)
-              if (project.target != null) ...[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Progress',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                    Text(
-                      '${project.progressPercentage.toStringAsFixed(1)}%',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: project.isCompleted
-                                ? Colors.green
-                                : Colors.orange,
-                          ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                LinearProgressIndicator(
-                  value: project.progressPercentage / 100,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    project.isCompleted ? Colors.green : Colors.orange,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Raised: \$${project.totalDonations.toStringAsFixed(2)}',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    Text(
-                      'Target: \$${project.target!.toStringAsFixed(2)}',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-              ],
-
-              // Statistics
-              Row(
-                children: [
-                  _StatChip(
-                    icon: Icons.volunteer_activism,
-                    label: '${project.donationsCount} donations',
-                  ),
-                  const SizedBox(width: 8),
-                  _StatChip(
-                    icon: Icons.photo_library,
-                    label: '${project.imagesCount} photos',
-                  ),
-                  const SizedBox(width: 8),
-                  _StatChip(
-                    icon: Icons.trending_up,
-                    label: '${project.impactsCount} impacts',
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-
-              // Date information
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (project.startDate != null)
-                    Text(
-                      'Started: ${_formatDate(project.startDate!)}',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.grey[600],
-                          ),
-                    ),
-                  Text(
-                    'Created: ${_formatDate(project.date)}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[600],
-                        ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
-  }
-}
-
-class _StatChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _StatChip({
-    required this.icon,
-    required this.label,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 14,
-            color: Colors.grey[600],
-          ),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-            ),
-          ),
-        ],
       ),
     );
   }

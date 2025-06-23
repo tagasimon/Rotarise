@@ -3,6 +3,7 @@ import 'dart:convert';
 
 class ProjectDonation {
   final String id;
+  final String projectId;
   final double amount;
   final DateTime donationDate;
   final String? donorName;
@@ -12,6 +13,7 @@ class ProjectDonation {
   final String? paymentMethod;
   ProjectDonation({
     required this.id,
+    required this.projectId,
     required this.amount,
     required this.donationDate,
     this.donorName,
@@ -23,6 +25,7 @@ class ProjectDonation {
 
   ProjectDonation copyWith({
     String? id,
+    String? projectId,
     double? amount,
     DateTime? donationDate,
     String? donorName,
@@ -33,6 +36,7 @@ class ProjectDonation {
   }) {
     return ProjectDonation(
       id: id ?? this.id,
+      projectId: projectId ?? this.projectId,
       amount: amount ?? this.amount,
       donationDate: donationDate ?? this.donationDate,
       donorName: donorName ?? this.donorName,
@@ -46,6 +50,7 @@ class ProjectDonation {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'projectId': projectId,
       'amount': amount,
       'donationDate': donationDate.millisecondsSinceEpoch,
       'donorName': donorName,
@@ -59,8 +64,10 @@ class ProjectDonation {
   factory ProjectDonation.fromMap(Map<String, dynamic> map) {
     return ProjectDonation(
       id: map['id'] as String,
+      projectId: map['projectId'] as String,
       amount: map['amount'] as double,
-      donationDate: map['donationDate'].toDate(),
+      donationDate:
+          DateTime.fromMillisecondsSinceEpoch(map['donationDate'] as int),
       donorName: map['donorName'] != null ? map['donorName'] as String : null,
       donorEmail:
           map['donorEmail'] != null ? map['donorEmail'] as String : null,
@@ -79,7 +86,7 @@ class ProjectDonation {
 
   @override
   String toString() {
-    return 'DonationModel(id: $id, amount: $amount, donationDate: $donationDate, donorName: $donorName, donorEmail: $donorEmail, message: $message, transactionId: $transactionId, paymentMethod: $paymentMethod)';
+    return 'ProjectDonation(id: $id, projectId: $projectId, amount: $amount, donationDate: $donationDate, donorName: $donorName, donorEmail: $donorEmail, message: $message, transactionId: $transactionId, paymentMethod: $paymentMethod)';
   }
 
   @override
@@ -87,6 +94,7 @@ class ProjectDonation {
     if (identical(this, other)) return true;
 
     return other.id == id &&
+        other.projectId == projectId &&
         other.amount == amount &&
         other.donationDate == donationDate &&
         other.donorName == donorName &&
@@ -99,6 +107,7 @@ class ProjectDonation {
   @override
   int get hashCode {
     return id.hashCode ^
+        projectId.hashCode ^
         amount.hashCode ^
         donationDate.hashCode ^
         donorName.hashCode ^

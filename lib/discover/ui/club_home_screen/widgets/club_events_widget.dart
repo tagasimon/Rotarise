@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
-import 'package:rotaract/discover/ui/events_screen/widgets/event_item_widget.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/widgets/event_item_widget.dart';
 
 class ClubEventsWidget extends ConsumerWidget {
   const ClubEventsWidget({super.key});

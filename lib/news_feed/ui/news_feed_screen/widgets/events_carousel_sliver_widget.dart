@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_network/image_network.dart';
 import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_constants/image_helpers.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
-import 'package:rotaract/_core/shared_widgets/image_widget.dart';
-import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
 
 class EventsCarouselSliverWidget extends ConsumerWidget {
   const EventsCarouselSliverWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = MediaQuery.of(context).size;
     final eventsProv = ref.watch(allEventsProvider);
 
     return eventsProv.when(
@@ -57,13 +55,8 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
                           if (event.imageUrl == null) {
                             return;
                           }
-
-                          await showFullScreenImage(
-                            event.imageUrl!,
-                            event.title,
-                            context,
-                            size,
-                          );
+                          ImageHelpers.showFullScreenImage(
+                              context, event.imageUrl!);
                         },
                         child: Container(
                           width: 90,
@@ -103,73 +96,6 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
       },
       loading: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
       error: (_, __) => const SliverToBoxAdapter(child: SizedBox.shrink()),
-    );
-  }
-
-  Future<void> showFullScreenImage(
-      String imageUrl, String title, BuildContext context, Size size) async {
-    await showDialog(
-      context: context,
-      barrierColor: Colors.black87,
-      builder: (context) => Dialog.fullscreen(
-        backgroundColor: Colors.black,
-        child: Stack(
-          children: [
-            Center(
-              child: InteractiveViewer(
-                minScale: 0.5,
-                maxScale: 3.0,
-                child: ImageWidget(
-                  imageUrl: imageUrl,
-                  size: Size(size.width * 0.95, size.height * 0.7),
-                  boxFitWeb: BoxFitWeb.contain,
-                  boxFitMobile: BoxFit.fitWidth,
-                ),
-              ),
-            ),
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 16,
-              right: 16,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.close,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: MediaQuery.of(context).padding.bottom + 32,
-              left: 16,
-              right: 16,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.black54,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/club_tab_notifier.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/stat_card_widget.dart';
-import 'package:rotaract/discover/ui/events_screen/providers/club_events_providers.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
 
 class EventsByClubCountWidget extends ConsumerWidget {
   const EventsByClubCountWidget({super.key});
