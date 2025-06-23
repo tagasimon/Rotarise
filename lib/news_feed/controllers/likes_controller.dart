@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/news_feed/models/like_model.dart';
+import 'package:rotaract/news_feed/providers/likes_provider.dart';
 import 'package:rotaract/news_feed/repos/likes_repo.dart';
 
 final likesControllerProvider =

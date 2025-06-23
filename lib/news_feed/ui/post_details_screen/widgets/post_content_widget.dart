@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
 import 'package:rotaract/news_feed/providers/posts_providers.dart';
+import 'package:rotaract/news_feed/ui/post_details_screen/widgets/stat_item_widget.dart';
 
 class PostContentWidget extends ConsumerWidget {
   const PostContentWidget({super.key});
@@ -114,51 +115,17 @@ class PostContentWidget extends ConsumerWidget {
           Row(
             children: [
               commentsCountProv.when(
-                data: (data) {
-                  return _buildStatItem(
-                    '${data ?? 0}',
-                    'Comments',
-                  );
-                },
+                data: (c) => StatItemWidget('${c ?? 0}', 'Comments'),
                 loading: () => const SizedBox.shrink(),
                 error: (_, __) => const SizedBox.shrink(),
               ),
               const SizedBox(width: 24),
               likesCountProv.when(
-                data: (data) {
-                  return _buildStatItem(
-                    '${data ?? 0}',
-                    'Likes',
-                  );
-                },
+                data: (l) => StatItemWidget('${l ?? 0}', 'Likes'),
                 loading: () => const SizedBox.shrink(),
                 error: (_, __) => const SizedBox.shrink(),
               )
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String count, String label) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: count,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontSize: 14,
-            ),
-          ),
-          TextSpan(
-            text: ' $label',
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 14,
-            ),
           ),
         ],
       ),

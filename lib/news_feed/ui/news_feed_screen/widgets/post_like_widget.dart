@@ -3,13 +3,14 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
+
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/news_feed/controllers/likes_controller.dart';
 import 'package:rotaract/news_feed/models/like_model.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
-import 'package:rotaract/news_feed/repos/likes_repo.dart';
+import 'package:rotaract/news_feed/providers/likes_provider.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_action_widget.dart';
-import 'package:uuid/uuid.dart';
 
 class PostLikeWidget extends ConsumerStatefulWidget {
   final PostModel post;

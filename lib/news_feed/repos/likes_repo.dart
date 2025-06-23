@@ -1,23 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
-import 'package:rotaract/_core/providers/firebase_providers.dart';
 
 import 'package:rotaract/news_feed/domain/likes_interface.dart';
 import 'package:rotaract/news_feed/models/like_model.dart';
-
-final likesRepoProvider = Provider<LikesRepo>((ref) {
-  return LikesRepo(ref.watch(likesCollectionRefProvider));
-});
-
-final isLikedProvider = StreamProvider.family<bool, String>((ref, postId) {
-  final cUser = ref.watch(currentUserNotifierProvider);
-  if (cUser == null) {
-    return Stream.value(false);
-  }
-  return ref.watch(likesRepoProvider).isLiked(postId, cUser.id);
-});
 
 class LikesRepo implements LikesInterface {
   final CollectionReference _ref;

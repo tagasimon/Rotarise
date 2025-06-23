@@ -49,6 +49,7 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
   }
 
   void _showFullScreenImage(BuildContext context, String imageUrl) {
+    final size = MediaQuery.of(context).size;
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
@@ -78,10 +79,7 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
                         boundaryMargin: const EdgeInsets.all(20),
                         child: ImageWidget(
                           imageUrl: imageUrl,
-                          size: Size(
-                            MediaQuery.of(context).size.width * 0.8,
-                            MediaQuery.of(context).size.height * 0.7,
-                          ),
+                          size: Size(size.width * 0.95, size.height * 0.7),
                           boxFitMobile: BoxFit.contain,
                           boxFitWeb: BoxFitWeb.contain,
                         ),

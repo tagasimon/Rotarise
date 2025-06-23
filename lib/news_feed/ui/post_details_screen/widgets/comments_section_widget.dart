@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
-import 'package:rotaract/news_feed/repos/comments_repo.dart';
+import 'package:rotaract/news_feed/providers/comments_provider.dart';
 import 'package:rotaract/news_feed/ui/post_details_screen/widgets/comment_item_widget.dart';
 
 class CommentsSectionWidget extends ConsumerWidget {

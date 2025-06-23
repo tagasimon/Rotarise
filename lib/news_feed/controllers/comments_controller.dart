@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/news_feed/models/comment_model.dart';
+import 'package:rotaract/news_feed/providers/comments_provider.dart';
 import 'package:rotaract/news_feed/repos/comments_repo.dart';
 
 final commentsControllerProvider =

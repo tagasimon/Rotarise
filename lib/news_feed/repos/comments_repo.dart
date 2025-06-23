@@ -1,17 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/providers/firebase_providers.dart';
 import 'package:rotaract/news_feed/domain/comments_interface.dart';
 import 'package:rotaract/news_feed/models/comment_model.dart';
-
-final commentsRepoProvider = Provider<CommentsRepo>((ref) {
-  return CommentsRepo(ref.watch(commentsCollectionRefProvider));
-});
-
-final postCommentsProvider = StreamProvider.family
-    .autoDispose<List<CommentModel>, String>((ref, postId) {
-  return ref.watch(commentsRepoProvider).fetchCommentByPostId(postId);
-});
 
 class CommentsRepo implements CommentsInterface {
   final CollectionReference _ref;

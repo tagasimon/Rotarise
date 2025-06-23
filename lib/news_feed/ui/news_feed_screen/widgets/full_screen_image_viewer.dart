@@ -50,7 +50,7 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer>
                 tag: 'image_hero',
                 child: ImageWidget(
                   imageUrl: widget.imageUrl,
-                  size: Size(size.width * 0.9, size.height * 0.8),
+                  size: Size(size.width * 0.95, size.height * 0.7),
                   boxFitMobile: BoxFit.fitWidth,
                 ),
               ),

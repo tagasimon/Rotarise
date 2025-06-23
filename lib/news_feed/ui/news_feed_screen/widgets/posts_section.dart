@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/providers/posts_providers.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/empty_state.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/error_state.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/load_more_button.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_card.dart';
 
 class PostsSection extends ConsumerStatefulWidget {
@@ -75,7 +78,9 @@ class _PostsSectionState extends ConsumerState<PostsSection> {
         }
 
         if (_allPosts.isEmpty) {
-          return _buildEmptyState();
+          return EmptyState(
+            handleRefresh: _handleRefresh,
+          );
         }
 
         return Expanded(
@@ -89,7 +94,10 @@ class _PostsSectionState extends ConsumerState<PostsSection> {
               itemBuilder: (context, index) {
                 // Load More button at the end
                 if (index == _allPosts.length) {
-                  return _buildLoadMoreButton();
+                  return LoadMoreButton(
+                    isLoadingMore: _isLoadingMore,
+                    loadMore: _loadMorePosts,
+                  );
                 }
 
                 return PostCard(
@@ -107,94 +115,8 @@ class _PostsSectionState extends ConsumerState<PostsSection> {
       ),
       error: (error, stackTrace) {
         debugPrint("Posts error: $error");
-        return _buildErrorState();
+        return ErrorState(handleRefresh: _handleRefresh);
       },
-    );
-  }
-
-  Widget _buildLoadMoreButton() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      child: _isLoadingMore
-          ? const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
-            )
-          : Center(
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 100),
-                child: ElevatedButton.icon(
-                  onPressed: _loadMorePosts,
-                  icon: const Icon(Icons.expand_more),
-                  label: const Text('Load More Posts'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Expanded(
-      child: RefreshIndicator(
-        onRefresh: _handleRefresh,
-        child: const SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: SizedBox(
-            height: 300,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.article_outlined, size: 48, color: Colors.grey),
-                  SizedBox(height: 16),
-                  Text("No Posts Yet",
-                      style: TextStyle(fontSize: 16, color: Colors.grey)),
-                  SizedBox(height: 8),
-                  Text("Pull down to refresh",
-                      style: TextStyle(fontSize: 14, color: Colors.grey)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorState() {
-    return Expanded(
-      child: RefreshIndicator(
-        onRefresh: _handleRefresh,
-        child: const SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: SizedBox(
-            height: 300,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.error_outline, size: 48, color: Colors.red),
-                  SizedBox(height: 16),
-                  Text("Something went wrong",
-                      style: TextStyle(fontSize: 16, color: Colors.red)),
-                  SizedBox(height: 8),
-                  Text("Pull down to try again",
-                      style: TextStyle(fontSize: 14, color: Colors.grey)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

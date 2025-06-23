@@ -11,10 +11,10 @@ class NewsFeedScreen extends ConsumerStatefulWidget {
   const NewsFeedScreen({super.key});
 
   @override
-  _NewsFeedScreenState createState() => _NewsFeedScreenState();
+  NewsFeedScreenState createState() => NewsFeedScreenState();
 }
 
-class _NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
+class NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;

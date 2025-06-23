@@ -59,7 +59,11 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
                           }
 
                           await showFullScreenImage(
-                              event.imageUrl!, event.title, context, size);
+                            event.imageUrl!,
+                            event.title,
+                            context,
+                            size,
+                          );
                         },
                         child: Container(
                           width: 90,
@@ -92,7 +96,6 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
                     },
                   ),
                 ),
-                // const SizedBox(height: 16), // Add some bottom spacing
               ],
             ),
           ),
@@ -118,7 +121,7 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
                 maxScale: 3.0,
                 child: ImageWidget(
                   imageUrl: imageUrl,
-                  size: Size(size.height * 0.7, size.height * 0.7),
+                  size: Size(size.width * 0.95, size.height * 0.7),
                   boxFitWeb: BoxFitWeb.contain,
                   boxFitMobile: BoxFit.fitWidth,
                 ),

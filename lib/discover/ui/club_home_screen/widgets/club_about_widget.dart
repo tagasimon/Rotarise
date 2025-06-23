@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/about_section_widget.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/about_stat_card_widget.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/contact_row_widget.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/info_row_widget.dart';
+import 'package:rotaract/discover/ui/club_home_screen/widgets/social_button_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClubAboutWidget extends ConsumerWidget {
@@ -28,7 +33,7 @@ class ClubAboutWidget extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Club Description Section
-          _buildSection(
+          AboutSectionWidget(
             title: 'About Us',
             icon: Icons.info_outline,
             child: Text(
@@ -40,29 +45,27 @@ class ClubAboutWidget extends ConsumerWidget {
               ),
             ),
           ),
-
           const SizedBox(height: 24),
-
           // Meeting Information Section
-          _buildSection(
+          AboutSectionWidget(
             title: 'Meeting Information',
             icon: Icons.schedule,
             child: Column(
               children: [
                 if (club.meetingDay != null)
-                  _buildInfoRow(
+                  InfoRowWidget(
                     icon: Icons.calendar_today,
                     label: 'Meeting Day',
                     value: club.meetingDay!,
                   ),
                 if (club.meetingTime != null)
-                  _buildInfoRow(
+                  InfoRowWidget(
                     icon: Icons.access_time,
                     label: 'Meeting Time',
                     value: club.meetingTime!,
                   ),
                 if (club.meetingDay == null && club.meetingTime == null)
-                  _buildInfoRow(
+                  const InfoRowWidget(
                     icon: Icons.help_outline,
                     label: 'Meeting Schedule',
                     value: 'To be announced',
@@ -77,25 +80,25 @@ class ClubAboutWidget extends ConsumerWidget {
           if (club.location != null ||
               club.address != null ||
               club.city != null)
-            _buildSection(
+            AboutSectionWidget(
               title: 'Location',
               icon: Icons.location_on_outlined,
               child: Column(
                 children: [
                   if (club.location != null)
-                    _buildInfoRow(
+                    InfoRowWidget(
                       icon: Icons.place,
                       label: 'Meeting Location',
                       value: club.location!,
                     ),
                   if (club.address != null)
-                    _buildInfoRow(
+                    InfoRowWidget(
                       icon: Icons.home,
                       label: 'Address',
                       value: club.address!,
                     ),
                   if (club.city != null)
-                    _buildInfoRow(
+                    InfoRowWidget(
                       icon: Icons.location_city,
                       label: 'City',
                       value:
@@ -109,27 +112,27 @@ class ClubAboutWidget extends ConsumerWidget {
 
           // Contact Information Section
           if (_hasContactInfo(club))
-            _buildSection(
+            AboutSectionWidget(
               title: 'Contact Information',
               icon: Icons.contact_phone_outlined,
               child: Column(
                 children: [
                   if (club.email != null)
-                    _buildContactRow(
+                    ContactRowWidget(
                       icon: Icons.email_outlined,
                       label: 'Email',
                       value: club.email!,
                       onTap: () => _launchEmail(club.email!),
                     ),
                   if (club.phone != null)
-                    _buildContactRow(
+                    ContactRowWidget(
                       icon: Icons.phone_outlined,
                       label: 'Phone',
                       value: club.phone!,
                       onTap: () => _launchPhone(club.phone!),
                     ),
                   if (club.website != null)
-                    _buildContactRow(
+                    ContactRowWidget(
                       icon: Icons.language_outlined,
                       label: 'Website',
                       value: club.website!,
@@ -143,7 +146,7 @@ class ClubAboutWidget extends ConsumerWidget {
 
           // Social Media Section
           if (_hasSocialMedia(club))
-            _buildSection(
+            AboutSectionWidget(
               title: 'Social Media',
               icon: Icons.share_outlined,
               child: Wrap(
@@ -151,42 +154,42 @@ class ClubAboutWidget extends ConsumerWidget {
                 runSpacing: 12,
                 children: [
                   if (club.facebook != null)
-                    _buildSocialButton(
+                    SocialButtonWidget(
                       icon: Icons.facebook,
                       label: 'Facebook',
                       color: const Color(0xFF1877F2),
                       onTap: () => _launchUrl(club.facebook!),
                     ),
                   if (club.instagram != null)
-                    _buildSocialButton(
+                    SocialButtonWidget(
                       icon: Icons.camera_alt,
                       label: 'Instagram',
                       color: const Color(0xFFE4405F),
                       onTap: () => _launchUrl(club.instagram!),
                     ),
                   if (club.twitter != null)
-                    _buildSocialButton(
+                    SocialButtonWidget(
                       icon: Icons.alternate_email,
                       label: 'Twitter',
                       color: const Color(0xFF1DA1F2),
                       onTap: () => _launchUrl(club.twitter!),
                     ),
                   if (club.linkedin != null)
-                    _buildSocialButton(
+                    SocialButtonWidget(
                       icon: Icons.business,
                       label: 'LinkedIn',
                       color: const Color(0xFF0A66C2),
                       onTap: () => _launchUrl(club.linkedin!),
                     ),
                   if (club.youtube != null)
-                    _buildSocialButton(
+                    SocialButtonWidget(
                       icon: Icons.play_arrow,
                       label: 'YouTube',
                       color: const Color(0xFFFF0000),
                       onTap: () => _launchUrl(club.youtube!),
                     ),
                   if (club.whatsapp != null)
-                    _buildSocialButton(
+                    SocialButtonWidget(
                       icon: Icons.chat,
                       label: 'WhatsApp',
                       color: const Color(0xFF25D366),
@@ -199,13 +202,13 @@ class ClubAboutWidget extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Club Statistics Section
-          _buildSection(
+          AboutSectionWidget(
             title: 'Club Statistics',
             icon: Icons.analytics_outlined,
             child: Row(
               children: [
                 Expanded(
-                  child: _buildStatCard(
+                  child: AboutStatCardWidget(
                     icon: Icons.people_outline,
                     label: 'Members',
                     value: club.membersCount?.toString() ?? '0',
@@ -213,7 +216,7 @@ class ClubAboutWidget extends ConsumerWidget {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _buildStatCard(
+                  child: AboutStatCardWidget(
                     icon: Icons.event_outlined,
                     label: 'Events',
                     value: club.eventsCount?.toString() ?? '0',
@@ -221,7 +224,7 @@ class ClubAboutWidget extends ConsumerWidget {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _buildStatCard(
+                  child: AboutStatCardWidget(
                     icon: Icons.work_outline,
                     label: 'Projects',
                     value: club.projectsCount?.toString() ?? '0',
@@ -235,241 +238,15 @@ class ClubAboutWidget extends ConsumerWidget {
 
           // Founded Date Section
           if (club.foundedDate != null)
-            _buildSection(
+            AboutSectionWidget(
               title: 'Established',
               icon: Icons.history,
-              child: _buildInfoRow(
+              child: InfoRowWidget(
                 icon: Icons.cake_outlined,
                 label: 'Founded',
                 value: _formatDate(club.foundedDate),
               ),
             ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSection({
-    required String title,
-    required IconData icon,
-    required Widget child,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                icon,
-                color: Colors.blue,
-                size: 24,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          child,
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInfoRow({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            icon,
-            size: 20,
-            color: Colors.grey[600],
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactRow({
-    required IconData icon,
-    required String label,
-    required String value,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 20,
-              color: Colors.blue,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    value,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(
-              Icons.launch,
-              size: 16,
-              color: Colors.grey,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSocialButton({
-    required IconData icon,
-    required String label,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.3)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 20,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue.withOpacity(0.1)),
-      ),
-      child: Column(
-        children: [
-          Icon(
-            icon,
-            color: Colors.blue,
-            size: 24,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
         ],
       ),
     );
