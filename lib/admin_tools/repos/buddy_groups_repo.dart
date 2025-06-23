@@ -13,7 +13,7 @@ class BuddyGroupsRepo implements BuddyGroupsInterface {
   }
 
   @override
-  Future<void> deleteBuddyGroup(BuddyGroupModel group) {
+  Future<void> deleteBuddyGroup(String id) {
     // TODO: implement deleteBuddyGroup
     throw UnimplementedError();
   }
@@ -31,5 +31,13 @@ class BuddyGroupsRepo implements BuddyGroupsInterface {
   Future<int> getTotalBuddyGroupsCountByClubId() {
     // TODO: implement getTotalBuddyGroupsCountByClubId
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<BuddyGroupModel>> getBuddyGroupsByClubId(String clubId) {
+    return _ref.where('clubId', isEqualTo: clubId).get().then((snapshot) =>
+        snapshot.docs
+            .map((doc) => BuddyGroupModel.fromFirestore(doc))
+            .toList());
   }
 }

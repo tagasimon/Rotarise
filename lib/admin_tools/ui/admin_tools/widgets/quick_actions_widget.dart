@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/admin_tools/controllers/buddy_group_controllers.dart';
 import 'package:rotaract/admin_tools/controllers/projects_controllers.dart';
+import 'package:rotaract/admin_tools/models/buddy_group_model.dart';
 import 'package:rotaract/admin_tools/models/project_model.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/new_project_sheet.dart';
 import 'package:uuid/uuid.dart';
@@ -126,7 +128,7 @@ class QuickActionsWidget extends ConsumerWidget {
                         id: const Uuid().v4(),
                         clubId: cUser!.clubId!,
                         title: result['title'],
-                        description: result['title'],
+                        description: result['description'],
                         responsibilities: result['responsibilities'],
                         createdAt: DateTime.now());
                     final res = await ref
@@ -152,15 +154,24 @@ class QuickActionsWidget extends ConsumerWidget {
                   builder: (context) => const AddBottomSheet(
                     title: "Buddy Group",
                   ),
-                ).then((result) {
+                ).then((result) async {
                   if (result != null) {
-                    // Handle the returned data
-                    final String groupName = result['name'];
-                    final String groupDescription = result['description'];
+                    final cUser = ref.watch(currentUserNotifierProvider);
+                    if (cUser == null || cUser.clubId == null) return;
+                    final bg = BuddyGroupModel(
+                      id: const Uuid().v4(),
+                      clubId: cUser.clubId!,
+                      name: result['name'].toString().trim(),
+                      description: result['description'].toString().trim(),
+                      addedBy: cUser.id,
+                    );
 
-                    // You can process the data here or pass it to a callback
-                    print('Group created: $groupName - $groupDescription');
-                    // TODO Create a New Buddy group
+                    final res = await ref
+                        .read(buddyGroupsControllerProvider.notifier)
+                        .addBuddyGroup(bg);
+                    if (res) {
+                      Fluttertoast.showToast(msg: "SUCCESS :)");
+                    }
                   }
                 });
               },
