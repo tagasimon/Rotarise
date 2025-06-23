@@ -16,11 +16,14 @@ class ClubHeaderWidget extends StatelessWidget {
       right: 24,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Row(
             children: [
               CircleImageWidget(
-                  imageUrl: club.imageUrl ?? Constants.kDefaultImageLink),
+                imageUrl: club.imageUrl ?? Constants.kDefaultImageLink,
+              ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
