@@ -118,7 +118,7 @@ class _ClubCardWidgetState extends ConsumerState<ClubCardWidget>
       child: SizedBox(
         width: 48,
         height: 48,
-        child: ProfessionalCircleImageWidget(
+        child: CircleImageWidget(
           imageUrl: widget.club.imageUrl ?? Constants.kDefaultImageLink,
           size: 48,
         ),

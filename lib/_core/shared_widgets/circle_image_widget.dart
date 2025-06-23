@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_network/image_network.dart';
 
-class ProfessionalCircleImageWidget extends ConsumerWidget {
+class CircleImageWidget extends ConsumerWidget {
   /// The URL of the image to display
   final String imageUrl;
 
@@ -38,7 +38,7 @@ class ProfessionalCircleImageWidget extends ConsumerWidget {
   /// Custom hero tag for hero animations
   final String? heroTag;
 
-  const ProfessionalCircleImageWidget({
+  const CircleImageWidget({
     super.key,
     required this.imageUrl,
     this.size = 70.0,
@@ -228,16 +228,15 @@ class ProfessionalCircleImageWidget extends ConsumerWidget {
 }
 
 /// Extension for additional utility methods
-extension ProfessionalCircleImageWidgetExtensions
-    on ProfessionalCircleImageWidget {
+extension ProfessionalCircleImageWidgetExtensions on CircleImageWidget {
   /// Creates a small variant (40px) suitable for list items
-  static ProfessionalCircleImageWidget small({
+  static CircleImageWidget small({
     Key? key,
     required String imageUrl,
     String? semanticLabel,
     String? heroTag,
   }) {
-    return ProfessionalCircleImageWidget(
+    return CircleImageWidget(
       key: key,
       imageUrl: imageUrl,
       size: 40.0,
@@ -248,13 +247,13 @@ extension ProfessionalCircleImageWidgetExtensions
   }
 
   /// Creates a medium variant (70px) suitable for cards and profiles
-  static ProfessionalCircleImageWidget medium({
+  static CircleImageWidget medium({
     Key? key,
     required String imageUrl,
     String? semanticLabel,
     String? heroTag,
   }) {
-    return ProfessionalCircleImageWidget(
+    return CircleImageWidget(
       key: key,
       imageUrl: imageUrl,
       size: 70.0,
@@ -265,13 +264,13 @@ extension ProfessionalCircleImageWidgetExtensions
   }
 
   /// Creates a large variant (120px) suitable for profile pages
-  static ProfessionalCircleImageWidget large({
+  static CircleImageWidget large({
     Key? key,
     required String imageUrl,
     String? semanticLabel,
     String? heroTag,
   }) {
-    return ProfessionalCircleImageWidget(
+    return CircleImageWidget(
       key: key,
       imageUrl: imageUrl,
       size: 120.0,

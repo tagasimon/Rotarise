@@ -90,7 +90,7 @@ class MemberNameCell extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         member.imageUrl != null
-            ? ProfessionalCircleImageWidget(
+            ? CircleImageWidget(
                 imageUrl: member.imageUrl!,
                 size: 40,
               )

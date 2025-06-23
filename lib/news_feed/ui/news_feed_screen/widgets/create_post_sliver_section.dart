@@ -36,7 +36,7 @@ class _CreatePostSectionState extends ConsumerState<CreatePostSliverSection> {
         ),
         child: Row(
           children: [
-            ProfessionalCircleImageWidget(
+            CircleImageWidget(
               imageUrl: cUser?.imageUrl == null
                   ? Constants.kDefaultImageLink
                   : cUser!.imageUrl!,

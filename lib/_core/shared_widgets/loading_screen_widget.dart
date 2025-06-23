@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoadingScreenWidget extends ConsumerWidget {
-  const LoadingScreenWidget({super.key});
+  final String? msg;
+  const LoadingScreenWidget({super.key, this.msg});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
             Text(
-              "Loading discovery content...",
-              style: TextStyle(
+              msg ?? "Loading discovery content...",
+              style: const TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
                 fontWeight: FontWeight.w500,

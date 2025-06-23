@@ -397,7 +397,7 @@ class PostCardState extends ConsumerState<PostCard>
                           MemberByIdWidget(memberId: widget.post.authorId),
                     );
                   },
-                  child: ProfessionalCircleImageWidget(
+                  child: CircleImageWidget(
                     imageUrl: widget.post.authorAvatar!,
                     size: 50,
                   ),

@@ -131,7 +131,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ProfessionalCircleImageWidget(
+        CircleImageWidget(
           imageUrl: currentUser?.imageUrl ?? Constants.kDefaultImageLink,
           size: 50,
         ),

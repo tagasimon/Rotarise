@@ -71,7 +71,7 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
                           child: Column(
                             children: [
                               // Event Image Circle (WhatsApp Status style)
-                              ProfessionalCircleImageWidget(
+                              CircleImageWidget(
                                 imageUrl: event.imageUrl == null
                                     ? Constants.kDefaultImageLink
                                     : event.imageUrl!,

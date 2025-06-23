@@ -5,12 +5,13 @@ class ModernAppBarWidget extends StatelessWidget {
   final String subtitle;
   final List<Widget>? actions;
   final Widget? leading;
-  const ModernAppBarWidget(
-      {super.key,
-      required this.title,
-      required this.subtitle,
-      this.actions,
-      this.leading});
+  const ModernAppBarWidget({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    this.actions,
+    this.leading,
+  });
 
   @override
   Widget build(BuildContext context) {

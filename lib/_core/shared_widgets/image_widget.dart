@@ -9,12 +9,13 @@ class ImageWidget extends StatelessWidget {
   final Size size;
   final BoxFit? boxFitMobile;
   final BoxFitWeb? boxFitWeb;
-  const ImageWidget(
-      {super.key,
-      required this.imageUrl,
-      required this.size,
-      this.boxFitMobile,
-      this.boxFitWeb});
+  const ImageWidget({
+    super.key,
+    required this.imageUrl,
+    required this.size,
+    this.boxFitMobile,
+    this.boxFitWeb,
+  });
 
   @override
   Widget build(BuildContext context) {

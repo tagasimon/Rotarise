@@ -19,7 +19,7 @@ class ClubHeaderWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              ProfessionalCircleImageWidget(
+              CircleImageWidget(
                   imageUrl: club.imageUrl ?? Constants.kDefaultImageLink),
               const SizedBox(width: 16),
               Expanded(
