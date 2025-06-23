@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/admin_tools/models/club_role.dart';
 import 'package:rotaract/admin_tools/providers/club_roles_repo_providers.dart';
-import 'package:rotaract/admin_tools/repos/club_roles_repo.dart';
+import 'package:rotaract/admin_tools/repos/roles_repo.dart';
 
 // role controller provider
 final roleControllerProvider =
@@ -10,7 +10,7 @@ final roleControllerProvider =
 );
 
 class BuddyGroupControllers extends StateNotifier<AsyncValue> {
-  final ClubRolesRepo _repo;
+  final RolesRepo _repo;
   BuddyGroupControllers(this._repo) : super(const AsyncData([]));
 
   Future<bool> addBuddyGroup(ClubRole role) async {

@@ -33,7 +33,7 @@ final eventsByClubIdProvider =
 
 // getEventsByClubId
 final adminEventsByClubIdProvider =
-    FutureProvider<List<ClubEventModel>>((ref) async {
+    FutureProvider.autoDispose<List<ClubEventModel>>((ref) async {
   final cUser = ref.watch(currentUserNotifierProvider);
   final repo = ref.watch(clubEventsRepoProvider);
   if (cUser == null || cUser.clubId == null) {

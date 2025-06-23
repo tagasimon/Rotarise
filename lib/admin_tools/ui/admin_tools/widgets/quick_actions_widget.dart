@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/admin_tools/controllers/projects_controllers.dart';
+import 'package:rotaract/admin_tools/models/project_model.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/new_project_sheet.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
-import 'package:rotaract/admin_tools/controllers/role_controllers.dart';
+import 'package:rotaract/admin_tools/controllers/roles_controllers.dart';
 import 'package:rotaract/admin_tools/models/club_role.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/action_card_widget.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/add_bottom_sheet.dart';
@@ -84,14 +86,20 @@ class QuickActionsWidget extends ConsumerWidget {
               subtitle: "Start new project",
               color: const Color(0xFF2E8B57),
               onTap: () async {
-                await showModalBottomSheet(
+                final ProjectModel? project = await showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
                   builder: (context) => const NewProjectSheet(),
-                ).then((result) {
-                  print('RESULT $result');
-                });
+                );
+                if (project == null) return;
+
+                final res = await ref
+                    .read(projectsControllerProvider.notifier)
+                    .addProject(project);
+                if (res) {
+                  Fluttertoast.showToast(msg: "SUCCESS :)");
+                }
               },
             ),
             ActionCardWidget(

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
+import 'package:rotaract/admin_tools/models/project_model.dart';
+import 'package:uuid/uuid.dart';
 
-class NewProjectSheet extends StatefulWidget {
+class NewProjectSheet extends ConsumerStatefulWidget {
   const NewProjectSheet({super.key});
 
   @override
-  State<NewProjectSheet> createState() => _NewProjectSheetState();
+  ConsumerState<NewProjectSheet> createState() => _NewProjectSheetState();
 }
 
-class _NewProjectSheetState extends State<NewProjectSheet> {
+class _NewProjectSheetState extends ConsumerState<NewProjectSheet> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -58,17 +62,17 @@ class _NewProjectSheetState extends State<NewProjectSheet> {
 
       // Simulate API call
       await Future.delayed(const Duration(seconds: 1));
-
-      // Return the data to the parent widget
       if (mounted) {
-        Navigator.of(context).pop({
-          'title': _titleController.text.trim(),
-          'description': _descriptionController.text.trim(),
-          'target': _targetController.text.trim().isNotEmpty
-              ? double.tryParse(_targetController.text.trim())
-              : null,
-          'startDate': _startDate,
-        });
+        final cUser = ref.read(currentUserNotifierProvider);
+        if (cUser == null) return;
+        final project = ProjectModel(
+            id: const Uuid().v4(),
+            clubId: cUser.clubId!,
+            title: _titleController.text.trim(),
+            description: _descriptionController.text.trim(),
+            startDate: _startDate,
+            date: DateTime.now());
+        Navigator.of(context).pop(project);
       }
     }
   }

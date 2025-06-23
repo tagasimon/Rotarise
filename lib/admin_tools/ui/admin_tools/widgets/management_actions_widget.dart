@@ -4,6 +4,7 @@ import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/management_card_widget.dart';
 import 'package:rotaract/admin_tools/ui/club_events/club_events_screen.dart';
 import 'package:rotaract/admin_tools/ui/club_members/manage_club_members_screen.dart';
+import 'package:rotaract/admin_tools/ui/club_projects/project_list_screen.dart';
 
 class ManagementActionsWidget extends ConsumerWidget {
   const ManagementActionsWidget({super.key});
@@ -47,7 +48,7 @@ class ManagementActionsWidget extends ConsumerWidget {
           icon: Icons.assignment_sharp,
           title: "Projects",
           subtitle: "Manage Projects",
-          onTap: () {},
+          onTap: () => context.push(const ProjectListScreen()),
         ),
         const SizedBox(height: 12),
 

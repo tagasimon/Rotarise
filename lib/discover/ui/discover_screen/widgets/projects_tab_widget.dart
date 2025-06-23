@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rotaract/projects/ui/project_details_screen/project_details_screen.dart';
+import 'package:rotaract/admin_tools/ui/club_projects/project_details_screen.dart';
 
 class ProjectsTabWidget extends StatelessWidget {
   const ProjectsTabWidget({super.key});

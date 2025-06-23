@@ -1,22 +1,24 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rotaract/projects/models/project_donation.dart';
-import 'package:rotaract/projects/models/project_image.dart';
-import 'package:rotaract/projects/models/project_impact.dart';
-import 'package:rotaract/projects/models/project_update.dart';
+import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/admin_tools/models/project_donation.dart';
+import 'package:rotaract/admin_tools/models/project_image.dart';
+import 'package:rotaract/admin_tools/models/project_impact.dart';
+import 'package:rotaract/admin_tools/models/project_update.dart';
 
 class ProjectModel {
   final String id;
   final String clubId;
   final String title;
   final String description;
+  final String? coverImg;
   final double? target;
   final List<ProjectDonation>? donations;
   final List<ProjectImage>? gallery;
   final List<ProjectImpact>? impactList;
   final List<ProjectUpdate>? updates;
-  final DateTime startDate;
+  final DateTime? startDate;
   final DateTime date;
 
   const ProjectModel({
@@ -24,12 +26,13 @@ class ProjectModel {
     required this.clubId,
     required this.title,
     required this.description,
+    this.coverImg,
     this.target,
     this.donations,
     this.gallery,
     this.impactList,
     this.updates,
-    required this.startDate,
+    this.startDate,
     required this.date,
   });
 
@@ -49,6 +52,7 @@ class ProjectModel {
       title: json['title'] as String,
       description: json['description'] as String,
       target: json['target']?.toDouble(),
+      coverImg: json['coverImg'] ?? Constants.kDefaultImageLink,
       donations: json['donations'] != null
           ? (json['donations'] as List)
               .map((item) => ProjectDonation.fromJson(item))
@@ -69,8 +73,8 @@ class ProjectModel {
               .map((item) => ProjectUpdate.fromJson(item))
               .toList()
           : null,
-      startDate: DateTime.parse(json['startDate'] as String),
-      date: DateTime.parse(json['date'] as String),
+      startDate: json['startDate']?.toDate(),
+      date: json['date']?.toDate(),
     );
   }
 
@@ -82,12 +86,13 @@ class ProjectModel {
       'title': title,
       'description': description,
       'target': target,
+      'coverImg': coverImg,
       'donations': donations?.map((item) => item.toJson()).toList(),
       'gallery': gallery?.map((item) => item.toJson()).toList(),
       'impactList': impactList?.map((item) => item.toJson()).toList(),
       'updates': updates?.map((item) => item.toJson()).toList(),
-      'startDate': startDate.toIso8601String(),
-      'date': date.toIso8601String(),
+      'startDate': startDate,
+      'date': date,
     };
   }
 
@@ -100,6 +105,7 @@ class ProjectModel {
     String? title,
     String? description,
     double? target,
+    String? coverImg,
     List<ProjectDonation>? donations,
     List<ProjectImage>? gallery,
     List<ProjectImpact>? impactList,
@@ -113,6 +119,7 @@ class ProjectModel {
       title: title ?? this.title,
       description: description ?? this.description,
       target: target ?? this.target,
+      coverImg: coverImg ?? this.coverImg,
       donations: donations ?? this.donations,
       gallery: gallery ?? this.gallery,
       impactList: impactList ?? this.impactList,
@@ -133,6 +140,7 @@ class ProjectModel {
         title == other.title &&
         description == other.description &&
         target == other.target &&
+        coverImg == other.coverImg &&
         _listEquals(donations, other.donations) &&
         _listEquals(gallery, other.gallery) &&
         _listEquals(impactList, other.impactList) &&

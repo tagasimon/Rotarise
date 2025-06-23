@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/discover_tab_index_notifier.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/stat_card_widget.dart';
-import 'package:rotaract/projects/providers/projects_provider.dart';
+import 'package:rotaract/admin_tools/providers/projects_provider.dart';
 
 class ProjectsCountWidget extends ConsumerWidget {
   const ProjectsCountWidget({super.key});

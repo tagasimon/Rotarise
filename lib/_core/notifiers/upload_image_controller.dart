@@ -44,13 +44,8 @@ class UploadImageController extends StateNotifier<AsyncValue<String?>> {
     }
   }
 
-  /// Public method to pick an image file (for use in other widgets)
-  Future<PlatformFile?> pickImageFile() async {
-    return await _pickImageFile();
-  }
-
   /// Picks an image file using the file picker
-  Future<PlatformFile?> _pickImageFile() async {
+  Future<PlatformFile?> pickImageFile() async {
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.image,

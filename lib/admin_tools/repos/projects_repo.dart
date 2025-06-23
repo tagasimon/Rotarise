@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rotaract/admin_tools/domain/projects_interface.dart';
-import 'package:rotaract/projects/models/project_model.dart';
+import 'package:rotaract/admin_tools/models/project_model.dart';
 
 class ProjectsRepo implements ProjectsInterface {
   final CollectionReference _ref;
@@ -21,8 +21,8 @@ class ProjectsRepo implements ProjectsInterface {
   }
 
   @override
-  Future<void> deleteProject(ProjectModel project) async {
-    final ref = await _ref.where('id', isEqualTo: project.id).get();
+  Future<void> deleteProject(String id) async {
+    final ref = await _ref.where('id', isEqualTo: id).get();
 
     if (ref.docs.isNotEmpty) {
       await ref.docs.first.reference.delete();
@@ -58,4 +58,39 @@ class ProjectsRepo implements ProjectsInterface {
     final ref = await _ref.where('clubId', isEqualTo: clubId).get();
     return ref.docs.map((e) => ProjectModel.fromFirestore(e)).toList();
   }
+
+  @override
+  Future<List<ProjectModel>> getAllProjects() {
+    return _ref.get().then((snapshot) {
+      return snapshot.docs.map((doc) {
+        return ProjectModel.fromFirestore(doc);
+      }).toList();
+    });
+  }
+
+  // @override
+  // Future<void> deleteProject(String id) {
+  //   // find the project by id and delete it
+  //   final docRef = _ref.where('id', isEqualTo: id).limit(1);
+  //   return docRef.get().then((snapshot) {
+  //     if (snapshot.docs.isNotEmpty) {
+  //       return snapshot.docs.first.reference.delete();
+  //     } else {
+  //       throw Exception('Project with id $id not found');
+  //     }
+  //   });
+  // }
+
+  // @override
+  // Future<List<ProjectModel>?> getProjectsByClubId(String clubId) {
+  //   final query = _ref.where('clubId', isEqualTo: clubId);
+  //   return query.get().then((snapshot) {
+  //     if (snapshot.docs.isEmpty) {
+  //       return null;
+  //     }
+  //     return snapshot.docs.map((doc) {
+  //       return ProjectModel.fromFirestore(doc);
+  //     }).toList();
+  //   });
+  // }
 }

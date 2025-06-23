@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
+
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/notifiers/upload_image_controller.dart';
@@ -14,7 +15,6 @@ import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/news_feed/controllers/posts_controller.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/media_option.dart';
-import 'package:uuid/uuid.dart';
 
 class CreatePostModal extends ConsumerStatefulWidget {
   final TextEditingController controller;
