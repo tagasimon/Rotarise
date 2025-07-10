@@ -45,7 +45,7 @@ class CustomSignInScreen extends ConsumerWidget {
                     Text(
                       'Welcome back! Sign in to continue',
                       style: theme.textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.7),
+                        color: colorScheme.onSurface.withValues(alpha: 0.7),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -67,7 +67,7 @@ class CustomSignInScreen extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Divider(
-                          color: colorScheme.outline.withOpacity(0.3),
+                          color: colorScheme.outline.withValues(alpha: 0.3),
                         ),
                       ),
                       Padding(
@@ -75,14 +75,14 @@ class CustomSignInScreen extends ConsumerWidget {
                         child: Text(
                           'OR',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.5),
+                            color: colorScheme.onSurface.withValues(alpha: 0.5),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
                       Expanded(
                         child: Divider(
-                          color: colorScheme.outline.withOpacity(0.3),
+                          color: colorScheme.outline.withValues(alpha: 0.3),
                         ),
                       ),
                     ],
@@ -93,7 +93,7 @@ class CustomSignInScreen extends ConsumerWidget {
                     TextSpan(
                       text: 'By continuing, you agree to our ',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.6),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                       children: [
                         TextSpan(

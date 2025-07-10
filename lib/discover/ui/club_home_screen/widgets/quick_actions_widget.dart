@@ -15,15 +15,16 @@ class QuickActionsWidget extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            if (club.email != null && club.email!.isNotEmpty)
-              Expanded(
-                child: ClubActionWidget(
-                  icon: FontAwesomeIcons.envelope,
-                  label: 'Email',
-                  color: Colors.red.shade400,
-                  onTap: () => WidgetHelpers.launchEmail(club.email!),
-                ),
+            Expanded(
+              child: ClubActionWidget(
+                icon: FontAwesomeIcons.check,
+                label: 'Check In',
+                color: Colors.blue.shade400,
+                onTap: () {
+                  // TODO - Implement check-in functionality
+                },
               ),
+            ),
             if (club.phone != null && club.phone!.isNotEmpty)
               Expanded(
                 child: ClubActionWidget(

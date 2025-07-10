@@ -48,3 +48,7 @@ final commentsCollectionRefProvider = Provider<CollectionReference>(
 // COMMENTS Collection
 final buddyGroupsCollectionRefProvider = Provider<CollectionReference>(
     (ref) => ref.watch(firestoreInstanceProvider).collection('BUDDY_GROUPS'));
+
+// MEETUPS Collection
+final meetupsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('MEETUPS'));
