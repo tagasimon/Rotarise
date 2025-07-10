@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/extensions/color_extension.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';

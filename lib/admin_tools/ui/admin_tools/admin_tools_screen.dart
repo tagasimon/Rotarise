@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/_core/shared_widgets/action_button_widget.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/management_actions_widget.dart';

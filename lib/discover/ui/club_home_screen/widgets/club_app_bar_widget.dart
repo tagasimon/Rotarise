@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/_constants/constants.dart';

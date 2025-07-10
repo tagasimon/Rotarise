@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
@@ -33,25 +34,59 @@ class WidgetHelpers {
   }
 
   static void launchWhatsApp(String whatsapp) async {
-    // Clean the WhatsApp number (remove spaces, dashes, etc.)
+    // Validate input
+    if (whatsapp.isEmpty) {
+      debugPrint('WhatsApp number is empty');
+      return;
+    }
+
+    // Clean the WhatsApp number (remove spaces, dashes, parentheses, etc.)
     String cleanNumber = whatsapp.replaceAll(RegExp(r'[^\d+]'), '');
+
+    // Remove any leading zeros after cleaning
+    cleanNumber = cleanNumber.replaceAll(RegExp(r'^0+'), '');
 
     // Ensure the number starts with country code
     if (!cleanNumber.startsWith('+')) {
-      // If no country code, you might want to add a default one
+      // If no country code, add a default one (you may want to customize this)
       // For example, if most numbers are from a specific country
       cleanNumber = '+$cleanNumber';
     }
 
-    final uri = Uri.parse('https://wa.me/$cleanNumber');
+    // For WhatsApp URL, we need to remove the '+' sign
+    String whatsappNumber =
+        cleanNumber.startsWith('+') ? cleanNumber.substring(1) : cleanNumber;
+
+    // Validate that we have a reasonable phone number length
+    if (whatsappNumber.length < 7 || whatsappNumber.length > 15) {
+      debugPrint('Invalid phone number length: $whatsappNumber');
+      return;
+    }
+
+    // Try WhatsApp app URL scheme first, then fallback to web
+    final whatsappUri = Uri.parse('whatsapp://send?phone=$whatsappNumber');
+    final webUri = Uri.parse('https://wa.me/$whatsappNumber');
+
     try {
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      // First try to open WhatsApp app directly
+      if (await canLaunchUrl(whatsappUri)) {
+        await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+      } else if (await canLaunchUrl(webUri)) {
+        // Fallback to web version if app is not installed
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
       } else {
         debugPrint('Could not launch WhatsApp');
       }
     } catch (e) {
       debugPrint('Error launching WhatsApp: $e');
+      // Try fallback to web version on error
+      try {
+        if (await canLaunchUrl(webUri)) {
+          await launchUrl(webUri, mode: LaunchMode.externalApplication);
+        }
+      } catch (fallbackError) {
+        debugPrint('Fallback also failed: $fallbackError');
+      }
     }
   }
 
@@ -131,6 +166,25 @@ class WidgetHelpers {
       );
     } catch (e) {
       debugPrint('Error sharing content: $e');
+    }
+    return null;
+  }
+
+  // select image from gallery
+
+  static Future<String?> selectImageFromGallery({
+    required BuildContext context,
+    String? title,
+  }) async {
+    // use file picker to select an image from the gallery
+
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      return result.files.first.path;
     }
     return null;
   }

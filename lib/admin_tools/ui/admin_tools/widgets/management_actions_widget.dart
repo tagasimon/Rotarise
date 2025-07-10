@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/admin_tools/ui/admin_tools/widgets/management_card_widget.dart';
 import 'package:rotaract/admin_tools/ui/club_buddy_groups/club_buddy_groups_screen.dart';
 import 'package:rotaract/admin_tools/ui/club_events/club_events_screen.dart';

@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:rotaract/_constants/date_helpers.dart';
 import 'package:rotaract/_constants/image_helpers.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rotaract/_core/extensions/async_ext.dart';
 import 'package:rotaract/_core/extensions/color_extension.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/notifiers/tab_index_notifier.dart';
 import 'package:rotaract/_core/notifiers/upload_image_controller.dart';

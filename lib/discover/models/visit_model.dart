@@ -7,41 +7,49 @@ class VisitModel {
   final String id;
   final String userId;
   final String clubId;
+  final String visitDesc;
   final String visitedClubId;
   final String visitedClubName;
-  final double latitude;
-  final double longitude;
   final DateTime visitDate;
+  final double? latitude;
+  final double? longitude;
+  final String imageUrl;
   VisitModel({
     required this.id,
     required this.userId,
     required this.clubId,
+    required this.visitDesc,
     required this.visitedClubId,
     required this.visitedClubName,
-    required this.latitude,
-    required this.longitude,
     required this.visitDate,
+    this.latitude,
+    this.longitude,
+    required this.imageUrl,
   });
 
   VisitModel copyWith({
     String? id,
     String? userId,
     String? clubId,
+    String? visitDesc,
     String? visitedClubId,
     String? visitedClubName,
+    DateTime? visitDate,
     double? latitude,
     double? longitude,
-    DateTime? visitDate,
+    String? imageUrl,
   }) {
     return VisitModel(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       clubId: clubId ?? this.clubId,
+      visitDesc: visitDesc ?? this.visitDesc,
       visitedClubId: visitedClubId ?? this.visitedClubId,
       visitedClubName: visitedClubName ?? this.visitedClubName,
+      visitDate: visitDate ?? this.visitDate,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      visitDate: visitDate ?? this.visitDate,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -50,11 +58,13 @@ class VisitModel {
       'id': id,
       'userId': userId,
       'clubId': clubId,
+      'visitDesc': visitDesc,
       'visitedClubId': visitedClubId,
       'visitedClubName': visitedClubName,
+      'visitDate': visitDate.millisecondsSinceEpoch,
       'latitude': latitude,
       'longitude': longitude,
-      'visitDate': visitDate,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -72,11 +82,13 @@ class VisitModel {
       id: map['id'] as String,
       userId: map['userId'] as String,
       clubId: map['clubId'] as String,
+      visitDesc: map['visitDesc'] as String,
       visitedClubId: map['visitedClubId'] as String,
       visitedClubName: map['visitedClubName'] as String,
-      latitude: map['latitude'] as double,
-      longitude: map['longitude'] as double,
-      visitDate: map['visitDate'].toDate(),
+      visitDate: DateTime.fromMillisecondsSinceEpoch(map['visitDate'] as int),
+      latitude: map['latitude'] != null ? map['latitude'] as double : null,
+      longitude: map['longitude'] != null ? map['longitude'] as double : null,
+      imageUrl: map['imageUrl'] as String,
     );
   }
 
@@ -87,7 +99,7 @@ class VisitModel {
 
   @override
   String toString() {
-    return 'VisitModel(id: $id, userId: $userId, clubId: $clubId, visitedClubId: $visitedClubId, visitedClubName: $visitedClubName, latitude: $latitude, longitude: $longitude, visitDate: $visitDate)';
+    return 'VisitModel(id: $id, userId: $userId, clubId: $clubId, visitDesc: $visitDesc, visitedClubId: $visitedClubId, visitedClubName: $visitedClubName, visitDate: $visitDate, latitude: $latitude, longitude: $longitude, imageUrl: $imageUrl)';
   }
 
   @override
@@ -97,11 +109,13 @@ class VisitModel {
     return other.id == id &&
         other.userId == userId &&
         other.clubId == clubId &&
+        other.visitDesc == visitDesc &&
         other.visitedClubId == visitedClubId &&
         other.visitedClubName == visitedClubName &&
+        other.visitDate == visitDate &&
         other.latitude == latitude &&
         other.longitude == longitude &&
-        other.visitDate == visitDate;
+        other.imageUrl == imageUrl;
   }
 
   @override
@@ -109,10 +123,12 @@ class VisitModel {
     return id.hashCode ^
         userId.hashCode ^
         clubId.hashCode ^
+        visitDesc.hashCode ^
         visitedClubId.hashCode ^
         visitedClubName.hashCode ^
+        visitDate.hashCode ^
         latitude.hashCode ^
         longitude.hashCode ^
-        visitDate.hashCode;
+        imageUrl.hashCode;
   }
 }

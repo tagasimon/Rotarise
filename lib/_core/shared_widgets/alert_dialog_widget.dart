@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 
 class AlertDialogWidget extends StatelessWidget {
   final String title;

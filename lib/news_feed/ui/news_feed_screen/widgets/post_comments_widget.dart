@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/providers/posts_providers.dart';

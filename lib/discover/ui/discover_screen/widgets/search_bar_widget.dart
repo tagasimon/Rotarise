@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rotaract/_core/extensions/color_extension.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/discover/ui/search_clubs_screen/search_clubs_screen.dart';
 
 class SearchBarWidget extends StatelessWidget {

@@ -16,8 +16,8 @@ class VisitsController extends StateNotifier<AsyncValue> {
       await _repo.addVisit(visit);
       state = const AsyncData(null);
       return true;
-    } catch (e) {
-      state = AsyncError(e, StackTrace.current);
+    } catch (e, s) {
+      state = AsyncError(e, s);
       return false;
     }
   }
