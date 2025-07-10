@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/admin_tools/models/buddy_group_model.dart';
 
 class BuddyGroupTableRow extends StatelessWidget {
@@ -18,7 +19,7 @@ class BuddyGroupTableRow extends StatelessWidget {
       decoration: BoxDecoration(
         color: isEven
             ? Theme.of(context).colorScheme.surface
-            : Theme.of(context).colorScheme.surface.withOpacity(0.5),
+            : Theme.of(context).colorScheme.surface.withAlphaa(0.5),
       ),
       child: Row(
         children: [

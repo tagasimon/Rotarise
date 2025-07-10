@@ -1,5 +1,6 @@
 // Full Screen Image Viewer
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 
 class FullScreenImageViewer extends StatefulWidget {
@@ -61,7 +62,7 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer>
             left: 10,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withAlphaa(0.5),
                 shape: BoxShape.circle,
               ),
               child: IconButton(
@@ -79,7 +80,7 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer>
             right: 10,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withAlphaa(0.5),
                 shape: BoxShape.circle,
               ),
               child: IconButton(

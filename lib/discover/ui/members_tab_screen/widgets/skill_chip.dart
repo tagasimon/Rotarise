@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class SkillChip extends ConsumerWidget {
   final String label;
@@ -13,13 +14,13 @@ class SkillChip extends ConsumerWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            accentColor.withOpacity(0.1),
-            accentColor.withOpacity(0.05),
+            accentColor.withAlphaa(0.1),
+            accentColor.withAlphaa(0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: accentColor.withOpacity(0.3),
+          color: accentColor.withAlphaa(0.3),
           width: 1,
         ),
       ),
@@ -28,7 +29,7 @@ class SkillChip extends ConsumerWidget {
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: accentColor.withOpacity(0.8),
+          color: accentColor.withAlphaa(0.8),
         ),
       ),
     );

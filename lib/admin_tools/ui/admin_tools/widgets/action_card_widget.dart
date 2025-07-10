@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class ActionCardWidget extends ConsumerWidget {
   final IconData icon;
@@ -20,7 +21,7 @@ class ActionCardWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 4,
-      shadowColor: color.withOpacity(0.3),
+      shadowColor: color.withAlphaa(0.3),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -35,8 +36,8 @@ class ActionCardWidget extends ConsumerWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                color.withOpacity(0.1),
-                color.withOpacity(0.05),
+                color.withAlphaa(0.1),
+                color.withAlphaa(0.05),
               ],
             ),
           ),
@@ -47,7 +48,7 @@ class ActionCardWidget extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(12), // Reduced from 16 to 12
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.15),
+                  color: color.withAlphaa(0.15),
                   borderRadius:
                       BorderRadius.circular(12), // Reduced from 16 to 12
                 ),

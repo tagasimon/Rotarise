@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class PostActionWidget extends StatelessWidget {
   final IconData icon;
@@ -26,7 +27,7 @@ class PostActionWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: isActive ? color.withOpacity(0.1) : Colors.transparent,
+                color: isActive ? color.withAlphaa(0.1) : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Icon(

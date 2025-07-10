@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/notifiers/tab_index_notifier.dart';
 import 'package:rotaract/_core/ui/profile_screen/controllers/club_member_controllers.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
@@ -219,7 +220,7 @@ class _EditProfileEditPageState extends ConsumerState<EditProfileEditPage>
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withAlphaa(0.1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(
@@ -372,8 +373,8 @@ class _EditProfileEditPageState extends ConsumerState<EditProfileEditPage>
         boxShadow: [
           BoxShadow(
             color: isDark
-                ? Colors.black.withOpacity(0.3)
-                : Colors.grey.withOpacity(0.1),
+                ? Colors.black.withAlphaa(0.3)
+                : Colors.grey.withAlphaa(0.1),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -568,7 +569,7 @@ class _EditProfileEditPageState extends ConsumerState<EditProfileEditPage>
               onPressed: onAdd,
               icon: Icon(Icons.add, color: color),
               style: IconButton.styleFrom(
-                backgroundColor: color.withOpacity(0.1),
+                backgroundColor: color.withAlphaa(0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -593,9 +594,9 @@ class _EditProfileEditPageState extends ConsumerState<EditProfileEditPage>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withAlphaa(0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withAlphaa(0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -648,7 +649,7 @@ class _EditProfileEditPageState extends ConsumerState<EditProfileEditPage>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.3),
+                    color: Colors.blue.withAlphaa(0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class FullScreenVideoViewer extends StatefulWidget {
   final String videoUrl;
@@ -91,7 +92,7 @@ class FullScreenVideoViewerState extends State<FullScreenVideoViewer>
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.7),
+                            color: Colors.black.withAlphaa(0.7),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -112,7 +113,7 @@ class FullScreenVideoViewerState extends State<FullScreenVideoViewer>
               opacity: _showControls ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 300),
               child: Container(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withAlphaa(0.3),
                 child: Column(
                   children: [
                     // Top controls
@@ -127,7 +128,7 @@ class FullScreenVideoViewerState extends State<FullScreenVideoViewer>
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withAlphaa(0.5),
                               shape: BoxShape.circle,
                             ),
                             child: IconButton(
@@ -141,7 +142,7 @@ class FullScreenVideoViewerState extends State<FullScreenVideoViewer>
                           const Spacer(),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withAlphaa(0.5),
                               shape: BoxShape.circle,
                             ),
                             child: IconButton(
@@ -175,7 +176,7 @@ class FullScreenVideoViewerState extends State<FullScreenVideoViewer>
                           Container(
                             height: 4,
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.3),
+                              color: Colors.white.withAlphaa(0.3),
                               borderRadius: BorderRadius.circular(2),
                             ),
                             child: Stack(
@@ -214,7 +215,7 @@ class FullScreenVideoViewerState extends State<FullScreenVideoViewer>
                                 child: Container(
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
-                                    color: Colors.blue.withOpacity(0.8),
+                                    color: Colors.blue.withAlphaa(0.8),
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class NewRoleSheet extends StatefulWidget {
   const NewRoleSheet({super.key});
@@ -262,10 +263,10 @@ class _NewRoleSheetState extends State<NewRoleSheet> {
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.1),
+                                  color: Colors.blue.withAlphaa(0.1),
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                    color: Colors.blue.withOpacity(0.3),
+                                    color: Colors.blue.withAlphaa(0.3),
                                   ),
                                 ),
                                 child: ListTile(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/discover/ui/search_clubs_screen/search_clubs_screen.dart';
 
@@ -25,7 +26,7 @@ class SearchBarWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withAlphaa(0.1),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),

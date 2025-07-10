@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class GradientOverlayWidget extends StatelessWidget {
   const GradientOverlayWidget({super.key});
@@ -11,8 +12,8 @@ class GradientOverlayWidget extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.black.withOpacity(0.3),
-            Colors.black.withOpacity(0.7),
+            Colors.black.withAlphaa(0.3),
+            Colors.black.withAlphaa(0.7),
           ],
         ),
       ),

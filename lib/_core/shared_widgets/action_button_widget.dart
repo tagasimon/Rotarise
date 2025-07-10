@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class ActionButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
@@ -16,13 +17,13 @@ class ActionButtonWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: isLight ? Colors.black.withOpacity(0.3) : Colors.white,
+        color: isLight ? Colors.black.light : Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: isLight
             ? null
             : [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.lighter,
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),

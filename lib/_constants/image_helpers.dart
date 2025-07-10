@@ -18,7 +18,7 @@ class ImageHelpers {
     );
   }
 
-  static showFullScreenVideo(BuildContext context, String videoUrl) {
+  static void showFullScreenVideo(BuildContext context, String videoUrl) {
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,

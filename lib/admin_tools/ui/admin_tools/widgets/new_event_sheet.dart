@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/notifiers/upload_image_controller.dart';
 
 class NewEventSheet extends ConsumerStatefulWidget {
@@ -209,7 +209,7 @@ class _NewEventSheetState extends ConsumerState<NewEventSheet> {
             color: _hasSelectedImage ? Colors.green : Colors.grey[300]!,
           ),
           borderRadius: BorderRadius.circular(12),
-          color: _hasSelectedImage ? Colors.green.withOpacity(0.05) : null,
+          color: _hasSelectedImage ? Colors.green.withAlphaa(0.05) : null,
         ),
         child: Row(
           children: [

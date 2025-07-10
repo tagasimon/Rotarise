@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/admin_tools/models/project_model.dart';
 import 'package:rotaract/admin_tools/ui/club_projects/project_details_screen.dart';
 
@@ -40,7 +41,7 @@ class ProjectCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlphaa(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -69,7 +70,7 @@ class ProjectCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: _projectColor.withOpacity(0.1),
+                      color: _projectColor.withAlphaa(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -100,7 +101,7 @@ class ProjectCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: _projectColor.withOpacity(0.1),
+                              color: _projectColor.withAlphaa(0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
@@ -388,7 +389,7 @@ class ProjectCard extends StatelessWidget {
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: _projectColor,
-                      side: BorderSide(color: _projectColor.withOpacity(0.3)),
+                      side: BorderSide(color: _projectColor.withAlphaa(0.3)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

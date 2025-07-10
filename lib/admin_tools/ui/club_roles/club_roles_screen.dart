@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/admin_tools/models/club_role.dart';
 import 'package:rotaract/admin_tools/providers/club_roles_repo_providers.dart';
 import 'package:rotaract/admin_tools/ui/club_roles/widgets/role_detail_modal.dart';
@@ -55,7 +56,7 @@ class _ClubRolesScreenState extends ConsumerState<ClubRolesScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withAlphaa(0.05),
               offset: const Offset(0, 5),
               blurRadius: 15,
             ),
@@ -166,7 +167,7 @@ class _ClubRolesScreenState extends ConsumerState<ClubRolesScreen> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFFEF4444).withOpacity(0.1),
+              color: const Color(0xFFEF4444).withAlphaa(0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: const Icon(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/extensions/async_ext.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
 import 'package:rotaract/_core/notifiers/tab_index_notifier.dart';
@@ -44,7 +46,7 @@ class ProfileSection extends ConsumerWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.1),
+            color: Colors.blue.withAlphaa(0.1),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -74,7 +76,7 @@ class ProfileSection extends ConsumerWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
+                          color: Colors.blue.withAlphaa(0.3),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -129,7 +131,7 @@ class ProfileSection extends ConsumerWidget {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withAlphaa(0.2),
                               blurRadius: 6,
                               offset: const Offset(0, 2),
                             ),
@@ -180,7 +182,7 @@ class ProfileSection extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.3),
+                    color: Colors.blue.withAlphaa(0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),

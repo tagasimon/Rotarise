@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class ManagementCardWidget extends ConsumerWidget {
   final IconData icon;
@@ -28,7 +29,7 @@ class ManagementCardWidget extends ConsumerWidget {
         leading: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(0.1),
+            color: theme.primaryColor.withAlphaa(0.1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(

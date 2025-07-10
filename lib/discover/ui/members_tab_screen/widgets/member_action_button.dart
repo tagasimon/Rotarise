@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class MemberActionButton extends ConsumerWidget {
   const MemberActionButton({super.key});
@@ -44,7 +45,7 @@ class MemberActionButton extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.3),
+                    color: Colors.blue.withAlphaa(0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),

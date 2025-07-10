@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class ModernAppBarWidget extends StatelessWidget {
   final String title;
@@ -57,7 +58,7 @@ class ModernAppBarWidget extends StatelessWidget {
                     subtitle,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withAlphaa(0.9),
                       fontWeight: FontWeight.w500,
                     ),
                   ),

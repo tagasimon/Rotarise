@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class AboutSectionWidget extends ConsumerWidget {
   final String title;
@@ -20,7 +21,7 @@ class AboutSectionWidget extends ConsumerWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlphaa(0.1),
             spreadRadius: 1,
             blurRadius: 8,
             offset: const Offset(0, 2),

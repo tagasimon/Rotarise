@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_network/image_network.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class CircleImageWidget extends ConsumerWidget {
   /// The URL of the image to display
@@ -66,21 +67,21 @@ class CircleImageWidget extends ConsumerWidget {
     final effectiveGradientColors = gradientColors ??
         [
           colorScheme.primary,
-          colorScheme.primary.withOpacity(0.7),
-          colorScheme.secondary.withOpacity(0.5),
+          colorScheme.primary.dark,
+          colorScheme.secondary.semi,
         ];
 
     // Default shadow configuration
     final effectiveShadows = shadows ??
         [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.15),
+            color: colorScheme.shadow.withAlphaa(0.15),
             blurRadius: 12,
             offset: const Offset(0, 6),
             spreadRadius: 0,
           ),
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.08),
+            color: colorScheme.shadow.withAlphaa(0.08),
             blurRadius: 4,
             offset: const Offset(0, 2),
             spreadRadius: -1,
@@ -121,7 +122,7 @@ class CircleImageWidget extends ConsumerWidget {
               shape: BoxShape.circle,
               color: theme.scaffoldBackgroundColor,
               border: Border.all(
-                color: theme.dividerColor.withOpacity(0.1),
+                color: theme.dividerColor.withAlphaa(0.1),
                 width: 0.5,
               ),
             ),
@@ -191,7 +192,7 @@ class CircleImageWidget extends ConsumerWidget {
     return Container(
       width: imageSize,
       height: imageSize,
-      color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+      color: theme.colorScheme.surfaceContainerHighest.withAlphaa(0.3),
       child: Center(
         child: SizedBox(
           width: imageSize * 0.3,
@@ -199,7 +200,7 @@ class CircleImageWidget extends ConsumerWidget {
           child: CircularProgressIndicator(
             strokeWidth: 2.0,
             valueColor: AlwaysStoppedAnimation<Color>(
-              theme.colorScheme.primary.withOpacity(0.7),
+              theme.colorScheme.primary.withAlphaa(0.7),
             ),
           ),
         ),
@@ -215,12 +216,12 @@ class CircleImageWidget extends ConsumerWidget {
     return Container(
       width: imageSize,
       height: imageSize,
-      color: theme.colorScheme.errorContainer.withOpacity(0.1),
+      color: theme.colorScheme.errorContainer.withAlphaa(0.1),
       child: Center(
         child: Icon(
           Icons.person_outline_rounded,
           size: imageSize * 0.4,
-          color: theme.colorScheme.onErrorContainer.withOpacity(0.6),
+          color: theme.colorScheme.onErrorContainer.withAlphaa(0.6),
         ),
       ),
     );

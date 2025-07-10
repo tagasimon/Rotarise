@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
 class EventsTableView extends StatefulWidget {
@@ -75,7 +76,7 @@ class _EventsTableViewState extends State<EventsTableView> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withAlphaa(0.05),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -180,7 +181,7 @@ class _EventsTableViewState extends State<EventsTableView> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withAlphaa(0.04),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -239,7 +240,7 @@ class _EventsTableViewState extends State<EventsTableView> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.indigo.withOpacity(0.3),
+                    color: Colors.indigo.withAlphaa(0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -337,10 +338,10 @@ class _EventsTableViewState extends State<EventsTableView> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: statusColor.withOpacity(0.1),
+          color: statusColor.withAlphaa(0.1),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: statusColor.withOpacity(0.3),
+            color: statusColor.withAlphaa(0.3),
             width: 1,
           ),
         ),

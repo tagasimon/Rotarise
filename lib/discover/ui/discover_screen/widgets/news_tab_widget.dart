@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 
 class NewsTabWidget extends StatelessWidget {
@@ -48,7 +49,7 @@ class NewsTabWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withAlphaa(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

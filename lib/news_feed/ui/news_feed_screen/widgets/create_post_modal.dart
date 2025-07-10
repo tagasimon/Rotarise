@@ -30,36 +30,62 @@ class CreatePostModal extends ConsumerStatefulWidget {
   ConsumerState<CreatePostModal> createState() => _CreatePostModalState();
 }
 
-class _CreatePostModalState extends ConsumerState<CreatePostModal> {
+class _CreatePostModalState extends ConsumerState<CreatePostModal>
+    with SingleTickerProviderStateMixin {
+  // State variables
   bool _hasSelectedImage = false;
   bool _isCreatingPost = false;
   String? _selectedImagePath;
   Uint8List? _selectedImageBytes;
-  PlatformFile? _selectedPlatformFile; // Store the PlatformFile for upload
+  PlatformFile? _selectedPlatformFile;
+
+  // Animation controller for smooth interactions
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(begin: 0.95, end: 1.0).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(currentUserNotifierProvider);
-    final uploadImageState = ref.watch(uploadImageControllerProvider);
-    final postsState = ref.watch(postsControllerProvider);
-
-    final isLoading =
-        _isCreatingPost || uploadImageState.isLoading || postsState.isLoading;
-
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: Column(
-        children: [
-          _buildHandle(),
-          _buildHeader(isLoading),
-          const Divider(height: 1),
-          _buildContent(currentUser, isLoading),
-        ],
-      ),
+    return AnimatedBuilder(
+      animation: _scaleAnimation,
+      builder: (context, child) {
+        return Transform.scale(
+          scale: _scaleAnimation.value,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            child: Column(
+              children: [
+                _buildHandle(),
+                _buildHeader(),
+                const Divider(height: 1),
+                _buildContent(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -75,7 +101,14 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
     );
   }
 
-  Widget _buildHeader(bool isLoading) {
+  Widget _buildHeader() {
+    // Watch only loading states we need
+    final uploadImageState = ref.watch(
+        uploadImageControllerProvider.select((state) => state.isLoading));
+    final postsState =
+        ref.watch(postsControllerProvider.select((state) => state.isLoading));
+    final isLoading = _isCreatingPost || uploadImageState || postsState;
+
     final hasContent =
         widget.controller.text.trim().isNotEmpty || _hasSelectedImage;
 
@@ -84,7 +117,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
       child: Row(
         children: [
           TextButton(
-            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            onPressed: isLoading ? null : _handleCancel,
             child: const Text('Cancel'),
           ),
           const Spacer(),
@@ -96,159 +129,70 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
             ),
           ),
           const Spacer(),
-          TextButton(
-            onPressed: (hasContent && !isLoading) ? _handleCreatePost : null,
-            child: isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Text('Post'),
+          _PostButton(
+            hasContent: hasContent,
+            isLoading: isLoading,
+            onPressed: _handleCreatePost,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildContent(dynamic currentUser, bool isLoading) {
+  Widget _buildContent() {
+    // Only watch the imageUrl from currentUser
+    final currentUserImageUrl = ref.watch(
+      currentUserNotifierProvider.select((user) => user?.imageUrl),
+    );
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildUserInputSection(currentUser, isLoading),
-            if (_hasSelectedImage) _buildImagePreview(isLoading),
+            _UserInputSection(
+              controller: widget.controller,
+              userImageUrl: currentUserImageUrl,
+              hasSelectedImage: _hasSelectedImage,
+              onTextChanged: () => setState(() {}),
+            ),
+            if (_hasSelectedImage)
+              _ImagePreview(
+                selectedImagePath: _selectedImagePath,
+                selectedImageBytes: _selectedImageBytes,
+                onRemove: _removeSelectedImage,
+              ),
             const Spacer(),
-            _buildMediaOptions(isLoading),
+            _MediaOptionsSection(
+              hasSelectedImage: _hasSelectedImage,
+              onSelectImage: _selectImage,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildUserInputSection(dynamic currentUser, bool isLoading) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleImageWidget(
-          imageUrl: currentUser?.imageUrl ?? Constants.kDefaultImageLink,
-          size: 50,
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: TextField(
-            controller: widget.controller,
-            maxLines: _hasSelectedImage ? 4 : 8,
-            enabled: !isLoading,
-            decoration: const InputDecoration(
-              hintText: "What's on your mind?",
-              border: InputBorder.none,
-              hintStyle: TextStyle(fontSize: 18),
-            ),
-            style: const TextStyle(fontSize: 16),
-            onChanged: (_) => setState(() {}),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildImagePreview(bool isLoading) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: _buildPreviewImage(),
-          ),
-          _buildRemoveButton(isLoading),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPreviewImage() {
-    if (kIsWeb && _selectedImageBytes != null) {
-      return Image.memory(
-        _selectedImageBytes!,
-        height: 200,
-        width: double.infinity,
-        fit: BoxFit.cover,
-      );
-    } else if (_selectedImagePath != null) {
-      return Image.file(
-        File(_selectedImagePath!),
-        height: 200,
-        width: double.infinity,
-        fit: BoxFit.cover,
-      );
-    }
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildRemoveButton(bool isLoading) {
-    return Positioned(
-      top: 8,
-      right: 8,
-      child: GestureDetector(
-        onTap: isLoading ? null : _removeSelectedImage,
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          decoration: const BoxDecoration(
-            color: Colors.black54,
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.close,
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMediaOptions(bool isLoading) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          MediaOption(
-            icon: Icons.image,
-            label: 'Photo',
-            color: Colors.green,
-            isSelected: _hasSelectedImage,
-            onTap: isLoading ? null : _selectImage,
-          ),
-        ],
-      ),
-    );
+  void _handleCancel() {
+    _animationController.reverse().then((_) {
+      if (mounted) Navigator.of(context).pop();
+    });
   }
 
   Future<void> _selectImage() async {
     if (_isCreatingPost) return;
 
     try {
-      // Use the upload image controller to pick a file
       final controller = ref.read(uploadImageControllerProvider.notifier);
       final pickedFile = await controller.pickImageFile();
 
-      if (pickedFile != null) {
+      if (pickedFile != null && mounted) {
         setState(() {
           _hasSelectedImage = true;
           _selectedImagePath = pickedFile.path;
-          _selectedPlatformFile = pickedFile; // Store the PlatformFile
+          _selectedPlatformFile = pickedFile;
         });
 
-        // For web platform, get bytes for preview
         if (kIsWeb && pickedFile.bytes != null) {
           _selectedImageBytes = pickedFile.bytes;
         }
@@ -263,7 +207,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
       _hasSelectedImage = false;
       _selectedImagePath = null;
       _selectedImageBytes = null;
-      _selectedPlatformFile = null; // Clear the PlatformFile
+      _selectedPlatformFile = null;
     });
   }
 
@@ -341,7 +285,9 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
     widget.onPostCreated?.call();
 
     if (mounted) {
-      Navigator.of(context).pop();
+      _animationController.reverse().then((_) {
+        if (mounted) Navigator.of(context).pop();
+      });
     }
   }
 
@@ -368,5 +314,172 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal> {
         textColor: Colors.white,
       );
     }
+  }
+}
+
+// Separate widgets for better performance
+class _PostButton extends StatelessWidget {
+  final bool hasContent;
+  final bool isLoading;
+  final VoidCallback onPressed;
+
+  const _PostButton({
+    required this.hasContent,
+    required this.isLoading,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: (hasContent && !isLoading) ? onPressed : null,
+      child: isLoading
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : const Text('Post'),
+    );
+  }
+}
+
+class _UserInputSection extends StatelessWidget {
+  final TextEditingController controller;
+  final String? userImageUrl;
+  final bool hasSelectedImage;
+  final VoidCallback onTextChanged;
+
+  const _UserInputSection({
+    required this.controller,
+    required this.userImageUrl,
+    required this.hasSelectedImage,
+    required this.onTextChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CircleImageWidget(
+          imageUrl: userImageUrl ?? Constants.kDefaultImageLink,
+          size: 50,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: TextField(
+            controller: controller,
+            maxLines: hasSelectedImage ? 4 : 8,
+            decoration: const InputDecoration(
+              hintText: "What's on your mind?",
+              border: InputBorder.none,
+              hintStyle: TextStyle(fontSize: 18),
+            ),
+            style: const TextStyle(fontSize: 16),
+            onChanged: (_) => onTextChanged(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ImagePreview extends StatelessWidget {
+  final String? selectedImagePath;
+  final Uint8List? selectedImageBytes;
+  final VoidCallback onRemove;
+
+  const _ImagePreview({
+    required this.selectedImagePath,
+    required this.selectedImageBytes,
+    required this.onRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: _buildImage(),
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: onRemove,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: const BoxDecoration(
+                  color: Colors.black54,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    if (kIsWeb && selectedImageBytes != null) {
+      return Image.memory(
+        selectedImageBytes!,
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+      );
+    } else if (selectedImagePath != null) {
+      return Image.file(
+        File(selectedImagePath!),
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+      );
+    }
+    return const SizedBox.shrink();
+  }
+}
+
+class _MediaOptionsSection extends StatelessWidget {
+  final bool hasSelectedImage;
+  final VoidCallback onSelectImage;
+
+  const _MediaOptionsSection({
+    required this.hasSelectedImage,
+    required this.onSelectImage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MediaOption(
+            icon: Icons.image,
+            label: 'Photo',
+            color: Colors.green,
+            isSelected: hasSelectedImage,
+            onTap: onSelectImage,
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/admin_tools/models/project_model.dart';
 import 'package:rotaract/admin_tools/ui/club_projects/widgets/project_app_bar.dart';
 import 'package:rotaract/admin_tools/ui/club_projects/widgets/stat_card.dart';
@@ -84,15 +85,15 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  projectColor.withOpacity(0.1),
+                  projectColor.lighter,
                   Colors.white,
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: projectColor.withOpacity(0.2)),
+              border: Border.all(color: projectColor.light),
               boxShadow: [
                 BoxShadow(
-                  color: projectColor.withOpacity(0.1),
+                  color: projectColor.lighter,
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -144,7 +145,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
               const SizedBox(width: 12),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: projectColor.withOpacity(0.3)),
+                  border: Border.all(color: projectColor.light),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: IconButton(
@@ -251,7 +252,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
                       _processDonation(amount);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: projectColor.withOpacity(0.1),
+                      backgroundColor: projectColor.withAlphaa(0.1),
                       foregroundColor: projectColor,
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(
@@ -332,11 +333,5 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen>
   void _shareProject() {
     Fluttertoast.showToast(
         msg: 'Sharing project details...', toastLength: Toast.LENGTH_SHORT);
-  }
-
-  void _toggleFavorite() {
-    // Implement favorite toggle logic here
-    Fluttertoast.showToast(
-        msg: 'Favorite toggled!', toastLength: Toast.LENGTH_SHORT);
   }
 }

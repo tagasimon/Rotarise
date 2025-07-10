@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
 class EventsListView extends StatelessWidget {
@@ -65,7 +66,7 @@ class EventsListView extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withAlphaa(0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -123,7 +124,7 @@ class EventsListView extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: statusColor.withOpacity(0.1),
+                                color: statusColor.withAlphaa(0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(

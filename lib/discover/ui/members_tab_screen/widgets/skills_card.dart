@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/skill_chip.dart';
 
 class SkillsCard extends ConsumerWidget {
@@ -22,12 +23,12 @@ class SkillsCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(16),
         color: isDark ? Colors.grey[850] : Colors.white,
         border: Border.all(
-          color: accentColor.withOpacity(0.2),
+          color: accentColor.withAlphaa(0.2),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: accentColor.withOpacity(0.1),
+            color: accentColor.withAlphaa(0.1),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -41,7 +42,7 @@ class SkillsCard extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: accentColor.withOpacity(0.1),
+                  color: accentColor.withAlphaa(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(

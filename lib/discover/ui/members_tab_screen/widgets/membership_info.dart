@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/info_row.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/skill_chip.dart';
@@ -17,12 +18,12 @@ class MembershipInfo extends ConsumerWidget {
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
           colors: [
-            Colors.blue.withOpacity(0.05),
-            Colors.indigo.withOpacity(0.05),
+            Colors.blue.withAlphaa(0.05),
+            Colors.indigo.withAlphaa(0.05),
           ],
         ),
         border: Border.all(
-          color: Colors.blue.withOpacity(0.2),
+          color: Colors.blue.withAlphaa(0.2),
           width: 1,
         ),
       ),
@@ -34,7 +35,7 @@ class MembershipInfo extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
+                  color: Colors.blue.withAlphaa(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(

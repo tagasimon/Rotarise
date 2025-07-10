@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
-import 'package:rotaract/admin_tools/ui/admin_tools/admin_tools_screen.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/member_detail_sheet.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  ProfileScreenState createState() => ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen>
+class ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -60,18 +58,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
-          TextButton.icon(
-            onPressed: () => context.push(const AdminToolsScreen()),
-            label: const Text(
-              "Admin",
-              style: TextStyle(color: Colors.white),
-            ),
-            icon: const Icon(
-              Icons.admin_panel_settings,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(width: 8),
+          // TextButton.icon(
+          //   onPressed: () => context.push(const AdminToolsScreen()),
+          //   label: const Text(
+          //     "Admin",
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          //   icon: const Icon(
+          //     Icons.admin_panel_settings,
+          //     color: Colors.white,
+          //   ),
+          // ),
+          // const SizedBox(width: 8),
         ],
       ),
       body: Column(

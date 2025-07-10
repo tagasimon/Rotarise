@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 
 class GalleryTab extends ConsumerWidget {
@@ -58,7 +59,7 @@ class GalleryTab extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlphaa(0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -75,7 +76,7 @@ class GalleryTab extends ConsumerWidget {
                     ),
                     if (item['type'] == 'video')
                       Container(
-                        color: Colors.black.withOpacity(0.3),
+                        color: Colors.black.withAlphaa(0.3),
                         child: const Center(
                           child: Icon(
                             Icons.play_circle_outline,

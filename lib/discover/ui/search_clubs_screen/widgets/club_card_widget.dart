@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_constants/constants.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/extensions/extensions.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
@@ -74,7 +75,7 @@ class _ClubCardWidgetState extends ConsumerState<ClubCardWidget>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withAlphaa(0.04),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                     spreadRadius: 0,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class MediaOption extends StatelessWidget {
   final IconData icon;
@@ -8,6 +9,7 @@ class MediaOption extends StatelessWidget {
   final VoidCallback? onTap;
 
   const MediaOption({
+    super.key,
     required this.icon,
     required this.label,
     required this.color,
@@ -22,7 +24,7 @@ class MediaOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+          color: isSelected ? color.withAlphaa(0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: isSelected ? Border.all(color: color) : null,
         ),

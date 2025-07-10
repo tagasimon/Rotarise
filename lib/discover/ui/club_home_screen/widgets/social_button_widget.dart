@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 
 class SocialButtonWidget extends StatelessWidget {
   final IconData icon;
@@ -21,9 +22,9 @@ class SocialButtonWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withAlphaa(0.1),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withAlphaa(0.3)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/_core/ui/profile_screen/models/club_member_model.dart';
 import 'package:rotaract/discover/ui/members_tab_screen/widgets/member_detail_sheet.dart';
@@ -80,8 +81,8 @@ class _MemberItemWidgetState extends ConsumerState<MemberItemWidget>
                 boxShadow: [
                   BoxShadow(
                     color: isDark
-                        ? Colors.black.withOpacity(0.3)
-                        : Colors.grey.withOpacity(0.15),
+                        ? Colors.black.withAlphaa(0.3)
+                        : Colors.grey.withAlphaa(0.15),
                     blurRadius: _isHovered ? 20 : 12,
                     offset:
                         _isHovered ? const Offset(0, 8) : const Offset(0, 4),
@@ -90,8 +91,8 @@ class _MemberItemWidgetState extends ConsumerState<MemberItemWidget>
                 ],
                 border: Border.all(
                   color: isDark
-                      ? Colors.grey[700]!.withOpacity(0.3)
-                      : Colors.grey[200]!.withOpacity(0.5),
+                      ? Colors.grey[700]!.withAlphaa(0.3)
+                      : Colors.grey[200]!.withAlphaa(0.5),
                   width: 1,
                 ),
               ),
@@ -162,7 +163,7 @@ class _MemberItemWidgetState extends ConsumerState<MemberItemWidget>
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.blue.withOpacity(0.3),
+              color: Colors.blue.withAlphaa(0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -287,7 +288,7 @@ class _MemberItemWidgetState extends ConsumerState<MemberItemWidget>
         boxShadow: _isHovered
             ? [
                 BoxShadow(
-                  color: Colors.blue.withOpacity(0.4),
+                  color: Colors.blue.withAlphaa(0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:rotaract/_core/notifiers/current_user_notifier.dart';
@@ -169,7 +170,7 @@ class _PostLikeWidgetState extends ConsumerState<PostLikeWidget>
                             width: 4,
                             height: 4,
                             decoration: BoxDecoration(
-                              color: Colors.red.withOpacity(0.8),
+                              color: Colors.red.withAlphaa(0.8),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -227,7 +228,7 @@ class _PostLikeWidgetState extends ConsumerState<PostLikeWidget>
                           boxShadow: [
                             BoxShadow(
                               color: Colors.red
-                                  .withOpacity(0.3 * _likeAnimation.value),
+                                  .withAlphaa(0.3 * _likeAnimation.value),
                               blurRadius: 10 * _likeAnimation.value,
                               spreadRadius: 2 * _likeAnimation.value,
                             ),

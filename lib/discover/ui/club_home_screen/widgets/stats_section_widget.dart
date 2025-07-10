@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/notifiers/club_tab_notifier.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/stat_card_widget.dart';
@@ -20,7 +21,7 @@ class StatsSectionWidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withAlphaa(0.05),
               blurRadius: 20,
               offset: const Offset(0, 4),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/admin_tools/models/project_model.dart';
 
 class ProjectAppBar extends StatelessWidget {
@@ -45,7 +46,7 @@ class ProjectAppBar extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.pink,
-                    Colors.pink.withOpacity(0.8),
+                    Colors.pink.withAlphaa(0.8),
                   ],
                 ),
               ),
@@ -69,7 +70,7 @@ class ProjectAppBar extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    projectColor.withOpacity(0.7),
+                    projectColor.withAlphaa(0.7),
                   ],
                 ),
               ),
@@ -95,7 +96,7 @@ class ProjectAppBar extends StatelessWidget {
                   Text(
                     project.clubId,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withAlphaa(0.9),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),

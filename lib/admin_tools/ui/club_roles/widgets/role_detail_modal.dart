@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/admin_tools/models/club_role.dart';
 
 /// A stateless widget to display the details of a specific club role in a modal.
@@ -71,7 +72,7 @@ class RoleDetailsModal extends StatelessWidget {
                             Text(
                               role.description!,
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withAlphaa(0.9),
                                 fontSize: 16,
                               ),
                             ),
