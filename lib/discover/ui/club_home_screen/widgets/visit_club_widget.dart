@@ -498,7 +498,7 @@ class _VisitClubWidgetState extends ConsumerState<VisitClubWidget> {
                     const SizedBox(height: 8),
 
                     Text(
-                      'Tell us about the meetup to this club. You can add a description and an image.',
+                      'Tell us about the meetup to this club.',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey[600],

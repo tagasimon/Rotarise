@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/nav_ext.dart';
 import 'package:rotaract/_core/notifiers/discover_tab_index_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/modern_app_bar_widget.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/clubs_tab_screen.dart';
 import 'package:rotaract/discover/ui/discover_screen/widgets/search_bar_widget.dart';
 import 'package:rotaract/discover/ui/events_tab_screen/events_tab_screen.dart';
+import 'package:rotaract/discover/ui/user_meetups_screen/user_meetups_screen.dart';
 
 class DiscoverClubsScreen extends ConsumerStatefulWidget {
   const DiscoverClubsScreen({super.key});
@@ -65,9 +67,16 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
-            const ModernAppBarWidget(
+            ModernAppBarWidget(
               title: "Discover",
               subtitle: "Find clubs, events, and opportunities",
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.list_alt_rounded),
+                  onPressed: () => context.push(UserMeetupsScreen()),
+                ),
+                SizedBox(width: 8), // Spacing between icons
+              ],
             ),
             const SearchBarWidget(),
             const SliverToBoxAdapter(

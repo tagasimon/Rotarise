@@ -1,44 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/_core/providers/firebase_providers.dart';
 
 import 'package:rotaract/discover/domain/visits_interface.dart';
 import 'package:rotaract/discover/models/visit_model.dart';
-
-final visitsRepoProvider = Provider<VisitsRepo>((ref) {
-  return VisitsRepo(ref.watch(meetupsCollectionRefProvider));
-});
-
-// getVisitsByClub
-final visitsByClubProvider = FutureProvider.family<List<VisitModel>, String>(
-  (ref, clubId) {
-    return ref.watch(visitsRepoProvider).getVisitsByClub(clubId);
-  },
-);
-
-// getVisitsByUser
-
-final visitsByUserProvider = FutureProvider.family<List<VisitModel>, String>(
-  (ref, userId) {
-    return ref.watch(visitsRepoProvider).getVisitsByUser(userId);
-  },
-);
-
-// getVisitsCountByClub
-
-final visitsCountByClubProvider = FutureProvider.family<int, String>(
-  (ref, clubId) {
-    return ref.watch(visitsRepoProvider).getVisitsCountByClub(clubId);
-  },
-);
-
-// getVisitsCountByUser
-final visitsCountByUserProvider = FutureProvider.family<int, String>(
-  (ref, userId) {
-    return ref.watch(visitsRepoProvider).getVisitsCountByUser(userId);
-  },
-);
 
 class VisitsRepo implements VisitsInterface {
   final CollectionReference _ref;

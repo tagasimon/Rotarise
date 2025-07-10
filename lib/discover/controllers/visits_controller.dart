@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/discover/models/visit_model.dart';
+import 'package:rotaract/discover/providers/visits_providers.dart';
 import 'package:rotaract/discover/repos/visits_repo.dart';
 
 final visitsControllerProvider =
