@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
-import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/event_card.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/whatsapp_status_carousel.dart';
 
 class EventsCarouselSliverWidget extends ConsumerWidget {
   const EventsCarouselSliverWidget({super.key});
@@ -44,25 +44,7 @@ class EventsCarouselSliverWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 120,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      itemCount: limitedEvents.length,
-                      // Add cache extent for better scrolling
-                      cacheExtent: 200,
-                      itemBuilder: (context, index) {
-                        final event = limitedEvents[index];
-                        return EventCard(
-                          key:
-                              ValueKey(event.id), // Add key for better rebuilds
-                          event: event,
-                        );
-                      },
-                    ),
-                  ),
+                  WhatsAppStatusCarousel(events: limitedEvents),
                 ],
               ),
             ),
