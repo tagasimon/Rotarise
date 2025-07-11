@@ -431,7 +431,7 @@ class _VisitClubWidgetState extends ConsumerState<VisitClubWidget> {
                     ),
                   )
                 : const Text(
-                    'Record Meetup',
+                    'Add',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
           ),
@@ -489,7 +489,7 @@ class _VisitClubWidgetState extends ConsumerState<VisitClubWidget> {
                   children: [
                     // Title
                     const Text(
-                      'Record a Meetup',
+                      'Add a Meetup',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

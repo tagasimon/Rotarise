@@ -77,16 +77,15 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
 
   Widget _buildBottomNavBar(ThemeData theme, int tabIndex) {
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withAlphaa(0.08), // Reduced opacity
-            blurRadius: 16, // Reduced blur
-            offset: const Offset(0, 4), // Single shadow
+            blurRadius: 12, // Reduced blur
+            offset: const Offset(0, 2), // Smaller shadow
           ),
         ],
         border: Border.all(
@@ -95,18 +94,18 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(20),
         child: NavigationBar(
           selectedIndex: tabIndex,
           onDestinationSelected: _onTabTapped,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          height: 65,
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+          height: 70,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           animationDuration: const Duration(milliseconds: 300), // Reduced
           indicatorColor: theme.primaryColor.withAlphaa(0.15),
           indicatorShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
           ),
           destinations: [
             _buildOptimizedDestination(
@@ -114,7 +113,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
               currentIndex: tabIndex,
               icon: Icons.home_outlined,
               selectedIcon: Icons.home,
-              label: "Feed",
+              label: "Home",
               primaryColor: theme.primaryColor,
             ),
             _buildOptimizedDestination(
@@ -151,13 +150,10 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> {
 
     return NavigationDestination(
       label: label,
-      icon: Container(
-        padding: const EdgeInsets.all(12),
-        child: Icon(
-          isSelected ? selectedIcon : icon,
-          color: isSelected ? primaryColor : Colors.grey.shade600,
-          size: isSelected ? 26 : 24, // Reduced size difference
-        ),
+      icon: Icon(
+        isSelected ? selectedIcon : icon,
+        color: isSelected ? primaryColor : Colors.grey.shade600,
+        size: isSelected ? 26 : 24, // Centered, properly sized icons
       ),
     );
   }
