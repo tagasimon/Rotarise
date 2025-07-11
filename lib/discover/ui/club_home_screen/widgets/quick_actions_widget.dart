@@ -24,8 +24,8 @@ class QuickActionsWidget extends ConsumerWidget {
           children: [
             Expanded(
                 child: ClubActionWidget(
-              icon: FontAwesomeIcons.doorOpen,
-              label: 'Meetup',
+              icon: FontAwesomeIcons.check,
+              label: 'Check In',
               color: Theme.of(context).primaryColor,
               onTap: () async {
                 final Map<String, dynamic>? result =

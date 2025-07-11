@@ -72,7 +72,7 @@ class _DiscoverClubsScreenState extends ConsumerState<DiscoverClubsScreen>
               subtitle: "Find clubs, events, and opportunities",
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.list_alt_rounded),
+                  icon: const Icon(Icons.insights),
                   onPressed: () => context.push(UserMeetupsScreen()),
                 ),
                 SizedBox(width: 8), // Spacing between icons

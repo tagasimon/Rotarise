@@ -21,6 +21,8 @@ class _PostsSliverSectionState extends ConsumerState<PostsSliverSection> {
   Future<void> _handleRefresh() async {
     if (!mounted) return;
 
+    debugPrint('📱 PostsSliverSection: Handling refresh');
+
     setState(() {
       _allPosts = [];
       _lastDateTime = null;
@@ -29,6 +31,12 @@ class _PostsSliverSectionState extends ConsumerState<PostsSliverSection> {
     });
 
     ref.invalidate(fetchPostsProvider);
+    debugPrint('🔄 PostsSliverSection: Provider invalidated');
+  }
+
+  // Public method to handle refresh from parent
+  Future<void> handleRefresh() async {
+    return _handleRefresh();
   }
 
   Future<void> _loadMorePosts() async {
@@ -72,11 +80,26 @@ class _PostsSliverSectionState extends ConsumerState<PostsSliverSection> {
 
     return postsProv.when(
       data: (initialPosts) {
-        // Initialize posts only once
+        // Initialize or update posts when data changes
         if (_allPosts.isEmpty && initialPosts.isNotEmpty) {
+          // First time loading
           _allPosts = List.from(initialPosts);
           _lastDateTime = initialPosts.last.timestamp;
           _hasMore = initialPosts.length == _pageSize;
+        } else if (initialPosts.isNotEmpty &&
+            (_allPosts.isEmpty ||
+                (_allPosts.isNotEmpty &&
+                    initialPosts.first.id != _allPosts.first.id))) {
+          // Refresh case - new data arrived
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() {
+                _allPosts = List.from(initialPosts);
+                _lastDateTime = initialPosts.last.timestamp;
+                _hasMore = initialPosts.length == _pageSize;
+              });
+            }
+          });
         }
 
         if (_allPosts.isEmpty) {
