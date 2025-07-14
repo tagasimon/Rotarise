@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/news_feed/providers/posts_providers.dart';
 import 'package:rotaract/news_feed/ui/post_details_screen/widgets/stat_item_widget.dart';
 
@@ -26,11 +27,9 @@ class PostContentWidget extends ConsumerWidget {
           // Author Info
           Row(
             children: [
-              CircleAvatar(
-                radius: 24,
-                backgroundImage: NetworkImage(
-                  post.authorAvatar ?? Constants.kDefaultImageLink,
-                ),
+              CircleImageWidget(
+                size: 50,
+                imageUrl: post.authorAvatar ?? Constants.kDefaultImageLink,
               ),
               const SizedBox(width: 12),
               Expanded(

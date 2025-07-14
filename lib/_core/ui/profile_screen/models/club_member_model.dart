@@ -34,6 +34,7 @@ class ClubMemberModel {
   /// Club roles
   final String? currentClubRole; // President, Secretary, etc.
   final List<String>? previousRoles; // History of roles with dates
+  final bool isAdmin; // Whether the member has admin privileges
 
   ClubMemberModel({
     required this.id,
@@ -54,6 +55,7 @@ class ClubMemberModel {
     this.joinedDate,
     this.currentClubRole,
     this.previousRoles,
+    this.isAdmin = false,
   });
 
   ClubMemberModel copyWith({
@@ -75,6 +77,7 @@ class ClubMemberModel {
     DateTime? joinedDate,
     String? currentClubRole,
     List<String>? previousRoles,
+    bool? isAdmin,
   }) {
     return ClubMemberModel(
       id: id ?? this.id,
@@ -95,6 +98,7 @@ class ClubMemberModel {
       joinedDate: joinedDate ?? this.joinedDate,
       currentClubRole: currentClubRole ?? this.currentClubRole,
       previousRoles: previousRoles ?? this.previousRoles,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
@@ -118,35 +122,10 @@ class ClubMemberModel {
       'joinedDate': joinedDate,
       'currentClubRole': currentClubRole,
       'previousRoles': previousRoles,
+      'isAdmin': isAdmin,
     };
   }
 
-  //     id: doc.id,
-  //     clubId: data['clubId'] as String?,
-  //     firstName: data['firstName'] as String? ?? '',
-  //     lastName: data['lastName'] as String? ?? '',
-  //     gender: data['gender'] as String?,
-  //     profession: data['profession'] as String?,
-  //     imageUrl: data['imageUrl'] as String?,
-  //     dateOfBirth: data['dateOfBirth']?.toDate(),
-  //     email: data['email'] as String?,
-  //     phoneNumber: data['phoneNumber'] as String?,
-  //     address: data['address'] as String?,
-  //     company: data['company'] as String?,
-  //     jobTitle: data['jobTitle'] as String?,
-  //     expertise: data['expertise'] != null
-  //         ? List<String>.from(data['expertise'] as List)
-  //         : null,
-  //     education: data['education'] != null
-  //         ? List<String>.from(data['education'] as List)
-  //         : null,
-  //     joinedDate: data['joinedDate']?.toDate(),
-  //     currentClubRole: data['currentClubRole'] as String?,
-  //     previousRoles: data['previousRoles'] != null
-  //         ? List<String>.from(data['previousRoles'] as List)
-  //         : null,
-  //   );
-  // }
   // from firebase
   factory ClubMemberModel.fromFirestore(DocumentSnapshot snapshot) {
     final json = snapshot.data() as Map<String, dynamic>;
@@ -190,6 +169,7 @@ class ClubMemberModel {
       previousRoles: map['previousRoles'] != null
           ? List<String>.from(map['previousRoles'] as List)
           : null,
+      isAdmin: map['isAdmin'] as bool? ?? false,
     );
   }
 
@@ -200,7 +180,7 @@ class ClubMemberModel {
 
   @override
   String toString() {
-    return 'MemberModel(id: $id, clubId: $clubId, firstName: $firstName, lastName: $lastName, gender: $gender, profession: $profession, imageUrl: $imageUrl, dateOfBirth: $dateOfBirth, email: $email, phoneNumber: $phoneNumber, address: $address, company: $company, jobTitle: $jobTitle, expertise: $expertise, education: $education, joinedDate: $joinedDate, currentClubRole: $currentClubRole, previousRoles: $previousRoles)';
+    return 'MemberModel(id: $id, clubId: $clubId, firstName: $firstName, lastName: $lastName, gender: $gender, profession: $profession, imageUrl: $imageUrl, dateOfBirth: $dateOfBirth, email: $email, phoneNumber: $phoneNumber, address: $address, company: $company, jobTitle: $jobTitle, expertise: $expertise, education: $education, joinedDate: $joinedDate, currentClubRole: $currentClubRole, previousRoles: $previousRoles, isAdmin: $isAdmin)';
   }
 
   @override
@@ -224,7 +204,8 @@ class ClubMemberModel {
         listEquals(other.education, education) &&
         other.joinedDate == joinedDate &&
         other.currentClubRole == currentClubRole &&
-        listEquals(other.previousRoles, previousRoles);
+        listEquals(other.previousRoles, previousRoles) &&
+        other.isAdmin == isAdmin;
   }
 
   @override
@@ -246,6 +227,7 @@ class ClubMemberModel {
         education.hashCode ^
         joinedDate.hashCode ^
         currentClubRole.hashCode ^
-        previousRoles.hashCode;
+        previousRoles.hashCode ^
+        isAdmin.hashCode;
   }
 }

@@ -50,9 +50,13 @@ class NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
           ),
           slivers: [
             // App bar
-            const ModernAppBarWidget(
+            ModernAppBarWidget(
               title: "Rotarise",
               subtitle: "Stay updated with club activities",
+              // actions: [
+              //   IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
+              //   SizedBox(width: 5),
+              // ],
             ),
 
             // Events carousel

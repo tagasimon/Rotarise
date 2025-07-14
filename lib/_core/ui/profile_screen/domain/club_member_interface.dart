@@ -6,6 +6,7 @@ abstract class ClubMemberInterface {
   Future<void> updateMemberPic(String memberId, String downloadUrl);
   Future<void> deleteMember(ClubMemberModel member);
   Future<ClubMemberModel?> getMemberById(String id);
+  Future<ClubMemberModel?> getMemberByEmail(String email);
   Future<List<ClubMemberModel>> getAllMembers();
   Future<List<ClubMemberModel>> getAllMembersByClubId(String clubId);
   Future<int> getTotalMembersCount();

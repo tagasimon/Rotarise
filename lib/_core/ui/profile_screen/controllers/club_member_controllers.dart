@@ -11,7 +11,7 @@ final clubMemberControllersProvider =
 
 class ClubMemberControllers extends StateNotifier<AsyncValue> {
   final ClubMembersRepo _repo;
-  ClubMemberControllers(this._repo) : super(const AsyncValue.loading());
+  ClubMemberControllers(this._repo) : super(const AsyncValue.data(null));
 
   Future<bool> createMember(ClubMemberModel member) async {
     state = const AsyncValue.loading();
@@ -29,6 +29,26 @@ class ClubMemberControllers extends StateNotifier<AsyncValue> {
     state = const AsyncValue.loading();
     try {
       await _repo.updateMember(member);
+      state = const AsyncValue.data(null);
+      return true;
+    } catch (e, s) {
+      state = AsyncValue.error(e, s);
+      return false;
+    }
+  }
+
+  Future<bool> updateMemberClubId(String email, String clubId) async {
+    state = const AsyncValue.loading();
+    try {
+      final member = await _repo.getMemberByEmail(email);
+      if (member == null) {
+        state = AsyncValue.error(
+            'User with email $email not found', StackTrace.current);
+        return false;
+      }
+
+      final updatedMember = member.copyWith(clubId: clubId);
+      await _repo.updateMember(updatedMember);
       state = const AsyncValue.data(null);
       return true;
     } catch (e, s) {

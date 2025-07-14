@@ -43,6 +43,17 @@ class ClubMembersRepo extends ClubMemberInterface {
     return null;
   }
 
+  // get a member by email
+  @override
+  Future<ClubMemberModel?> getMemberByEmail(String email) async {
+    final ref = await _ref.where('email', isEqualTo: email).get();
+
+    if (ref.docs.isNotEmpty) {
+      return ClubMemberModel.fromFirestore(ref.docs.first);
+    }
+    return null;
+  }
+
   // get all members
   @override
   Future<List<ClubMemberModel>> getAllMembers() async {
