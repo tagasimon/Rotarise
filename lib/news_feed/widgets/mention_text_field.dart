@@ -56,10 +56,15 @@ class _MentionTextFieldState extends ConsumerState<MentionTextField> {
 
     widget.onTextChanged?.call();
 
-    if (ClubMentionService.isMentionPosition(text, cursorPosition)) {
-      final mention =
-          ClubMentionService.getCurrentMention(text, cursorPosition);
-      _showClubSuggestions(mention);
+    // Only check for mentions if we have a valid cursor position and we're actually in a mention
+    if (cursorPosition >= 0 && cursorPosition <= text.length) {
+      if (ClubMentionService.isMentionPosition(text, cursorPosition)) {
+        final mention =
+            ClubMentionService.getCurrentMention(text, cursorPosition);
+        _showClubSuggestions(mention);
+      } else {
+        _hideSuggestions();
+      }
     } else {
       _hideSuggestions();
     }
@@ -71,13 +76,18 @@ class _MentionTextFieldState extends ConsumerState<MentionTextField> {
   void _updateTaggedClubs() {
     final clubsAsyncValue = ref.read(getAllVerifiedClubsProvider);
     clubsAsyncValue.whenData((clubs) {
-      final mentions = ClubMentionService.extractMentions(
-        widget.controller.text,
-        clubs,
-      );
+      final text = widget.controller.text;
+      final mentions = ClubMentionService.extractMentions(text, clubs);
+
+      // Debug logging to track mention extraction
+      debugPrint('🔍 Extracting mentions from text: "$text"');
+      debugPrint(
+          '📋 Found ${mentions.length} mentions: ${mentions.map((m) => m.clubName).toList()}');
 
       final newTaggedClubIds = mentions.map((m) => m.clubId).toList();
       if (newTaggedClubIds != _taggedClubIds) {
+        debugPrint(
+            '🔄 Tagged clubs changed from $_taggedClubIds to $newTaggedClubIds');
         _taggedClubIds = newTaggedClubIds;
         widget.onMentionsChanged?.call(_taggedClubIds);
       }
@@ -178,19 +188,36 @@ class _MentionTextFieldState extends ConsumerState<MentionTextField> {
       club.name,
     );
 
-    widget.controller.text = newText;
-
-    // Set cursor position after the mention
+    // Calculate new cursor position: should be right after the mention and space
     final beforeCursor = text.substring(0, cursorPosition);
     final lastAtIndex = beforeCursor.lastIndexOf('@');
-    final newCursorPosition =
-        lastAtIndex + club.name.length + 2; // +2 for @ and space
 
+    int newCursorPosition = newText.length;
+    if (lastAtIndex != -1) {
+      // Position cursor right after @clubname and space
+      newCursorPosition =
+          lastAtIndex + club.name.length + 2; // +2 for @ and space
+    }
+
+    // Temporarily remove listener to avoid issues
+    widget.controller.removeListener(_onTextChanged);
+
+    // Set text and cursor position
+    widget.controller.text = newText;
     widget.controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: newCursorPosition),
+      TextPosition(offset: newCursorPosition.clamp(0, newText.length)),
     );
 
+    // Re-add listener
+    widget.controller.addListener(_onTextChanged);
+
     _hideSuggestions();
+
+    // Manually trigger update for tagged clubs
+    _updateTaggedClubs();
+
+    // Call onTextChanged to ensure any other listeners are notified
+    widget.onTextChanged?.call();
   }
 
   @override
@@ -207,6 +234,9 @@ class _MentionTextFieldState extends ConsumerState<MentionTextField> {
           hintStyle: const TextStyle(fontSize: 18),
         ),
         style: const TextStyle(fontSize: 16),
+        // Ensure the text field allows typing in all positions
+        enableInteractiveSelection: true,
+        textInputAction: TextInputAction.newline,
       ),
     );
   }

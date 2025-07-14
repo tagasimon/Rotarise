@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/_core/notifiers/selected_club_notifier.dart';
+import 'package:rotaract/admin_tools/models/club_model.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/about_section_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/about_stat_card_widget.dart';
 import 'package:rotaract/discover/ui/club_home_screen/widgets/contact_row_widget.dart';
@@ -252,11 +253,11 @@ class ClubAboutWidget extends ConsumerWidget {
     );
   }
 
-  bool _hasContactInfo(club) {
+  bool _hasContactInfo(ClubModel club) {
     return club.email != null || club.phone != null || club.website != null;
   }
 
-  bool _hasSocialMedia(club) {
+  bool _hasSocialMedia(ClubModel club) {
     return club.facebook != null ||
         club.instagram != null ||
         club.twitter != null ||

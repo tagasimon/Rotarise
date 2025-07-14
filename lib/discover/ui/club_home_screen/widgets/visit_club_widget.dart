@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/notifiers/upload_image_controller.dart';
 
 class VisitClubWidget extends ConsumerStatefulWidget {
@@ -61,7 +62,7 @@ class _VisitClubWidgetState extends ConsumerState<VisitClubWidget> {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.image,
         allowMultiple: false,
-        allowCompression: true,
+        compressionQuality: 50,
         withData: kIsWeb, // Only load bytes on web
       );
 
@@ -122,7 +123,7 @@ class _VisitClubWidgetState extends ConsumerState<VisitClubWidget> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withAlphaa(0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -143,7 +144,7 @@ class _VisitClubWidgetState extends ConsumerState<VisitClubWidget> {
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.7),
+                  color: Colors.black.withAlphaa(0.7),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -162,7 +163,7 @@ class _VisitClubWidgetState extends ConsumerState<VisitClubWidget> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.7),
+                  color: Colors.black.withAlphaa(0.7),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Text(

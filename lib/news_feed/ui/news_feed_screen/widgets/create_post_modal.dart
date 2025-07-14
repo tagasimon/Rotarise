@@ -232,9 +232,21 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
 
     setState(() => _isCreatingPost = true);
 
+    // Create a stable snapshot of the current state
+    final hasImageSnapshot = _hasSelectedImage;
+    final platformFileSnapshot = _selectedPlatformFile;
+    final taggedClubIdsSnapshot = List<String>.from(_taggedClubIds);
+
+    debugPrint(
+        '📸 State snapshot - hasImage: $hasImageSnapshot, taggedClubs: ${taggedClubIdsSnapshot.length}');
+
     try {
-      await _createPost(content);
+      await _createPostWithSnapshot(content, hasImageSnapshot,
+          platformFileSnapshot, taggedClubIdsSnapshot);
     } catch (e) {
+      debugPrint('❌ Post creation failed: $e');
+      debugPrint(
+          '📊 Debug info - hasImage: $_hasSelectedImage, taggedClubs: ${_taggedClubIds.length}');
       _showErrorToast("Failed to create post: $e");
     } finally {
       if (mounted) {
@@ -243,34 +255,78 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
     }
   }
 
-  Future<void> _createPost(String content) async {
+  Future<void> _createPostWithSnapshot(
+    String content,
+    bool hasImageSnapshot,
+    PlatformFile? platformFileSnapshot,
+    List<String> taggedClubIdsSnapshot,
+  ) async {
+    debugPrint('🚀 Starting post creation process...');
+    debugPrint('📝 Content: $content');
+    debugPrint('🖼️ Has image: $hasImageSnapshot');
+    debugPrint('🏷️ Tagged clubs: $taggedClubIdsSnapshot');
+
     final currentUser = ref.read(currentUserNotifierProvider);
     if (currentUser?.clubId == null) {
       throw Exception("You don't belong to a club");
     }
+    debugPrint(
+        '👤 Current user: ${currentUser?.id}, Club: ${currentUser?.clubId}');
 
     // Get club information
+    debugPrint('🏢 Fetching club information...');
     final club =
         await ref.read(getEventClubByIdProvider(currentUser!.clubId!).future);
     if (club == null) {
       throw Exception("Club not found");
     }
+    debugPrint('✅ Club found: ${club.name}');
 
     // Upload image if selected
     String? imageUrl;
-    if (_hasSelectedImage && _selectedPlatformFile != null) {
-      imageUrl = await ref
-          .read(uploadImageControllerProvider.notifier)
-          .uploadImage(_selectedPlatformFile!, "POSTS");
+    if (hasImageSnapshot && platformFileSnapshot != null) {
+      debugPrint('📤 Starting image upload...');
+      debugPrint('📁 File name: ${platformFileSnapshot.name}');
+      debugPrint('📏 File size: ${platformFileSnapshot.size} bytes');
+      debugPrint(
+          '🏷️ Tagged clubs during upload: ${taggedClubIdsSnapshot.length}');
 
-      if (imageUrl == null) {
-        throw Exception("Failed to upload image");
+      try {
+        // Ensure we have a stable reference to the file
+        imageUrl = await ref
+            .read(uploadImageControllerProvider.notifier)
+            .uploadImage(platformFileSnapshot, "POSTS");
+
+        if (imageUrl == null) {
+          debugPrint('❌ Image upload returned null');
+          throw Exception("Failed to upload image");
+        }
+        debugPrint('✅ Image uploaded successfully: $imageUrl');
+      } catch (e) {
+        debugPrint('❌ Image upload failed: $e');
+        rethrow;
       }
     }
 
     // Create post model
+    debugPrint('📦 Creating post model...');
+    final postId = const Uuid().v4();
+    debugPrint('🆔 Post ID: $postId');
+    debugPrint('👤 Author: ${currentUser.firstName} ${currentUser.lastName}');
+    debugPrint('🖼️ Image URL: $imageUrl');
+    debugPrint(
+        '🏷️ Tagged clubs: ${taggedClubIdsSnapshot.isNotEmpty ? taggedClubIdsSnapshot : null}');
+
+    // Validate tagged club IDs
+    final validTaggedClubIds =
+        taggedClubIdsSnapshot.where((id) => id.trim().isNotEmpty).toList();
+    if (validTaggedClubIds.length != taggedClubIdsSnapshot.length) {
+      debugPrint(
+          '⚠️ Found invalid club IDs, filtered from ${taggedClubIdsSnapshot.length} to ${validTaggedClubIds.length}');
+    }
+
     final post = PostModel(
-      id: const Uuid().v4(),
+      id: postId,
       authorId: currentUser.id,
       clubId: currentUser.clubId!,
       clubName: club.name,
@@ -279,15 +335,43 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
       content: content,
       timestamp: DateTime.now(),
       imageUrl: imageUrl,
-      taggedClubIds: _taggedClubIds.isNotEmpty ? _taggedClubIds : null,
+      taggedClubIds: validTaggedClubIds.isNotEmpty ? validTaggedClubIds : null,
     );
+    debugPrint('✅ Post model created successfully');
 
     // Add post to repository
-    final success =
-        await ref.read(postsControllerProvider.notifier).addPost(post);
+    debugPrint('💾 Adding post to repository...');
+    bool success = false;
+    int retryCount = 0;
+    const maxRetries = 2;
 
-    if (!success) {
-      throw Exception("Failed to create post");
+    while (!success && retryCount <= maxRetries) {
+      try {
+        if (retryCount > 0) {
+          debugPrint('🔄 Retry attempt $retryCount...');
+          await Future.delayed(Duration(milliseconds: 500 * retryCount));
+        }
+
+        success =
+            await ref.read(postsControllerProvider.notifier).addPost(post);
+
+        if (!success) {
+          debugPrint(
+              '❌ Failed to add post to repository (attempt ${retryCount + 1})');
+          if (retryCount == maxRetries) {
+            throw Exception("Failed to create post after $maxRetries retries");
+          }
+        } else {
+          debugPrint('✅ Post added to repository successfully');
+        }
+      } catch (e) {
+        debugPrint(
+            '❌ Exception adding post to repository (attempt ${retryCount + 1}): $e');
+        if (retryCount == maxRetries) {
+          rethrow;
+        }
+      }
+      retryCount++;
     }
 
     // Success - clean up and close
