@@ -18,6 +18,7 @@ class PostModel {
   final int? reportsCount;
   final String? imageUrl;
   final String? videoUrl;
+  final List<String>? taggedClubIds;
   PostModel({
     required this.id,
     required this.authorId,
@@ -32,6 +33,7 @@ class PostModel {
     this.reportsCount,
     this.imageUrl,
     this.videoUrl,
+    this.taggedClubIds,
   });
 
   PostModel copyWith({
@@ -48,6 +50,7 @@ class PostModel {
     int? reportsCount,
     String? imageUrl,
     String? videoUrl,
+    List<String>? taggedClubIds,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -63,6 +66,7 @@ class PostModel {
       reportsCount: reportsCount ?? this.reportsCount,
       imageUrl: imageUrl ?? this.imageUrl,
       videoUrl: videoUrl ?? this.videoUrl,
+      taggedClubIds: taggedClubIds ?? this.taggedClubIds,
     );
   }
 
@@ -81,6 +85,7 @@ class PostModel {
       'reportsCount': reportsCount,
       'imageUrl': imageUrl,
       'videoUrl': videoUrl,
+      'taggedClubIds': taggedClubIds,
     };
   }
 
@@ -109,6 +114,9 @@ class PostModel {
           map['reportsCount'] != null ? map['reportsCount'] as int : null,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
       videoUrl: map['videoUrl'] != null ? map['videoUrl'] as String : null,
+      taggedClubIds: map['taggedClubIds'] != null
+          ? List<String>.from(map['taggedClubIds'] as List)
+          : null,
     );
   }
 
@@ -119,7 +127,7 @@ class PostModel {
 
   @override
   String toString() {
-    return 'PostModel(id: $id, authorId: $authorId, clubId: $clubId, authorName: $authorName, authorAvatar: $authorAvatar, content: $content, timestamp: $timestamp, clubName: $clubName, likesCount: $likesCount, commentsCount: $commentsCount, reportsCount: $reportsCount, imageUrl: $imageUrl, videoUrl: $videoUrl)';
+    return 'PostModel(id: $id, authorId: $authorId, clubId: $clubId, authorName: $authorName, authorAvatar: $authorAvatar, content: $content, timestamp: $timestamp, clubName: $clubName, likesCount: $likesCount, commentsCount: $commentsCount, reportsCount: $reportsCount, imageUrl: $imageUrl, videoUrl: $videoUrl, taggedClubIds: $taggedClubIds)';
   }
 
   @override
@@ -138,7 +146,17 @@ class PostModel {
         other.commentsCount == commentsCount &&
         other.reportsCount == reportsCount &&
         other.imageUrl == imageUrl &&
-        other.videoUrl == videoUrl;
+        other.videoUrl == videoUrl &&
+        _listEquals(other.taggedClubIds, taggedClubIds);
+  }
+
+  bool _listEquals<T>(List<T>? a, List<T>? b) {
+    if (a == null) return b == null;
+    if (b == null || a.length != b.length) return false;
+    for (int index = 0; index < a.length; index += 1) {
+      if (a[index] != b[index]) return false;
+    }
+    return true;
   }
 
   @override
@@ -155,6 +173,7 @@ class PostModel {
         commentsCount.hashCode ^
         reportsCount.hashCode ^
         imageUrl.hashCode ^
-        videoUrl.hashCode;
+        videoUrl.hashCode ^
+        taggedClubIds.hashCode;
   }
 }

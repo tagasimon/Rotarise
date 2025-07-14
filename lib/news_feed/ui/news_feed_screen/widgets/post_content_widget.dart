@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rotaract/_constants/text_helpers.dart';
+import 'package:rotaract/news_feed/widgets/mentionable_text.dart';
 
 class PostContentWidget extends StatefulWidget {
   final String content;
@@ -34,10 +34,8 @@ class _PostContentWidgetState extends State<PostContentWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          child: SelectableText.rich(
-            TextSpan(
-              children: TextHelpers.buildPostTextSpans(displayText),
-            ),
+          child: MentionableText(
+            text: displayText,
             style: const TextStyle(
               fontSize: 15,
               height: 1.3,

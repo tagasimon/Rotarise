@@ -15,6 +15,8 @@ import 'package:rotaract/admin_tools/providers/club_repo_providers.dart';
 import 'package:rotaract/news_feed/controllers/posts_controller.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/media_option.dart';
+import 'package:rotaract/news_feed/widgets/mention_text_field.dart';
+import 'package:rotaract/news_feed/widgets/tagged_clubs_widget.dart';
 
 class CreatePostModal extends ConsumerStatefulWidget {
   final TextEditingController controller;
@@ -38,6 +40,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
   String? _selectedImagePath;
   Uint8List? _selectedImageBytes;
   PlatformFile? _selectedPlatformFile;
+  List<String> _taggedClubIds = [];
 
   // Animation controller for smooth interactions
   late AnimationController _animationController;
@@ -155,6 +158,11 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
               userImageUrl: currentUserImageUrl,
               hasSelectedImage: _hasSelectedImage,
               onTextChanged: () => setState(() {}),
+              onMentionsChanged: (taggedIds) {
+                setState(() {
+                  _taggedClubIds = taggedIds;
+                });
+              },
             ),
             if (_hasSelectedImage)
               _ImagePreview(
@@ -162,6 +170,8 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
                 selectedImageBytes: _selectedImageBytes,
                 onRemove: _removeSelectedImage,
               ),
+            if (_taggedClubIds.isNotEmpty)
+              TaggedClubsWidget(taggedClubIds: _taggedClubIds),
             const Spacer(),
             _MediaOptionsSection(
               hasSelectedImage: _hasSelectedImage,
@@ -269,6 +279,7 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
       content: content,
       timestamp: DateTime.now(),
       imageUrl: imageUrl,
+      taggedClubIds: _taggedClubIds.isNotEmpty ? _taggedClubIds : null,
     );
 
     // Add post to repository
@@ -294,6 +305,9 @@ class _CreatePostModalState extends ConsumerState<CreatePostModal>
   void _resetForm() {
     widget.controller.clear();
     _removeSelectedImage();
+    setState(() {
+      _taggedClubIds = [];
+    });
   }
 
   void _showErrorToast(String message) {
@@ -349,12 +363,14 @@ class _UserInputSection extends StatelessWidget {
   final String? userImageUrl;
   final bool hasSelectedImage;
   final VoidCallback onTextChanged;
+  final Function(List<String>)? onMentionsChanged;
 
   const _UserInputSection({
     required this.controller,
     required this.userImageUrl,
     required this.hasSelectedImage,
     required this.onTextChanged,
+    this.onMentionsChanged,
   });
 
   @override
@@ -368,16 +384,12 @@ class _UserInputSection extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: TextField(
+          child: MentionTextField(
             controller: controller,
             maxLines: hasSelectedImage ? 4 : 8,
-            decoration: const InputDecoration(
-              hintText: "What's on your mind?",
-              border: InputBorder.none,
-              hintStyle: TextStyle(fontSize: 18),
-            ),
-            style: const TextStyle(fontSize: 16),
-            onChanged: (_) => onTextChanged(),
+            hintText: "What's on your mind?",
+            onTextChanged: onTextChanged,
+            onMentionsChanged: onMentionsChanged,
           ),
         ),
       ],

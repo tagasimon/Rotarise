@@ -15,6 +15,7 @@ import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/member_by_id_widg
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_actions_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_content_widget.dart';
 import 'package:rotaract/news_feed/ui/post_details_screen/post_details_screen.dart';
+import 'package:rotaract/news_feed/widgets/tagged_clubs_widget.dart';
 
 class PostCard extends ConsumerStatefulWidget {
   final PostModel post;
@@ -350,6 +351,12 @@ class PostCardState extends ConsumerState<PostCard>
                           ),
                         ),
                       ],
+
+                      // Tagged clubs
+                      if (widget.post.taggedClubIds != null &&
+                          widget.post.taggedClubIds!.isNotEmpty)
+                        TaggedClubsWidget(
+                            taggedClubIds: widget.post.taggedClubIds!),
 
                       // Action buttons
                       const SizedBox(height: 12),
