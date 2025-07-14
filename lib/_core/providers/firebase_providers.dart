@@ -52,3 +52,7 @@ final buddyGroupsCollectionRefProvider = Provider<CollectionReference>(
 // MEETUPS Collection
 final meetupsCollectionRefProvider = Provider<CollectionReference>(
     (ref) => ref.watch(firestoreInstanceProvider).collection('MEETUPS'));
+
+// NOTIFICATIONS Collection
+final notificationsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('NOTIFICATIONS'));
