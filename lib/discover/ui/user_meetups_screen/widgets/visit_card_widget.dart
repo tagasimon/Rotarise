@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/discover/models/visit_model.dart';
 import 'package:rotaract/discover/ui/user_meetups_screen/widgets/visit_details_sheet.dart';
 import 'package:rotaract/discover/ui/user_meetups_screen/widgets/visit_image_widget.dart';
@@ -18,7 +19,7 @@ class VisitCardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlphaa(0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

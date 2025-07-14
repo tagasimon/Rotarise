@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/discover/models/visit_model.dart';
 import 'package:rotaract/discover/ui/user_meetups_screen/widgets/stat_item_widget.dart';
 
@@ -30,7 +31,7 @@ class VisitsStatsHeader extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
+            color: Colors.blue.withAlphaa(0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

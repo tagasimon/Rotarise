@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -56,7 +57,7 @@ class WhatsAppStatusCarousel extends StatelessWidget {
                         end: Alignment.bottomRight,
                         colors: [
                           Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.6),
+                          Theme.of(context).primaryColor.withAlphaa(0.6),
                         ],
                       ),
                     ),
@@ -294,9 +295,9 @@ class _EventStoryViewerState extends State<EventStoryViewer>
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Theme.of(context).primaryColor.withOpacity(0.8),
-                          Theme.of(context).primaryColor.withOpacity(0.3),
-                          Colors.black.withOpacity(0.6),
+                          Theme.of(context).primaryColor.withAlphaa(0.8),
+                          Theme.of(context).primaryColor.withAlphaa(0.3),
+                          Colors.black.withAlphaa(0.6),
                         ],
                       ),
                     ),
@@ -432,7 +433,7 @@ class _EventStoryViewerState extends State<EventStoryViewer>
                       height: 3,
                       margin: const EdgeInsets.symmetric(horizontal: 1),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withAlphaa(0.3),
                         borderRadius: BorderRadius.circular(1.5),
                       ),
                       child: AnimatedBuilder(
@@ -464,7 +465,7 @@ class _EventStoryViewerState extends State<EventStoryViewer>
               right: 16,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withAlphaa(0.5),
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
@@ -482,7 +483,7 @@ class _EventStoryViewerState extends State<EventStoryViewer>
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.7),
+                    color: Colors.black.withAlphaa(0.7),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
