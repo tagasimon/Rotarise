@@ -10,7 +10,7 @@ final clubEventsRepoProvider = Provider<ClubEventsRepo>((ref) {
 });
 
 // getAllEvents provider
-final allEventsProvider = FutureProvider((ref) async {
+final allEventsProvider = FutureProvider.autoDispose((ref) async {
   return ref.watch(clubEventsRepoProvider).getAllEvents();
 });
 

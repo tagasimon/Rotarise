@@ -60,16 +60,12 @@ class NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
               //   SizedBox(width: 5),
               // ],
             ),
-
             // Events carousel
             const EventsCarouselSliverWidget(),
-
             // Create post section - REMOVED the extra SliverToBoxAdapter wrapper
             const CreatePostSliverSection(),
-
             // Posts section - convert to proper sliver
             const PostsSliverSection(),
-
             // Add minimum space to ensure scrollability for RefreshIndicator
             SliverToBoxAdapter(
               child: SizedBox(

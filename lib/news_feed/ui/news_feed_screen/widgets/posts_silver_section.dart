@@ -22,8 +22,6 @@ class _PostsSliverSectionState extends ConsumerState<PostsSliverSection> {
   Future<void> _handleRefresh() async {
     if (!mounted) return;
 
-    debugPrint('📱 PostsSliverSection: Handling refresh');
-
     setState(() {
       _allPosts = [];
       _lastDateTime = null;
@@ -33,12 +31,6 @@ class _PostsSliverSectionState extends ConsumerState<PostsSliverSection> {
 
     ref.invalidate(fetchPostsProvider);
     ref.invalidate(allEventsProvider);
-    debugPrint('🔄 PostsSliverSection: Provider invalidated');
-  }
-
-  // Public method to handle refresh from parent
-  Future<void> handleRefresh() async {
-    return _handleRefresh();
   }
 
   Future<void> _loadMorePosts() async {
