@@ -49,7 +49,7 @@ class PostDetailsScreen extends ConsumerWidget {
                   const PostContentWidget(),
                   const Divider(height: 1, thickness: 0.5),
                   // Comments Section
-                  CommentsSectionWidget(post: post),
+                  CommentsSectionWidget(),
                 ],
               ),
             ),

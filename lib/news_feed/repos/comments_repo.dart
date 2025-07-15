@@ -15,7 +15,7 @@ class CommentsRepo implements CommentsInterface {
   Stream<List<CommentModel>> fetchCommentByPostId(String postId) {
     return _ref
         .where('postId', isEqualTo: postId)
-        .orderBy('timestamp', descending: true)
+        .orderBy('date', descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs

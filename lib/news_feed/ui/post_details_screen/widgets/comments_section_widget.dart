@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/providers/comments_provider.dart';
 import 'package:rotaract/news_feed/ui/post_details_screen/widgets/comment_item_widget.dart';
 
 class CommentsSectionWidget extends ConsumerWidget {
-  final PostModel post;
-  const CommentsSectionWidget({super.key, required this.post});
+  const CommentsSectionWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final commentsAsync = ref.watch(postCommentsProvider(post.id));
+    final commentsAsync = ref.watch(postCommentsProvider);
 
     return commentsAsync.when(
       data: (comments) {
+        debugPrint("Comments loaded: ${comments.length}");
         if (comments.isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(32),
@@ -55,10 +56,7 @@ class CommentsSectionWidget extends ConsumerWidget {
           itemCount: comments.length,
           separatorBuilder: (context, index) => const Divider(height: 1),
           itemBuilder: (context, index) {
-            return CommentItemWidget(
-              comment: comments[index],
-              postTime: post.timestamp,
-            );
+            return CommentItemWidget(comment: comments[index]);
           },
         );
       },

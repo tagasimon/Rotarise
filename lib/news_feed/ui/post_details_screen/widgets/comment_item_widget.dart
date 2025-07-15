@@ -6,9 +6,7 @@ import 'package:rotaract/news_feed/models/comment_model.dart';
 
 class CommentItemWidget extends ConsumerWidget {
   final CommentModel comment;
-  final DateTime postTime;
-  const CommentItemWidget(
-      {super.key, required this.comment, required this.postTime});
+  const CommentItemWidget({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +36,7 @@ class CommentItemWidget extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      df.format(postTime),
+                      df.format(comment.date),
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 12,
