@@ -73,7 +73,11 @@ class QuickActionsWidget extends ConsumerWidget {
                         endDate: result['endDate'],
                         location: result['location'].toString().trim(),
                         clubId: cUser!.clubId!,
-                        imageUrl: result['downloadUrl']);
+                        imageUrl: result['downloadUrl'],
+                        isOnline: result['isOnline'] ?? false,
+                        eventLink: result['eventLink'],
+                        isPaid: result['isPaid'] ?? false,
+                        amount: result['amount']);
                     final res = await ref
                         .watch(clubEventsControllerProvider.notifier)
                         .addEvent(event: cEvent);

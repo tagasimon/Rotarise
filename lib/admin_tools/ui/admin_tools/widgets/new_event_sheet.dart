@@ -18,9 +18,15 @@ class _NewEventSheetState extends ConsumerState<NewEventSheet> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _locationController = TextEditingController();
+  final _eventLinkController = TextEditingController();
+  final _amountController = TextEditingController();
   DateTime? _startDate;
   DateTime? _endDate;
   bool _isLoading = false;
+
+  // New event type fields
+  bool _isOnline = false;
+  bool _isPaid = false;
 
   // Image selection variables
   bool _hasSelectedImage = false;
@@ -32,6 +38,8 @@ class _NewEventSheetState extends ConsumerState<NewEventSheet> {
   void dispose() {
     _titleController.dispose();
     _locationController.dispose();
+    _eventLinkController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
@@ -281,6 +289,11 @@ class _NewEventSheetState extends ConsumerState<NewEventSheet> {
             'imageFile':
                 _selectedPlatformFile, // Include the selected image file
             'downloadUrl': downloadUrl,
+            'isOnline': _isOnline,
+            'eventLink': _isOnline ? _eventLinkController.text.trim() : null,
+            'isPaid': _isPaid,
+            'amount':
+                _isPaid ? double.tryParse(_amountController.text.trim()) : null,
           });
         }
       } catch (e) {
@@ -494,6 +507,218 @@ class _NewEventSheetState extends ConsumerState<NewEventSheet> {
                         textCapitalization: TextCapitalization.words,
                       ),
                       const SizedBox(height: 16),
+
+                      // Online/Offline Toggle
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey[300]!),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.computer, color: Colors.grey[600]),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Event Type',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: const Text('Offline'),
+                                    value: false,
+                                    groupValue: _isOnline,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _isOnline = value!;
+                                        if (!_isOnline) {
+                                          _eventLinkController.clear();
+                                        }
+                                      });
+                                    },
+                                    contentPadding: EdgeInsets.zero,
+                                    dense: true,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: const Text('Online'),
+                                    value: true,
+                                    groupValue: _isOnline,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _isOnline = value!;
+                                      });
+                                    },
+                                    contentPadding: EdgeInsets.zero,
+                                    dense: true,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Event Link Field (only show if online)
+                      if (_isOnline) ...[
+                        TextFormField(
+                          controller: _eventLinkController,
+                          decoration: InputDecoration(
+                            labelText: 'Event Link',
+                            hintText: 'Enter meeting/event link',
+                            prefixIcon: const Icon(Icons.link),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.grey[300]!),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (_isOnline &&
+                                (value == null || value.trim().isEmpty)) {
+                              return 'Please enter an event link for online events';
+                            }
+                            if (_isOnline &&
+                                value != null &&
+                                value.trim().isNotEmpty) {
+                              // Basic URL validation
+                              final uri = Uri.tryParse(value.trim());
+                              if (uri == null || !uri.hasAbsolutePath) {
+                                return 'Please enter a valid URL';
+                              }
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.url,
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+
+                      // Payment Type Toggle
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey[300]!),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.payment, color: Colors.grey[600]),
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'Payment Type',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: const Text('Free'),
+                                    value: false,
+                                    groupValue: _isPaid,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _isPaid = value!;
+                                        if (!_isPaid) {
+                                          _amountController.clear();
+                                        }
+                                      });
+                                    },
+                                    contentPadding: EdgeInsets.zero,
+                                    dense: true,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: const Text('Paid'),
+                                    value: true,
+                                    groupValue: _isPaid,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _isPaid = value!;
+                                      });
+                                    },
+                                    contentPadding: EdgeInsets.zero,
+                                    dense: true,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Amount Field (only show if paid)
+                      if (_isPaid) ...[
+                        TextFormField(
+                          controller: _amountController,
+                          decoration: InputDecoration(
+                            labelText: 'Amount',
+                            hintText: 'Enter event fee',
+                            prefixIcon: const Icon(Icons.attach_money),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.grey[300]!),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (_isPaid &&
+                                (value == null || value.trim().isEmpty)) {
+                              return 'Please enter the event amount';
+                            }
+                            if (_isPaid &&
+                                value != null &&
+                                value.trim().isNotEmpty) {
+                              final amount = double.tryParse(value.trim());
+                              if (amount == null || amount <= 0) {
+                                return 'Please enter a valid amount';
+                              }
+                            }
+                            return null;
+                          },
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
 
                       // Image Selector
                       _buildImageSelector(),

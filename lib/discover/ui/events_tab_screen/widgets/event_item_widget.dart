@@ -166,81 +166,297 @@ class _EventItemWidgetState extends ConsumerState<EventItemWidget>
 
                 const SizedBox(height: 12),
 
-                // Event details
-                GestureDetector(
-                  onTap: () async {
-                    await DateHelpers.addToCalendar(
-                      title: 'Workshop',
-                      start: DateTime(2024, 7, 15, 10, 0),
-                      end: DateTime(2024, 7, 15, 12, 0),
-                      description: 'Flutter development workshop',
-                      location: 'Online',
-                    );
-                  },
-                  child: Row(
+                // Event details container
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Icon(
-                          Icons.calendar_today_outlined,
-                          size: 16,
-                          color: Colors.blue.shade600,
+                      // Date and time
+                      GestureDetector(
+                        onTap: () async {
+                          await DateHelpers.addToCalendar(
+                            title: widget.event.title,
+                            start: widget.event.startDate as DateTime,
+                            end: widget.event.endDate as DateTime,
+                            description: 'Event: ${widget.event.title}',
+                            location: widget.event.location,
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                Icons.calendar_today_outlined,
+                                size: 18,
+                                color: Colors.blue.shade600,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Event Date',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    DateHelpers.formatEventDate(
+                                        widget.event.startDate,
+                                        widget.event.endDate),
+                                    style: const TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade600,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Text(
+                                'Add to Calendar',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          DateHelpers.formatEventDate(
-                              widget.event.startDate, widget.event.endDate),
-                          style: const TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
+
+                      const SizedBox(height: 12),
+
+                      // Location/Event type
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: widget.event.isOnline
+                                  ? Colors.purple.shade50
+                                  : Colors.green.shade50,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(
+                              widget.event.isOnline
+                                  ? Icons.computer_outlined
+                                  : Icons.location_on_outlined,
+                              size: 18,
+                              color: widget.event.isOnline
+                                  ? Colors.purple.shade600
+                                  : Colors.green.shade600,
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.event.isOnline
+                                      ? 'Online Event'
+                                      : 'Location',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (widget.event.isOnline &&
+                                        widget.event.eventLink != null) {
+                                      WidgetHelpers.llaunchUrl(
+                                          widget.event.eventLink!);
+                                    } else if (!widget.event.isOnline) {
+                                      WidgetHelpers.launchDirections(
+                                          widget.event.location);
+                                    }
+                                  },
+                                  child: Text(
+                                    widget.event.isOnline
+                                        ? (widget.event.eventLink != null
+                                            ? 'Join Event'
+                                            : 'Online')
+                                        : widget.event.location,
+                                    style: TextStyle(
+                                      color: widget.event.isOnline
+                                          ? Colors.purple.shade700
+                                          : Colors.green.shade700,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      decoration: (widget.event.isOnline &&
+                                                  widget.event.eventLink !=
+                                                      null) ||
+                                              !widget.event.isOnline
+                                          ? TextDecoration.underline
+                                          : null,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (widget.event.isOnline)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.purple.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Text(
+                                'ONLINE',
+                                style: TextStyle(
+                                  color: Colors.purple,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
+
+                      // Payment information
+                      if (widget.event.isPaid) ...[
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.orange.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                Icons.payment_outlined,
+                                size: 18,
+                                color: Colors.orange.shade600,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Event Fee',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    widget.event.amount != null
+                                        ? '\$${widget.event.amount!.toStringAsFixed(2)}'
+                                        : 'Paid Event',
+                                    style: TextStyle(
+                                      color: Colors.orange.shade700,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.orange.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Text(
+                                'PAID',
+                                style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ] else ...[
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                Icons.celebration_outlined,
+                                size: 18,
+                                color: Colors.green.shade600,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Free Event',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Text(
+                                'FREE',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
-                ),
-
-                const SizedBox(height: 8),
-
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade50,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Icon(
-                        Icons.location_on_outlined,
-                        size: 16,
-                        color: Colors.green.shade600,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          WidgetHelpers.launchDirections(widget.event.location);
-                        },
-                        child: Text(
-                          widget.event.location,
-                          style: TextStyle(
-                            color: Colors.green.shade700,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
 
                 // Event image

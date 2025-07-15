@@ -82,23 +82,25 @@ class EventsListView extends StatelessWidget {
                 children: [
                   // Event Image or Icon
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 80,
+                    height: 80,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      // color: Colors.blue.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.blue.withAlphaa(0.1),
                     ),
                     child: event.imageUrl != null
                         ? ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                             child: Image.network(
                               event.imageUrl!,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.event, color: Colors.pink),
+                                  Icon(Icons.event,
+                                      color: Colors.pink.shade400, size: 40),
                             ),
                           )
-                        : const Icon(Icons.event, color: Colors.pink, size: 30),
+                        : Icon(Icons.event,
+                            color: Colors.pink.shade400, size: 40),
                   ),
                   const SizedBox(width: 16),
 
@@ -107,6 +109,7 @@ class EventsListView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Title and Status Row
                         Row(
                           children: [
                             Expanded(
@@ -120,6 +123,7 @@ class EventsListView extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
+                            const SizedBox(width: 8),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
@@ -139,32 +143,132 @@ class EventsListView extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 8),
+
+                        // Event Type and Payment Badges
+                        Row(
+                          children: [
+                            // Online/Offline Badge
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: event.isOnline
+                                    ? Colors.purple.shade100
+                                    : Colors.blue.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    event.isOnline
+                                        ? Icons.computer
+                                        : Icons.location_on,
+                                    size: 12,
+                                    color: event.isOnline
+                                        ? Colors.purple
+                                        : Colors.blue,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    event.isOnline ? 'ONLINE' : 'OFFLINE',
+                                    style: TextStyle(
+                                      color: event.isOnline
+                                          ? Colors.purple
+                                          : Colors.blue,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            // Payment Badge
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: event.isPaid
+                                    ? Colors.orange.shade100
+                                    : Colors.green.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    event.isPaid
+                                        ? Icons.payment
+                                        : Icons.celebration,
+                                    size: 12,
+                                    color: event.isPaid
+                                        ? Colors.orange
+                                        : Colors.green,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    event.isPaid
+                                        ? (event.amount != null
+                                            ? '\$${event.amount!.toStringAsFixed(0)}'
+                                            : 'PAID')
+                                        : 'FREE',
+                                    style: TextStyle(
+                                      color: event.isPaid
+                                          ? Colors.orange
+                                          : Colors.green,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+
+                        // Date
                         Row(
                           children: [
                             Icon(Icons.calendar_today,
                                 size: 16, color: Colors.grey[600]),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 6),
                             Text(
                               _formatDateOnly(event.startDate as DateTime),
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 14,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 6),
+
+                        // Location/Link
                         Row(
                           children: [
-                            Icon(Icons.location_on,
-                                size: 16, color: Colors.grey[600]),
-                            const SizedBox(width: 4),
+                            Icon(
+                                event.isOnline ? Icons.link : Icons.location_on,
+                                size: 16,
+                                color: event.isOnline
+                                    ? Colors.purple[600]
+                                    : Colors.grey[600]),
+                            const SizedBox(width: 6),
                             Expanded(
                               child: Text(
-                                event.location,
+                                event.isOnline
+                                    ? (event.eventLink != null
+                                        ? 'Event Link Available'
+                                        : 'Online Event')
+                                    : event.location,
                                 style: TextStyle(
-                                  color: Colors.grey[600],
+                                  color: event.isOnline
+                                      ? Colors.purple[600]
+                                      : Colors.grey[600],
                                   fontSize: 14,
+                                  fontWeight: FontWeight.w500,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -173,14 +277,25 @@ class EventsListView extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'Duration: ${_formatDateTime(event.startDate as DateTime, context)} - ${_formatDateTime(event.endDate as DateTime, context)}',
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                            fontSize: 12,
+
+                        // Duration
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                          child: Text(
+                            'Duration: ${_formatDateTime(event.startDate as DateTime, context)} - ${_formatDateTime(event.endDate as DateTime, context)}',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -200,6 +315,19 @@ class EventsListView extends StatelessWidget {
                           ],
                         ),
                       ),
+                      if (event.isOnline && event.eventLink != null)
+                        const PopupMenuItem(
+                          value: 'join',
+                          child: Row(
+                            children: [
+                              Icon(Icons.launch,
+                                  size: 20, color: Colors.purple),
+                              SizedBox(width: 8),
+                              Text('Join Event',
+                                  style: TextStyle(color: Colors.purple)),
+                            ],
+                          ),
+                        ),
                       const PopupMenuItem(
                         value: 'edit',
                         child: Row(
@@ -207,6 +335,28 @@ class EventsListView extends StatelessWidget {
                             Icon(Icons.edit, size: 20),
                             SizedBox(width: 8),
                             Text('Edit Event'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'duplicate',
+                        child: Row(
+                          children: [
+                            Icon(Icons.copy, size: 20, color: Colors.blue),
+                            SizedBox(width: 8),
+                            Text('Duplicate Event',
+                                style: TextStyle(color: Colors.blue)),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuItem(
+                        value: 'share',
+                        child: Row(
+                          children: [
+                            Icon(Icons.share, size: 20, color: Colors.green),
+                            SizedBox(width: 8),
+                            Text('Share Event',
+                                style: TextStyle(color: Colors.green)),
                           ],
                         ),
                       ),

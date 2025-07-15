@@ -11,6 +11,10 @@ class ClubEventModel {
   final String location;
   final String clubId;
   final String? imageUrl;
+  final bool isOnline;
+  final String? eventLink; // Link for online events
+  final bool isPaid;
+  final double? amount; // Amount if paid event
   ClubEventModel({
     required this.id,
     required this.title,
@@ -19,6 +23,10 @@ class ClubEventModel {
     required this.location,
     required this.clubId,
     this.imageUrl,
+    this.isOnline = false,
+    this.eventLink,
+    this.isPaid = false,
+    this.amount,
   });
 
   ClubEventModel copyWith({
@@ -29,6 +37,10 @@ class ClubEventModel {
     String? location,
     String? clubId,
     String? imageUrl,
+    bool? isOnline,
+    String? eventLink,
+    bool? isPaid,
+    double? amount,
   }) {
     return ClubEventModel(
       id: id ?? this.id,
@@ -38,6 +50,10 @@ class ClubEventModel {
       location: location ?? this.location,
       clubId: clubId ?? this.clubId,
       imageUrl: imageUrl ?? this.imageUrl,
+      isOnline: isOnline ?? this.isOnline,
+      eventLink: eventLink ?? this.eventLink,
+      isPaid: isPaid ?? this.isPaid,
+      amount: amount ?? this.amount,
     );
   }
 
@@ -50,6 +66,10 @@ class ClubEventModel {
       'location': location,
       'clubId': clubId,
       'imageUrl': imageUrl,
+      'isOnline': isOnline,
+      'eventLink': eventLink,
+      'isPaid': isPaid,
+      'amount': amount,
     };
   }
 
@@ -71,6 +91,10 @@ class ClubEventModel {
       location: map['location'] as String,
       clubId: map['clubId'] as String,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
+      isOnline: map['isOnline'] as bool? ?? false,
+      eventLink: map['eventLink'] != null ? map['eventLink'] as String : null,
+      isPaid: map['isPaid'] as bool? ?? false,
+      amount: map['amount'] != null ? (map['amount'] as num).toDouble() : null,
     );
   }
 
@@ -81,7 +105,7 @@ class ClubEventModel {
 
   @override
   String toString() {
-    return 'ClubEventModel(id: $id, title: $title, startDate: $startDate, endDate: $endDate, location: $location, clubId: $clubId, imageUrl: $imageUrl)';
+    return 'ClubEventModel(id: $id, title: $title, startDate: $startDate, endDate: $endDate, location: $location, clubId: $clubId, imageUrl: $imageUrl, isOnline: $isOnline, eventLink: $eventLink, isPaid: $isPaid, amount: $amount)';
   }
 
   @override
@@ -94,7 +118,11 @@ class ClubEventModel {
         other.endDate == endDate &&
         other.location == location &&
         other.clubId == clubId &&
-        other.imageUrl == imageUrl;
+        other.imageUrl == imageUrl &&
+        other.isOnline == isOnline &&
+        other.eventLink == eventLink &&
+        other.isPaid == isPaid &&
+        other.amount == amount;
   }
 
   @override
@@ -105,6 +133,10 @@ class ClubEventModel {
         endDate.hashCode ^
         location.hashCode ^
         clubId.hashCode ^
-        imageUrl.hashCode;
+        imageUrl.hashCode ^
+        isOnline.hashCode ^
+        eventLink.hashCode ^
+        isPaid.hashCode ^
+        amount.hashCode;
   }
 }
