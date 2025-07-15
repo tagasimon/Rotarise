@@ -1,7 +1,7 @@
 name: rotaract
 description: "An app for anyone part of Rotary to find and connect with other Rotaractors, Clubs, and Events in their area."
 publish_to: 'none' 
-version: 1.0.8+8
+version: 1.0.9+9
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
