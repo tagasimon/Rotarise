@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:rotaract/_constants/constants.dart';
 import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
-import 'package:rotaract/news_feed/providers/posts_providers.dart';
 import 'package:rotaract/news_feed/ui/post_details_screen/widgets/stat_item_widget.dart';
 
 class PostContentWidget extends ConsumerWidget {
@@ -13,8 +12,6 @@ class PostContentWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final df = DateFormat.yMMMd();
-    final commentsCountProv = ref.watch(postCommentsCountProvider);
-    final likesCountProv = ref.watch(postLikesCountProvider);
     final post = ref.watch(selectedPostNotifierProvider);
     if (post == null) {
       return const SizedBox.shrink();
@@ -113,17 +110,11 @@ class PostContentWidget extends ConsumerWidget {
           // Stats
           Row(
             children: [
-              commentsCountProv.when(
-                data: (c) => StatItemWidget('${c ?? 0}', 'Comments'),
-                loading: () => const SizedBox.shrink(),
-                error: (_, __) => const SizedBox.shrink(),
-              ),
+              StatItemWidget('${post.commentsCount ?? 0}', 'Comments'),
               const SizedBox(width: 24),
-              likesCountProv.when(
-                data: (l) => StatItemWidget('${l ?? 0}', 'Likes'),
-                loading: () => const SizedBox.shrink(),
-                error: (_, __) => const SizedBox.shrink(),
-              )
+              StatItemWidget('${post.likesCount ?? 0}', 'Likes'),
+              const SizedBox(width: 24),
+              StatItemWidget('${post.viewCount}', 'Views'),
             ],
           ),
         ],

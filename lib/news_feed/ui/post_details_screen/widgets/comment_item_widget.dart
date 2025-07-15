@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/news_feed/models/comment_model.dart';
 
 class CommentItemWidget extends ConsumerWidget {
@@ -17,9 +18,9 @@ class CommentItemWidget extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 20,
-            backgroundImage: NetworkImage(comment.userAvatarUrl),
+          CircleImageWidget(
+            imageUrl: comment.userAvatarUrl,
+            size: 40,
           ),
           const SizedBox(width: 12),
           Expanded(

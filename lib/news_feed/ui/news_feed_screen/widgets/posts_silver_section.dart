@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/providers/posts_providers.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_card.dart';
@@ -31,6 +32,7 @@ class _PostsSliverSectionState extends ConsumerState<PostsSliverSection> {
     });
 
     ref.invalidate(fetchPostsProvider);
+    ref.invalidate(allEventsProvider);
     debugPrint('🔄 PostsSliverSection: Provider invalidated');
   }
 

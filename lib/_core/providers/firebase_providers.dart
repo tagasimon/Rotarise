@@ -56,3 +56,7 @@ final meetupsCollectionRefProvider = Provider<CollectionReference>(
 // NOTIFICATIONS Collection
 final notificationsCollectionRefProvider = Provider<CollectionReference>(
     (ref) => ref.watch(firestoreInstanceProvider).collection('NOTIFICATIONS'));
+
+// POST VIEWS Collection
+final postViewsCollectionRefProvider = Provider<CollectionReference>(
+    (ref) => ref.watch(firestoreInstanceProvider).collection('POST_VIEWS'));

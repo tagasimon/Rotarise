@@ -5,6 +5,7 @@ import 'package:rotaract/news_feed/models/post_model.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_action_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_comments_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_like_widget.dart';
+import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_view_widget.dart';
 
 class PostActionsWidget extends ConsumerWidget {
   final PostModel post;
@@ -18,6 +19,8 @@ class PostActionsWidget extends ConsumerWidget {
         PostLikeWidget(post: post),
         const SizedBox(width: 16),
         PostCommentsWidget(post: post),
+        const SizedBox(width: 16),
+        PostViewWidget(post: post),
         const Spacer(),
         // Share
         PostActionWidget(

@@ -13,7 +13,11 @@ class CommentsRepo implements CommentsInterface {
 
   @override
   Stream<List<CommentModel>> fetchCommentByPostId(String postId) {
-    return _ref.where('postId', isEqualTo: postId).snapshots().map((snapshot) {
+    return _ref
+        .where('postId', isEqualTo: postId)
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs
           .map(
               (doc) => CommentModel.fromMap(doc.data() as Map<String, dynamic>))

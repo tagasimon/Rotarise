@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:rotaract/_constants/date_helpers.dart';
 import 'package:rotaract/_constants/image_helpers.dart';
@@ -10,7 +11,9 @@ import 'package:rotaract/_core/notifiers/selected_post_notifier.dart';
 import 'package:rotaract/_core/shared_widgets/circle_image_widget.dart';
 import 'package:rotaract/_core/shared_widgets/image_widget.dart';
 import 'package:rotaract/news_feed/controllers/posts_controller.dart';
+import 'package:rotaract/news_feed/controllers/post_views_controller.dart';
 import 'package:rotaract/news_feed/models/post_model.dart';
+import 'package:rotaract/news_feed/models/post_view_model.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/member_by_id_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_actions_widget.dart';
 import 'package:rotaract/news_feed/ui/news_feed_screen/widgets/post_content_widget.dart';
@@ -37,6 +40,7 @@ class PostCardState extends ConsumerState<PostCard>
   late Animation<double> _scaleAnimation;
   bool isRetweeted = false;
   bool isExpanded = false;
+  bool _hasTrackedView = false; // Track if view has been recorded for this post
 
   @override
   void initState() {
@@ -45,12 +49,25 @@ class PostCardState extends ConsumerState<PostCard>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
+
+    final curvedAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.elasticOut,
     );
+
+    _scaleAnimation =
+        Tween<double>(begin: 0.8, end: 1.0).animate(curvedAnimation);
 
     Future.delayed(Duration(milliseconds: widget.animationDelay), () {
       if (mounted) _controller.forward();
+    });
+
+    // Track view after animation completes
+    Future.delayed(Duration(milliseconds: widget.animationDelay + 600), () {
+      if (mounted && !_hasTrackedView) {
+        _hasTrackedView = true;
+        _trackPostView();
+      }
     });
   }
 
@@ -151,6 +168,22 @@ class PostCardState extends ConsumerState<PostCard>
     );
   }
 
+  // Track post view when user taps on the post
+  Future<void> _trackPostView() async {
+    final currentUser = ref.read(currentUserNotifierProvider);
+    if (currentUser == null) return;
+
+    final postView = PostViewModel(
+      id: const Uuid().v4(),
+      postId: widget.post.id,
+      viewerId: currentUser.id,
+      viewedAt: DateTime.now(),
+    );
+
+    // Add the view to the database
+    await ref.read(postViewsControllerProvider.notifier).addView(postView);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -168,7 +201,11 @@ class PostCardState extends ConsumerState<PostCard>
           ),
         ),
         child: InkWell(
-          onTap: () {
+          onTap: () async {
+            // Navigate to post details
+            // View tracking is now handled automatically in initState
+            if (!mounted) return;
+
             ref
                 .read(selectedPostNotifierProvider.notifier)
                 .updatePost(widget.post);

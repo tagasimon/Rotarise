@@ -2,6 +2,7 @@
 import {updatePostReportsAsSpamCount} from "./functions/updatePostReportsAsSpamCount";
 import {updatePostLikesCount} from "./functions/updatePostLikesCount";
 import {updatePostCommentsCount} from "./functions/updatePostCommentsCount";
+import {updatePostViewCount} from "./functions/updatePostViewCount";
 /* eslint-disable max-len */
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions/v2";
@@ -20,4 +21,5 @@ export {
   updatePostCommentsCount,
   updatePostLikesCount,
   updatePostReportsAsSpamCount,
+  updatePostViewCount,
 };

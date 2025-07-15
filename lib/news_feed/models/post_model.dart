@@ -16,6 +16,7 @@ class PostModel {
   final int? likesCount;
   final int? commentsCount;
   final int? reportsCount;
+  final int viewCount;
   final String? imageUrl;
   final String? videoUrl;
   final List<String>? taggedClubIds;
@@ -31,6 +32,7 @@ class PostModel {
     this.likesCount,
     this.commentsCount,
     this.reportsCount,
+    this.viewCount = 0,
     this.imageUrl,
     this.videoUrl,
     this.taggedClubIds,
@@ -48,6 +50,7 @@ class PostModel {
     int? likesCount,
     int? commentsCount,
     int? reportsCount,
+    int? viewCount,
     String? imageUrl,
     String? videoUrl,
     List<String>? taggedClubIds,
@@ -64,6 +67,7 @@ class PostModel {
       likesCount: likesCount ?? this.likesCount,
       commentsCount: commentsCount ?? this.commentsCount,
       reportsCount: reportsCount ?? this.reportsCount,
+      viewCount: viewCount ?? this.viewCount,
       imageUrl: imageUrl ?? this.imageUrl,
       videoUrl: videoUrl ?? this.videoUrl,
       taggedClubIds: taggedClubIds ?? this.taggedClubIds,
@@ -83,6 +87,7 @@ class PostModel {
       'likesCount': likesCount,
       'commentsCount': commentsCount,
       'reportsCount': reportsCount,
+      'viewCount': viewCount,
       'imageUrl': imageUrl,
       'videoUrl': videoUrl,
       'taggedClubIds': taggedClubIds,
@@ -112,6 +117,7 @@ class PostModel {
           map['commentsCount'] != null ? map['commentsCount'] as int : null,
       reportsCount:
           map['reportsCount'] != null ? map['reportsCount'] as int : null,
+      viewCount: map['viewCount'] != null ? map['viewCount'] as int : 0,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
       videoUrl: map['videoUrl'] != null ? map['videoUrl'] as String : null,
       taggedClubIds: map['taggedClubIds'] != null
@@ -127,7 +133,7 @@ class PostModel {
 
   @override
   String toString() {
-    return 'PostModel(id: $id, authorId: $authorId, clubId: $clubId, authorName: $authorName, authorAvatar: $authorAvatar, content: $content, timestamp: $timestamp, clubName: $clubName, likesCount: $likesCount, commentsCount: $commentsCount, reportsCount: $reportsCount, imageUrl: $imageUrl, videoUrl: $videoUrl, taggedClubIds: $taggedClubIds)';
+    return 'PostModel(id: $id, authorId: $authorId, clubId: $clubId, authorName: $authorName, authorAvatar: $authorAvatar, content: $content, timestamp: $timestamp, clubName: $clubName, likesCount: $likesCount, commentsCount: $commentsCount, reportsCount: $reportsCount, viewCount: $viewCount, imageUrl: $imageUrl, videoUrl: $videoUrl, taggedClubIds: $taggedClubIds)';
   }
 
   @override
@@ -145,6 +151,7 @@ class PostModel {
         other.likesCount == likesCount &&
         other.commentsCount == commentsCount &&
         other.reportsCount == reportsCount &&
+        other.viewCount == viewCount &&
         other.imageUrl == imageUrl &&
         other.videoUrl == videoUrl &&
         _listEquals(other.taggedClubIds, taggedClubIds);
@@ -172,6 +179,7 @@ class PostModel {
         likesCount.hashCode ^
         commentsCount.hashCode ^
         reportsCount.hashCode ^
+        viewCount.hashCode ^
         imageUrl.hashCode ^
         videoUrl.hashCode ^
         taggedClubIds.hashCode;

@@ -25,7 +25,7 @@ class PostActionWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: isActive ? color.withAlphaa(0.1) : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),

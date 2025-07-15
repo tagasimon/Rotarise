@@ -55,12 +55,12 @@ class NewsFeedScreenState extends ConsumerState<NewsFeedScreen>
             ModernAppBarWidget(
               title: "Rotarise",
               subtitle: "Stay updated with club activities",
-              // actions: [
-              //   IconButton(
-              //       onPressed: () => context.push(NotificationsScreen()),
-              //       icon: Icon(Icons.notifications)),
-              //   SizedBox(width: 5),
-              // ],
+              actions: [
+                IconButton(
+                    onPressed: () => context.push(NotificationsScreen()),
+                    icon: Icon(Icons.notifications)),
+                SizedBox(width: 5),
+              ],
             ),
 
             // Events carousel
