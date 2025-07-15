@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/models/notification_model.dart';
 import 'package:intl/intl.dart';
 
@@ -31,7 +32,7 @@ class NotificationItemWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: isUnread
-            ? BorderSide(color: theme.primaryColor.withOpacity(0.3), width: 1)
+            ? BorderSide(color: theme.primaryColor.withAlphaa(0.3), width: 1)
             : BorderSide.none,
       ),
       child: InkWell(
@@ -113,7 +114,7 @@ class NotificationItemWidget extends StatelessWidget {
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: iconColor.withOpacity(0.1),
+        color: iconColor.withAlphaa(0.1),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Icon(

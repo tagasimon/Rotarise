@@ -20,7 +20,15 @@ class ClubEventsRepo implements ClubEventsInterface {
 
   @override
   Future<void> deleteEvent(String eventId) async {
-    await ref.doc(eventId).delete();
+    // find event with the given ID and delete it
+
+    final doc = await ref.where("id", isEqualTo: eventId).get();
+
+    if (doc.docs.isNotEmpty) {
+      await ref.doc(doc.docs.first.id).delete();
+    } else {
+      throw Exception('Event with ID $eventId not found');
+    }
   }
 
   @override

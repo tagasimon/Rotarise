@@ -12,7 +12,7 @@ class EventsAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(100);
+  Size get preferredSize => const Size.fromHeight(80);
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,13 @@ class EventsAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
-      title: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-      ),
+      toolbarHeight: 0,
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(80),
         child: Container(
           color: Colors.white,
-          padding: const EdgeInsets.all(16),
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
           child: Column(
             children: [
               // Search Bar

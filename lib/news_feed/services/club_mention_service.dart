@@ -146,8 +146,9 @@ class ClubMentionService {
 
   /// Get current mention being typed
   static String getCurrentMention(String text, int cursorPosition) {
-    if (cursorPosition < 0 || !isMentionPosition(text, cursorPosition))
+    if (cursorPosition < 0 || !isMentionPosition(text, cursorPosition)) {
       return '';
+    }
 
     final beforeCursor = text.substring(0, cursorPosition);
     final lastAtIndex = beforeCursor.lastIndexOf('@');

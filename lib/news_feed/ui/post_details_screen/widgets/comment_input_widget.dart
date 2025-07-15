@@ -76,7 +76,7 @@ class _CommentInputWidgetState extends ConsumerState<CommentInputWidget> {
                       : Colors.grey[100],
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: theme.dividerColor.withOpacity(0.2),
+                    color: theme.dividerColor.withAlphaa(0.2),
                     width: 1,
                   ),
                 ),
@@ -86,8 +86,7 @@ class _CommentInputWidgetState extends ConsumerState<CommentInputWidget> {
                   decoration: InputDecoration(
                     hintText: 'Write a comment...',
                     hintStyle: TextStyle(
-                      color:
-                          theme.textTheme.bodyMedium?.color?.withOpacity(0.5),
+                      color: theme.textTheme.bodyMedium?.color?.withAlphaa(0.5),
                       fontSize: 14,
                     ),
                     border: InputBorder.none,
@@ -122,7 +121,7 @@ class _CommentInputWidgetState extends ConsumerState<CommentInputWidget> {
                     decoration: BoxDecoration(
                       color: isEnabled
                           ? theme.primaryColor
-                          : theme.disabledColor.withOpacity(0.3),
+                          : theme.disabledColor.withAlphaa(0.3),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: state.isLoading

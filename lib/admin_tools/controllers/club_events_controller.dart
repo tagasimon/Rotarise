@@ -37,12 +37,14 @@ class ClubEventsController extends StateNotifier<AsyncValue> {
   }
 
   // delete an event
-  Future<void> deleteEvent(String eventId) async {
+  Future<bool> deleteEvent(String eventId) async {
     try {
       await _repo.deleteEvent(eventId);
       state = const AsyncValue.data(null);
+      return true;
     } catch (e, s) {
       state = AsyncValue.error(e, s);
+      return false;
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rotaract/admin_tools/controllers/club_events_controller.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_details_bottom_sheet.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_empty_state.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_error_state.dart';
@@ -83,12 +85,7 @@ class _EventsByClubScreenState extends ConsumerState<EventsByClubScreen>
       case 'view':
         _showEventDetails(event);
         break;
-      case 'edit':
-        // Navigate to edit event screen
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Edit event: ${event.title}')),
-        );
-        break;
+
       case 'delete':
         _showDeleteConfirmation(event);
         break;
@@ -100,12 +97,7 @@ class _EventsByClubScreenState extends ConsumerState<EventsByClubScreen>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => EventDetailsBottomSheet(
-        event: event,
-        onEventAction: (p0, p1) => null,
-        // TODO Handle this
-        // onEdit: () => _handleEventAction('edit', event),
-      ),
+      builder: (context) => EventDetailsBottomSheet(event: event),
     );
   }
 
@@ -122,13 +114,9 @@ class _EventsByClubScreenState extends ConsumerState<EventsByClubScreen>
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
-              // Implement delete logic here
-              // TODO Implement Delete Event
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Event "${event.title}" deleted')),
-              );
+              await _deleteEvent(event);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: const Text('Delete'),
@@ -136,6 +124,22 @@ class _EventsByClubScreenState extends ConsumerState<EventsByClubScreen>
         ],
       ),
     );
+  }
+
+  Future<void> _deleteEvent(ClubEventModel event) async {
+    final success = await ref
+        .read(clubEventsControllerProvider.notifier)
+        .deleteEvent(event.id);
+    if (success) {
+      // Invalidate the provider to refresh the events list
+      ref.invalidate(adminEventsByClubIdProvider);
+
+      Fluttertoast.showToast(
+        msg: 'Event "${event.title}" deleted successfully',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
   }
 
   @override

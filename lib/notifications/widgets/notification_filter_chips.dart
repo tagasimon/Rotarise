@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotaract/_core/extensions/color_extension.dart';
 import 'package:rotaract/_core/models/notification_model.dart';
 
 class NotificationFilterChips extends StatelessWidget {
@@ -72,7 +73,7 @@ class NotificationFilterChips extends StatelessWidget {
       onSelected: (selected) {
         onTypeSelected(selected ? type : null);
       },
-      selectedColor: theme.primaryColor.withOpacity(0.2),
+      selectedColor: theme.primaryColor.withAlphaa(0.2),
       checkmarkColor: theme.primaryColor,
       labelStyle: TextStyle(
         color: isSelected ? theme.primaryColor : Colors.grey[600],

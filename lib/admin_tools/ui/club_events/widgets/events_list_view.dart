@@ -315,51 +315,6 @@ class EventsListView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      if (event.isOnline && event.eventLink != null)
-                        const PopupMenuItem(
-                          value: 'join',
-                          child: Row(
-                            children: [
-                              Icon(Icons.launch,
-                                  size: 20, color: Colors.purple),
-                              SizedBox(width: 8),
-                              Text('Join Event',
-                                  style: TextStyle(color: Colors.purple)),
-                            ],
-                          ),
-                        ),
-                      const PopupMenuItem(
-                        value: 'edit',
-                        child: Row(
-                          children: [
-                            Icon(Icons.edit, size: 20),
-                            SizedBox(width: 8),
-                            Text('Edit Event'),
-                          ],
-                        ),
-                      ),
-                      const PopupMenuItem(
-                        value: 'duplicate',
-                        child: Row(
-                          children: [
-                            Icon(Icons.copy, size: 20, color: Colors.blue),
-                            SizedBox(width: 8),
-                            Text('Duplicate Event',
-                                style: TextStyle(color: Colors.blue)),
-                          ],
-                        ),
-                      ),
-                      const PopupMenuItem(
-                        value: 'share',
-                        child: Row(
-                          children: [
-                            Icon(Icons.share, size: 20, color: Colors.green),
-                            SizedBox(width: 8),
-                            Text('Share Event',
-                                style: TextStyle(color: Colors.green)),
-                          ],
-                        ),
-                      ),
                       const PopupMenuItem(
                         value: 'delete',
                         child: Row(

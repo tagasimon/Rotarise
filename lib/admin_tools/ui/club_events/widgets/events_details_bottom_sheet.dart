@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.dart';
 
-class EventDetailsBottomSheet extends StatelessWidget {
+class EventDetailsBottomSheet extends ConsumerWidget {
   final ClubEventModel event;
-  final Function(String, ClubEventModel) onEventAction;
 
   const EventDetailsBottomSheet({
     super.key,
     required this.event,
-    required this.onEventAction,
   });
 
   String _formatDateTime(DateTime dateTime, BuildContext context) {
@@ -30,7 +29,7 @@ class EventDetailsBottomSheet extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return DraggableScrollableSheet(
       initialChildSize: 0.7,
       minChildSize: 0.5,
@@ -104,49 +103,25 @@ class EventDetailsBottomSheet extends StatelessWidget {
                       _buildDetailRow(Icons.calendar_today_outlined, 'End Date',
                           _formatDateTime(event.endDate as DateTime, context)),
                       _buildDetailRow(
-                          Icons.location_on, 'Location', event.location),
+                          event.isOnline ? Icons.link : Icons.location_on,
+                          event.isOnline ? 'Event Link' : 'Location',
+                          event.isOnline
+                              ? (event.eventLink ?? 'No link provided')
+                              : event.location),
                       _buildDetailRow(
                           Icons.info_outline, 'Status', _getEventStatus(event)),
+                      _buildDetailRow(
+                          event.isPaid ? Icons.payment : Icons.money_off,
+                          'Cost',
+                          event.isPaid
+                              ? (event.amount != null
+                                  ? '\$${event.amount!.toStringAsFixed(2)}'
+                                  : 'Paid Event')
+                              : 'Free'),
+                      _buildDetailRow(Icons.computer, 'Event Type',
+                          event.isOnline ? 'Online Event' : 'In-Person Event'),
 
                       const SizedBox(height: 24),
-
-                      // Action Buttons
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: () => Navigator.pop(context),
-                              style: OutlinedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: const Text('Close'),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                onEventAction('edit', event);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                foregroundColor: Colors.white,
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: const Text('Edit Event'),
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
