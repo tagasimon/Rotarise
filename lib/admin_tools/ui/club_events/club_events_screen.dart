@@ -8,7 +8,6 @@ import 'package:rotaract/discover/ui/events_tab_screen/models/club_event_model.d
 import 'package:rotaract/discover/ui/events_tab_screen/providers/club_events_providers.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_app_bar.dart';
 import 'package:rotaract/admin_tools/ui/club_events/widgets/events_list_view.dart';
-import 'package:rotaract/admin_tools/ui/club_events/widgets/events_table_view.dart';
 
 class EventsByClubScreen extends ConsumerStatefulWidget {
   final String? clubName;
@@ -147,7 +146,6 @@ class _EventsByClubScreenState extends ConsumerState<EventsByClubScreen>
       backgroundColor: Colors.grey[50],
       appBar: EventsAppBar(
         clubName: widget.clubName,
-        tabController: _tabController,
         onSearchChanged: _onSearchChanged,
       ),
       body: eventsAsyncValue.when(
@@ -170,19 +168,10 @@ class _EventsByClubScreenState extends ConsumerState<EventsByClubScreen>
 
               // Content
               Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    EventsListView(
-                      events: filteredEvents,
-                      onEventTap: _showEventDetails,
-                      onEventAction: _handleEventAction,
-                    ),
-                    EventsTableView(
-                      events: filteredEvents,
-                      onEventAction: _handleEventAction,
-                    ),
-                  ],
+                child: EventsListView(
+                  events: filteredEvents,
+                  onEventTap: _showEventDetails,
+                  onEventAction: _handleEventAction,
                 ),
               ),
             ],
